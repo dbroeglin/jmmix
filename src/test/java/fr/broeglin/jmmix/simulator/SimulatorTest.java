@@ -75,13 +75,4 @@ public class SimulatorTest {
 		assertThat(simulator.register(253), equalTo(42l));		
 		assertThat(simulator.register(252), equalTo(1l));		
 	}
-	
-	@Test
-	public void dummy() {
-		long a = 0xffff_ffff_ffff_ffffl;
-		
-		assertTrue(a + 3l == 2l);
-		assertTrue(a - 1l == 0xffff_ffff_ffff_fffel);
-	}
-
 }
