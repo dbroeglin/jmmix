@@ -2,7 +2,7 @@ package fr.broeglin.jmmix.simulator;
 
 public class MemoryNode {
 
-	private static final int NODE_SIZE = 256;
+	static final int NODE_SIZE = 256;
 	private long location;
 	private long[] memory = new long[NODE_SIZE];
 
