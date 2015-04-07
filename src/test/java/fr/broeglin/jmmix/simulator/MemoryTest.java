@@ -43,8 +43,10 @@ public class MemoryTest {
 
 	@Test
 	public void load_stack_segment() {
-		assertThat(memory.getAllocatedSize(), equalTo(MemoryNode.NODE_SIZE * 2l));
+		assertThat(memory.getAllocatedSize(),
+				equalTo(MemoryNode.NODE_SIZE * 2l));
 		assertThat(memory.load64(STACK_SEGMENT), equalTo(0l));
-		assertThat(memory.getAllocatedSize(), equalTo(MemoryNode.NODE_SIZE * 3l));
+		assertThat(memory.getAllocatedSize(),
+				equalTo(MemoryNode.NODE_SIZE * 3l));
 	}
 }

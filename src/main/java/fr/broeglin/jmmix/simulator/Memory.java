@@ -10,7 +10,6 @@ public class Memory {
 	public static final long STACK_SEGMENT = 0x6000_0000_0000_0000l;
 
 	TreeMap<Long, MemoryNode> memoryMap = new TreeMap<>();
-	MemoryNode node = new MemoryNode(DATA_SEGMENT);
 
 	public Memory() {
 		addNodeFor(INSTRUCTION_SEGMENT);
@@ -70,7 +69,13 @@ public class Memory {
 	@Override
 	public String toString() {
 		// TODO: finish implementation
-		return node.toString();
+		StringBuilder sb = new StringBuilder();
+		
+		for(MemoryNode node: memoryMap.values()) {
+			sb.append("-\n");
+			sb.append(node.toString());
+		}
+		return sb.toString();
 	}
 
 	public long nodeLocationFor(long addr) {

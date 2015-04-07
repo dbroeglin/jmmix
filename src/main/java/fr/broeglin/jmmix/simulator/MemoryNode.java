@@ -95,7 +95,8 @@ public class MemoryNode {
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < NODE_SIZE; i++) {
-			sb.append(String.format("M8[#%016x] = #%016x\n", i * 8, memory[i]));
+			sb.append(String.format("M8[#%016x] = #%016x\n", location + i * 8,
+					memory[i]));
 		}
 		return sb.toString();
 	}
