@@ -72,7 +72,6 @@ public class Memory {
 		StringBuilder sb = new StringBuilder();
 		
 		for(MemoryNode node: memoryMap.values()) {
-			sb.append("-\n");
 			sb.append(node.toString());
 		}
 		return sb.toString();

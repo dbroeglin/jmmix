@@ -53,25 +53,30 @@ public class MemoryNode {
 	public void store8(long addr, int value) {
 		int offset = offset(addr);
 		int shift = (~offset & 0b111) * 8;
+		long mask = 0xffl << shift;
 
-		setLongAt(offset, (longAt(offset) & ~(0xffl << shift))
-				| ((long) value << shift));
+		setLongAt(offset, (longAt(offset) & ~mask) | ((long) value << shift)
+				& mask);
+		// TODO: second mask is probably unnecessary
 	}
 
 	public void store16(long addr, int value) {
 		int offset = offset(addr);
 		int shift = (~offset & 0b110) * 8;
+		long mask = 0xffffl << shift;
 
-		setLongAt(offset, (longAt(offset) & ~(0xffffl << shift))
-				| ((long) value << shift));
+		setLongAt(offset, (longAt(offset) & ~mask) | ((long) value << shift)
+				& mask);
+		// TODO: second mask is probably unnecessary
 	}
 
 	public void store32(long addr, int value) {
 		int offset = offset(addr);
 		int shift = (~offset & 0b100) * 8;
+		long mask = 0xffffffffl << shift;
 
-		setLongAt(offset, (longAt(offset) & ~(0xffffffffl << shift))
-				| ((long) value << shift));
+		setLongAt(offset, (longAt(offset) & ~mask) | ((long) value << shift)
+				& mask);
 	}
 
 	public void store64(long addr, long value) {
@@ -92,11 +97,14 @@ public class MemoryNode {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(String.format("->[#%016x]\n",
+				location));
 
 		for (int i = 0; i < NODE_SIZE; i++) {
-			sb.append(String.format("M8[#%016x] = #%016x\n", location + i * 8,
-					memory[i]));
+			if (memory[i] != 0) {
+				sb.append(String.format("M8[#%016x] = #%016x\n", location + i
+						* 8, memory[i]));
+			}
 		}
 		return sb.toString();
 	}

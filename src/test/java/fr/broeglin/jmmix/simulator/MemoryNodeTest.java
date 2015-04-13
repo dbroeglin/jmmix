@@ -18,6 +18,7 @@ public class MemoryNodeTest {
 	@Before
 	public void set_start_of_data_segment() {
 		memory.store64(DATA_SEGMENT, VALUE_64);
+
 		memory.store32(DATA_SEGMENT + 16, VALUE_32);
 		memory.store32(DATA_SEGMENT + 20, VALUE_32);
 
@@ -232,5 +233,16 @@ public class MemoryNodeTest {
 		assertThat(memory.load64(DATA_SEGMENT + 53), equalTo(value));
 		assertThat(memory.load64(DATA_SEGMENT + 54), equalTo(value));
 		assertThat(memory.load64(DATA_SEGMENT + 55), equalTo(value));
+	}
+
+	@Test
+	public void should_store_two_tetras_and_read_octat() {
+		long addr = 0x100;
+
+		memory = new MemoryNode(0x0);
+
+		memory.store32(addr, 0xe3020002);
+		memory.store32(addr + 4, 0xe3010028);
+		assertThat(memory.load64(addr), equalTo(0xe3020002e3010028l));
 	}
 }
