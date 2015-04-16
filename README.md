@@ -9,6 +9,12 @@ Currently the simulator is in a kind of "tracing bullet" state where it is able
 to load and execute very simple programs. I will continue working on it as time
 allows. The memory sub-system seems complete, the processor is a work in progress.
 
+## References
+
+* MMIX documentation: http://mmix.cs.hm.edu/doc/index.html
+* MMIX opcodes: http://mmix.cs.hm.edu/doc/opcodes.html
+* Knuth's MMIX simulator documentation: http://mmix.cs.hm.edu/doc/mmix-sim.pdf
+
 ## Running
 
 To run the simulator:
