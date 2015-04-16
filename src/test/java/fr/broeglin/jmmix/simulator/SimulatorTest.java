@@ -26,4 +26,24 @@ public class SimulatorTest {
 		assertThat(simulator.getProcessor().register(253), equalTo(42l));
 		assertThat(simulator.getProcessor().register(252), equalTo(1l));
 	}
+	
+	@Test
+	public void should_execute_SYNCD() {
+		simulator.execute(0xb9000000);
+	}
+
+	@Test
+	public void should_execute_PREST() {
+		simulator.execute(0xba000000);
+	}
+
+	@Test
+	public void should_execute_PRESTI() {
+		simulator.execute(0xbb000000);
+	}
+
+	@Test
+	public void should_execute_SYNCID() {
+		simulator.execute(0xbc000000);
+	}
 }

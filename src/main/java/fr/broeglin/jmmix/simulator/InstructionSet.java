@@ -13,7 +13,9 @@ public final class InstructionSet {
 			InstructionSet::TRAP, null, null, null, null, null, null, null,
 			null, null, null, null, null, null, null, null, null, null, null,
 			null, null, null, null, null, null, null, null, null, null, null,
-			null, null, InstructionSet::ADD,
+			null,
+			null,
+			InstructionSet::ADD,
 			null,
 			InstructionSet::ADDU,
 			null,
@@ -30,7 +32,9 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x3x
-			null, null, null,
+			null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -45,7 +49,9 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x4x
-			null, null, null, null,
+			null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -59,7 +65,9 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x5x
-			null, null, null, null, null,
+			null, null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -72,7 +80,9 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x6x
-			null, null, null, null, null, null,
+			null, null, null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -84,7 +94,9 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x7x
-			null, null, null, null, null, null, null,
+			null, null, null, null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -95,7 +107,9 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x8x
-			null, null, null, null, null, null, null, null,
+			null, null, null, null, null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -105,7 +119,9 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x9x
-			null, null, null, null, null, null, null, null, null,
+			null, null, null, null, null, null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -114,7 +130,9 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0xax
-			null, null, null, null, null, null, null, null, null, null,
+			null, null, null, null, null, null, null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -122,9 +140,11 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0xbx
-			null, null, null, null, null, null, null, null, null, null, null,
-			null,
-			null,
+			null, null, null, null, null, null, null, null,
+			InstructionSet::SYNCD, InstructionSet::SYNCDI,
+			InstructionSet::PREST,
+			InstructionSet::PRESTI,
+			InstructionSet::SYNCID,
 			null,
 			null,
 			null,
@@ -198,5 +218,25 @@ public final class InstructionSet {
 		if (x == 0) {
 			proc.setRunning(false);
 		}
+	}
+
+	public static void SYNCD(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void SYNCDI(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void SYNCID(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void PREST(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void PRESTI(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
 	}
 }
