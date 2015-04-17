@@ -9,6 +9,11 @@ Currently the simulator is in a kind of "tracing bullet" state where it is able
 to load and execute very simple programs. I will continue working on it as time
 allows. The memory sub-system seems complete, the processor is a work in progress.
 
+Although this is not exactly a Java port of Knuth's MMIX simulator, I liberally
+read his C code and based this work on it. Any good idea in this code is to be
+attributed to the original implementation, whereas all bugs and mistakes are 
+solely mine.
+
 ## References
 
 * MMIX documentation: http://mmix.cs.hm.edu/doc/index.html
