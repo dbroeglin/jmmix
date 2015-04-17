@@ -2,8 +2,6 @@ package fr.broeglin.jmmix.simulator;
 
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
 import static org.easymock.EasyMock.anyInt;
-import static org.easymock.EasyMock.anyLong;
-import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -13,7 +11,6 @@ import static org.easymock.EasyMock.verify;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 
-import org.easymock.EasyMock;
 import org.easymock.EasyMockRule;
 import org.easymock.Mock;
 import org.junit.Before;

@@ -1,0 +1,20 @@
+	LOC 	#100
+
+Main	SETH	$1,#0123
+	INCMH	$1,#4567
+	INCML	$1,#89ab
+	INCL	$1,#cdef
+
+	SETH	$2,#1000
+	INCMH	$2,#0100
+	INCML	$2,#0010
+	INCL	$2,#0001
+
+	OR	$3,$1,$2
+	OR	$4,$2,#06
+
+	AND	$5,$1,$2
+	AND	$6,$1,#06
+
+	SET	$255,0
+	TRAP 	0

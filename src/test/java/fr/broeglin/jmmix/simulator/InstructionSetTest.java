@@ -1,10 +1,14 @@
 package fr.broeglin.jmmix.simulator;
 
 import static fr.broeglin.jmmix.simulator.InstructionSet.ADD;
+import static fr.broeglin.jmmix.simulator.InstructionSet.AND;
+import static fr.broeglin.jmmix.simulator.InstructionSet.ANDI;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCH;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCL;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCMH;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCML;
+import static fr.broeglin.jmmix.simulator.InstructionSet.OR;
+import static fr.broeglin.jmmix.simulator.InstructionSet.ORI;
 import static fr.broeglin.jmmix.simulator.InstructionSet.SETH;
 import static fr.broeglin.jmmix.simulator.InstructionSet.SETL;
 import static fr.broeglin.jmmix.simulator.InstructionSet.SETMH;
@@ -115,5 +119,49 @@ public class InstructionSetTest {
 
 		assertThat(proc.register(1),
 				equalTo(0xfedcfedcfedcfedcl + 0x89ab000000000000l));
+	}
+
+	@Test
+	public void should_OR() {
+		proc.setRegister(1, 0x0l);
+		proc.setRegister(2, 0xff00000000000001l);
+		proc.setRegister(3, 0x0ff0000000000002l);
+
+		OR(proc, mem, 0x01, 0x02, 0x03);
+
+		assertThat(proc.register(1),
+				equalTo(0xff00000000000001l | 0x0ff0000000000002l));
+	}
+
+	@Test
+	public void should_ORI() {
+		proc.setRegister(1, 0x0l);
+		proc.setRegister(2, 0xff00000000000007l);
+
+		ORI(proc, mem, 0x01, 0x02, 0x0a);
+
+		assertThat(proc.register(1), equalTo(0xff0000000000000fl));
+	}
+
+	@Test
+	public void should_AND() {
+		proc.setRegister(1, 0x0l);
+		proc.setRegister(2, 0xff00000000000001l);
+		proc.setRegister(3, 0x0ff0000000000002l);
+
+		AND(proc, mem, 0x01, 0x02, 0x03);
+
+		assertThat(proc.register(1),
+				equalTo(0xff00000000000001l & 0x0ff0000000000002l));
+	}
+
+	@Test
+	public void should_ANDI() {
+		proc.setRegister(1, 0x0l);
+		proc.setRegister(2, 0xff00000000000007l);
+
+		ANDI(proc, mem, 0x01, 0x02, 0x03);
+
+		assertThat(proc.register(1), equalTo(0x3l));
 	}
 }

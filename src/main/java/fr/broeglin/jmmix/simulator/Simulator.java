@@ -66,20 +66,20 @@ public class Simulator {
 		StringBuilder sb = new StringBuilder();
 
 		for (SpecialRegisterName name : SpecialRegisterName.values()) {
-			long reg = getProcessor().specialRegister(name);
-
-			if (reg != 0l) {
-				sb.append(String.format("%4s = %016x\n", name, reg));
-			}
+			dumpRegister(sb, name.toString(),
+					getProcessor().specialRegister(name));
 		}
 		for (int i = 0; i < Processor.NB_REGISTERS; i++) {
-			long reg = getProcessor().register(i);
-
-			if (reg != 0l) {
-				sb.append(String.format("%4s = %016x\n", "$" + i, reg));
-			}
+			dumpRegister(sb, "$" + i, getProcessor().register(i));
 		}
 
 		return sb.toString();
+	}
+
+	private void dumpRegister(StringBuilder sb, String name, long value) {
+		if (value != 0l) {
+			sb.append(String.format("%4s = %016x\n", name, value));
+		}
+
 	}
 }
