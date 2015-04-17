@@ -12,7 +12,10 @@ public final class InstructionSet {
 	private static final Instruction[] instructions = new Instruction[] {
 			InstructionSet::TRAP, null, null, null, null, null, null, null,
 			null, null, null, null, null, null, null, null, null, null, null,
-			null, null, null, null, null, null, null, null, null,
+			null, null, null, null, null, null,
+			null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -68,7 +71,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x5x
-			null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -84,7 +88,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x6x
-			null, null, null,
+			null, null,
+			null,
 			null,
 			null,
 			null,
@@ -99,7 +104,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x7x
-			null, null, null, null,
+			null, null, null,
+			null,
 			null,
 			null,
 			null,
@@ -113,7 +119,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x8x
-			null, null, null, null, null,
+			null, null, null, null,
+			null,
 			null,
 			null,
 			null,
@@ -126,7 +133,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x9x
-			null, null, null, null, null, null,
+			null, null, null, null, null,
+			null,
 			null,
 			null,
 			null,
@@ -138,7 +146,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0xax
-			null, null, null, null, null, null, null, null,
+			null, null, null, null, null, null, null,
+			null,
 			null,
 			null,
 			null,
@@ -149,7 +158,8 @@ public final class InstructionSet {
 			null,
 			// 0xbx
 			null, null, null, null, null, null, null, null,
-			InstructionSet::SYNCD, InstructionSet::SYNCDI,
+			InstructionSet::SYNCD,
+			InstructionSet::SYNCDI,
 			InstructionSet::PREST,
 			InstructionSet::PRESTI,
 			InstructionSet::SYNCID,
@@ -158,13 +168,15 @@ public final class InstructionSet {
 			null,
 			// 0xcx
 			null, null, null, null, null, null, null, null, null, null, null,
-			null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
 			// 0xdx
 			null, null, null, null, null, null, null, null, null, null, null,
-			null, null, null,
+			null, null,
+			null,
 			null,
 			null,
 			// 0xex
@@ -172,8 +184,9 @@ public final class InstructionSet {
 			InstructionSet::SETL, InstructionSet::INCH, InstructionSet::INCMH,
 			InstructionSet::INCML, InstructionSet::INCL, null, null, null,
 			null, null, null, null, null,
-
-	};
+			// 0xfx
+			null, null, null, null, null, null, null, null, null, null, null,
+			null, null, InstructionSet::SWYM, null };
 
 	public static void ADD(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + proc.register(z));
@@ -224,6 +237,8 @@ public final class InstructionSet {
 
 	public static void TRAP(Processor proc, Memory mem, int x, int y, int z) {
 		if (x == 0) {
+			proc.rBB = proc.register(255);
+			// proc.rWW = inst_ptr;
 			proc.setRunning(false);
 		}
 	}
@@ -261,6 +276,10 @@ public final class InstructionSet {
 	}
 
 	public static void PRELDI(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void SWYM(Processor proc, Memory mem, int x, int y, int z) {
 		// do nothing
 	}
 }

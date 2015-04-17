@@ -10,4 +10,5 @@ Main 	SYNCD	128,$1,$2
 %	PREGOI	128,1,2   % Does not exist ?
 	PRELD	128,$1,$2
 %	PRELDI	128,1,2   % Does not exist ?
+	SWYM	0,0,0
 
