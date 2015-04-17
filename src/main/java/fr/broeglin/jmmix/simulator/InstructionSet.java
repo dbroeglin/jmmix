@@ -165,7 +165,7 @@ public final class InstructionSet {
 			InstructionSet::PREST,
 			InstructionSet::PRESTI,
 			InstructionSet::SYNCID,
-			null,
+			InstructionSet::SYNCIDI,
 			null,
 			null,
 			// 0xcx
@@ -273,6 +273,10 @@ public final class InstructionSet {
 	}
 
 	public static void SYNCID(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+	
+	public static void SYNCIDI(Processor proc, Memory mem, int x, int y, int z) {
 		// do nothing
 	}
 

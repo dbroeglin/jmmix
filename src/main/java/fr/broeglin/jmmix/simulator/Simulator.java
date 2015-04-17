@@ -27,7 +27,11 @@ public class Simulator {
 		int y = (instruction & 0x0000ff00) >>> 8;
 		int z = instruction & 0x000000ff;
 
-		InstructionSet.instruction(op).op(processor, memory, x, y, z);
+		Instruction inst = InstructionSet.instruction(op);
+		if (inst == null) {
+			throw new UnknownInstruction(op);
+		}
+		inst.op(processor, memory, x, y, z);
 	}
 
 	public void execute() {
