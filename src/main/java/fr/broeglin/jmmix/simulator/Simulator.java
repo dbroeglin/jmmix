@@ -6,8 +6,17 @@ public class Simulator {
 	private static final Logger logger = Logger.getLogger(Simulator.class
 			.getName());
 
-	private final Memory memory = new Memory();
-	private final Processor processor = new Processor();
+	private final Memory memory;
+	private final Processor processor;
+
+	public Simulator() {
+		this(new Processor(), new Memory());
+	}
+
+	Simulator(Processor processor, Memory memory) {
+		this.processor = processor;
+		this.memory = memory;
+	}
 
 	public void execute(int instruction) {
 		logger.finest(() -> String.format("Executing %08x", instruction));
@@ -25,10 +34,10 @@ public class Simulator {
 
 		long currentPosition = processor.register(255);
 
-		while (processor.isRunning()) {
+		do {
 			execute(memory.load32(currentPosition));
 			currentPosition += 4;
-		}
+		} while (processor.isRunning());
 	}
 
 	private void initializeSpecialRegisters() {
@@ -45,7 +54,6 @@ public class Simulator {
 		processor.rQ = 0;
 		processor.rR = 0;
 		processor.rL = 2;
-
 	}
 
 	public Memory getMemory() {
@@ -55,10 +63,10 @@ public class Simulator {
 	public Processor getProcessor() {
 		return this.processor;
 	}
-	
+
 	public String dump() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		for (int i = 0; i < Processor.NB_REGISTERS; i++) {
 			long reg = getProcessor().register(i);
 
@@ -66,7 +74,7 @@ public class Simulator {
 				sb.append(String.format("$%d = %016x\n", i, reg));
 			}
 		}
-		
+
 		return sb.toString();
 	}
 }

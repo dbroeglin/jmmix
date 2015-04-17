@@ -12,7 +12,9 @@ public final class InstructionSet {
 	private static final Instruction[] instructions = new Instruction[] {
 			InstructionSet::TRAP, null, null, null, null, null, null, null,
 			null, null, null, null, null, null, null, null, null, null, null,
-			null, null, null, null, null, null, null, null, null, null, null,
+			null, null, null, null, null, null, null, null, null,
+			null,
+			null,
 			null,
 			null,
 			InstructionSet::ADD,
@@ -49,7 +51,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x4x
-			null, null,
+			null,
+			null,
 			null,
 			null,
 			null,
@@ -65,7 +68,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x5x
-			null, null, null,
+			null, null,
+			null,
 			null,
 			null,
 			null,
@@ -80,7 +84,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x6x
-			null, null, null, null,
+			null, null, null,
+			null,
 			null,
 			null,
 			null,
@@ -94,7 +99,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x7x
-			null, null, null, null, null,
+			null, null, null, null,
+			null,
 			null,
 			null,
 			null,
@@ -107,7 +113,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x8x
-			null, null, null, null, null, null,
+			null, null, null, null, null,
+			null,
 			null,
 			null,
 			null,
@@ -119,14 +126,15 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x9x
-			null, null, null, null, null, null, null,
+			null, null, null, null, null, null,
 			null,
 			null,
 			null,
 			null,
-			null,
-			null,
-			null,
+			InstructionSet::PRELD,
+			InstructionSet::PRELDI,
+			InstructionSet::PREGO,
+			InstructionSet::PREGOI,
 			null,
 			null,
 			// 0xax
@@ -237,6 +245,22 @@ public final class InstructionSet {
 	}
 
 	public static void PRESTI(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void PREGO(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void PREGOI(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void PRELD(Processor proc, Memory mem, int x, int y, int z) {
+		// do nothing
+	}
+
+	public static void PRELDI(Processor proc, Memory mem, int x, int y, int z) {
 		// do nothing
 	}
 }
