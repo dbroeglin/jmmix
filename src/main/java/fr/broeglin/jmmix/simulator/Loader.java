@@ -1,5 +1,6 @@
 package fr.broeglin.jmmix.simulator;
 
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rG;
 import static java.lang.String.format;
 
 import java.io.DataInput;
@@ -100,7 +101,7 @@ public class Loader {
 
 	private void readPostamble(int tetra) throws IOException {
 		int g = z(tetra);
-		simulator.getProcessor().rG = g;
+		simulator.getProcessor().setSpecialRegister(rG, g);
 		while (g < 256) {
 			simulator.getProcessor().setRegister(g,
 					(long) readTetra() << 32 | (long) readTetra());

@@ -1,5 +1,7 @@
 package fr.broeglin.jmmix.simulator;
 
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
+
 public final class InstructionSet {
 
 	public static Instruction instruction(int op) {
@@ -236,10 +238,12 @@ public final class InstructionSet {
 	}
 
 	public static void TRAP(Processor proc, Memory mem, int x, int y, int z) {
-		if (x == 0) {
-			proc.rBB = proc.register(255);
-			// proc.rWW = inst_ptr;
+		switch (x) {
+		case 0:
+			proc.setSpecialRegister(rBB, 255);
+			// TODO: proc.setSpecialRegister(rWW, inst_ptr) ;
 			proc.setRunning(false);
+			break;
 		}
 	}
 

@@ -1,8 +1,12 @@
 package fr.broeglin.jmmix.simulator;
 
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
 import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.anyLong;
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
@@ -30,24 +34,27 @@ public class DummyMmoTest extends AbstractMmoTest {
 		new Loader(new DataInputStream(new FileInputStream(objectFile)),
 				simulator).load();
 
-		simulator = new Simulator(processor, memory);
+		simulator = new Simulator(proc, mem);
 
-		expect(processor.register(anyInt())).andStubDelegateTo(actualProcessor);
-		expect(processor.isRunning()).andStubDelegateTo(actualProcessor);
-		expect(memory.load32(anyInt())).andStubDelegateTo(actualMemory);
+		simulator.initializeSpecialRegisters();
+		expect(proc.register(anyInt())).andStubDelegateTo(actualProcessor);
+		expect(proc.isRunning()).andStubDelegateTo(actualProcessor);
+		expect(mem.load32(anyInt())).andStubDelegateTo(actualMemory);
+				
+		proc.setRunning(eq(false));
+		expectLastCall().andStubDelegateTo(actualProcessor);
 
-		processor.setRunning(eq(false));
-		EasyMock.expectLastCall().andStubDelegateTo(actualProcessor);
-
-		replay(processor, memory);
-
+		proc.setSpecialRegister(rBB, 255);
+		expectLastCall().andStubDelegateTo(actualProcessor);
+		
+		replay(proc, mem);
 	}
 
 	@Test
 	public void test() throws Exception {
 		simulator.execute();
 
-		verify(processor, memory);
+		verify(proc, mem);
 	}
 
 	// plumbing
@@ -56,10 +63,10 @@ public class DummyMmoTest extends AbstractMmoTest {
 	public EasyMockRule rule = new EasyMockRule(this);
 
 	@Mock
-	private Processor processor;
+	private Processor proc;
 
 	@Mock
-	private Memory memory;
+	private Memory mem;
 
 	private Simulator simulator;
 

@@ -8,7 +8,7 @@ import org.junit.Test;
 public class SimulatorTest {
 
 	Simulator simulator = new Simulator();
-	
+
 	@Test
 	public void should_execute_add() {
 		simulator.getProcessor().setRegister(1, 40);
@@ -26,7 +26,7 @@ public class SimulatorTest {
 		assertThat(simulator.getProcessor().register(253), equalTo(42l));
 		assertThat(simulator.getProcessor().register(252), equalTo(1l));
 	}
-	
+
 	@Test
 	public void should_execute_SYNCD() {
 		simulator.execute(0xb9000000);
@@ -46,4 +46,5 @@ public class SimulatorTest {
 	public void should_execute_SYNCID() {
 		simulator.execute(0xbc000000);
 	}
+
 }

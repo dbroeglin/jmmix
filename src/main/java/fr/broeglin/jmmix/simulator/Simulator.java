@@ -1,6 +1,7 @@
 package fr.broeglin.jmmix.simulator;
 
 import java.util.logging.Logger;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.*;
 
 public class Simulator {
 	private static final Logger logger = Logger.getLogger(Simulator.class
@@ -30,30 +31,27 @@ public class Simulator {
 	}
 
 	public void execute() {
+		long instPtr = processor.register(255);
+
 		initializeSpecialRegisters();
 
-		long currentPosition = processor.register(255);
-
 		do {
-			execute(memory.load32(currentPosition));
-			currentPosition += 4;
+			execute(memory.load32(instPtr));
+			instPtr += 4;
 		} while (processor.isRunning());
 	}
 
-	private void initializeSpecialRegisters() {
-		processor.rA = 0;
-		processor.rB = 0;
-		processor.rD = 0;
-		processor.rE = 0;
-		processor.rF = 0;
-		processor.rH = 0;
-		processor.rI = 0;
-		processor.rJ = 0;
-		processor.rM = 0;
-		processor.rP = 0;
-		processor.rQ = 0;
-		processor.rR = 0;
-		processor.rL = 2;
+	void initializeSpecialRegisters() {
+		processor.setSpecialRegister(rK, 0xffffffffffffffffl);
+		processor.setSpecialRegister(rL, 0x2l);
+		processor.setSpecialRegister(rT, 0x8000000500000000l);
+		processor.setSpecialRegister(rV, 0x369c200400000000l);
+		processor.setSpecialRegister(rTT, 0x8000000600000000l);
+
+		for (SpecialRegisterName name : new SpecialRegisterName[] { rA, rB, rD,
+				rE, rF, rH, rI, rJ, rM, rP, rQ, rR }) {
+			processor.setSpecialRegister(name, 0l);
+		}
 	}
 
 	public Memory getMemory() {
@@ -67,11 +65,18 @@ public class Simulator {
 	public String dump() {
 		StringBuilder sb = new StringBuilder();
 
+		for (SpecialRegisterName name : SpecialRegisterName.values()) {
+			long reg = getProcessor().specialRegister(name);
+
+			if (reg != 0l) {
+				sb.append(String.format("%4s = %016x\n", name, reg));
+			}
+		}
 		for (int i = 0; i < Processor.NB_REGISTERS; i++) {
 			long reg = getProcessor().register(i);
 
 			if (reg != 0l) {
-				sb.append(String.format("$%d = %016x\n", i, reg));
+				sb.append(String.format("%4s = %016x\n", "$" + i, reg));
 			}
 		}
 
