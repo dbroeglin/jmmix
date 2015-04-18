@@ -4,6 +4,7 @@ public class Processor {
 
 	public static final int NB_REGISTERS = 256;
 	private final long[] registers = new long[NB_REGISTERS];
+	private long instPtr;
 	private boolean running = true;
 
 
@@ -39,5 +40,17 @@ public class Processor {
 
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+	
+	public long instPtr() {
+		return instPtr;
+	}
+	
+	public void incInstPtr(int offset) {
+		instPtr += offset * 4;
+	}
+	
+	public void setInstPtr(long instPtr) {
+		this.instPtr = instPtr;
 	}
 }

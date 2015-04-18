@@ -2,6 +2,7 @@ package fr.broeglin.jmmix.simulator;
 
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
 import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.anyLong;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -36,6 +37,7 @@ public class DummyMmoTest extends AbstractMmoTest {
 		simulator.initializeSpecialRegisters();
 		expect(proc.register(anyInt())).andStubDelegateTo(actualProcessor);
 		expect(proc.isRunning()).andStubDelegateTo(actualProcessor);
+		expect(proc.instPtr()).andStubDelegateTo(actualProcessor);
 		expect(mem.load32(anyInt())).andStubDelegateTo(actualMemory);
 				
 		proc.setRunning(eq(false));
@@ -43,7 +45,13 @@ public class DummyMmoTest extends AbstractMmoTest {
 
 		proc.setSpecialRegister(rBB, 255);
 		expectLastCall().andStubDelegateTo(actualProcessor);
-		
+
+		proc.setInstPtr(anyLong());
+		expectLastCall().andStubDelegateTo(actualProcessor);
+
+		proc.incInstPtr(anyInt());
+		expectLastCall().andStubDelegateTo(actualProcessor);
+
 		replay(proc, mem);
 	}
 

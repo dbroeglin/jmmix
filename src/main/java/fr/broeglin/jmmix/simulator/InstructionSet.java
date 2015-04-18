@@ -169,7 +169,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0xcx
-			InstructionSet::OR, InstructionSet::ORI, null, null, null, null, null, null,
+			InstructionSet::OR, InstructionSet::ORI, null, null, null, null,
+			null, null,
 			InstructionSet::AND, InstructionSet::ANDI, null,
 			null,
 			null,
@@ -188,8 +189,11 @@ public final class InstructionSet {
 			InstructionSet::INCML, InstructionSet::INCL, null, null, null,
 			null, null, null, null, null,
 			// 0xfx
-			null, null, null, null, null, null, null, null, null, null, null,
-			null, null, InstructionSet::SWYM, null };
+			InstructionSet::JMP, InstructionSet::JMPB, null, null, null, null,
+			null, null, null, null,
+			null,
+			null, null, InstructionSet::SWYM, null
+	};
 
 	public static void ADD(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + proc.register(z));
@@ -204,7 +208,7 @@ public final class InstructionSet {
 	}
 
 	public static void ORI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) | (byte)z);
+		proc.setRegister(x, proc.register(y) | (byte) z);
 	}
 
 	public static void AND(Processor proc, Memory mem, int x, int y, int z) {
@@ -212,7 +216,7 @@ public final class InstructionSet {
 	}
 
 	public static void ANDI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) & (byte)z);
+		proc.setRegister(x, proc.register(y) & (byte) z);
 	}
 
 	public static void SETL(Processor proc, Memory mem, int x, int y, int z) {
@@ -275,7 +279,7 @@ public final class InstructionSet {
 	public static void SYNCID(Processor proc, Memory mem, int x, int y, int z) {
 		// do nothing
 	}
-	
+
 	public static void SYNCIDI(Processor proc, Memory mem, int x, int y, int z) {
 		// do nothing
 	}
@@ -308,4 +312,11 @@ public final class InstructionSet {
 		// do nothing
 	}
 
+	public static void JMP(Processor proc, Memory mem, int x, int y, int z) {
+		proc.incInstPtr((x << 16 | y << 8 | z) - 1);
+	}
+
+	public static void JMPB(Processor proc, Memory mem, int x, int y, int z) {
+		proc.incInstPtr((0xff000000 | x << 16 | y << 8 | z) - 1);
+	}
 }

@@ -20,7 +20,8 @@ public class Simulator {
 	}
 
 	public void execute(int instruction) {
-		logger.finest(() -> String.format("Executing %08x", instruction));
+		logger.finest(() -> String.format("%016x: %08x",
+				processor.instPtr(), instruction));
 
 		int op = (instruction & 0xff000000) >>> 24;
 		int x = (instruction & 0x00ff0000) >>> 16;
@@ -35,13 +36,13 @@ public class Simulator {
 	}
 
 	public void execute() {
-		long instPtr = processor.register(255);
+		processor.setInstPtr(processor.register(255));
 
 		initializeSpecialRegisters();
 
 		do {
-			execute(memory.load32(instPtr));
-			instPtr += 4;
+			execute(memory.load32(processor.instPtr()));
+			processor.incInstPtr(1);
 		} while (processor.isRunning());
 	}
 

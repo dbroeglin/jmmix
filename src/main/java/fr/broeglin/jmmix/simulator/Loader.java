@@ -78,6 +78,9 @@ public class Loader {
 			case LOP_POST:
 				readPostamble(tetra);
 				break;
+			case LOP_FIXR:
+				fixRelative(tetra);
+				break;
 			case LOP_STAB:
 				// ignore until END
 				while (true) {
@@ -97,6 +100,17 @@ public class Loader {
 					simulator.getMemory().load64(currentPosition)));
 			incrementCurrentPosition(4);
 		}
+	}
+
+	private void fixRelative(int tetra) {
+		int yz = yz(tetra);
+		long relativePos = currentPosition - yz * 4;
+		int value = simulator.getMemory().load32(relativePos) | yz;
+		
+		logger.finest(() -> format("FixR in #%016x value #%08x",
+				relativePos, value));
+
+		simulator.getMemory().store32(relativePos, value);		
 	}
 
 	private void readPostamble(int tetra) throws IOException {

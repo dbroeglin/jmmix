@@ -7,6 +7,8 @@ import static fr.broeglin.jmmix.simulator.InstructionSet.INCH;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCL;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCMH;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCML;
+import static fr.broeglin.jmmix.simulator.InstructionSet.JMP;
+import static fr.broeglin.jmmix.simulator.InstructionSet.JMPB;
 import static fr.broeglin.jmmix.simulator.InstructionSet.OR;
 import static fr.broeglin.jmmix.simulator.InstructionSet.ORI;
 import static fr.broeglin.jmmix.simulator.InstructionSet.SETH;
@@ -164,4 +166,23 @@ public class InstructionSetTest {
 
 		assertThat(proc.register(1), equalTo(0x3l));
 	}
+
+	@Test
+	public void should_JMP() {
+		proc.setInstPtr(0);
+
+		JMP(proc, mem, 0x01, 0x02, 0x03);
+
+		assertThat(proc.instPtr(), equalTo(0x04080cl - 4));
+	}
+
+	@Test
+	public void should_JMPB() {
+		proc.setInstPtr(0x10000000l);
+
+		JMPB(proc, mem, 0xfe, 0xfd, 0xfd);
+
+		assertThat(proc.instPtr(), equalTo(0x10000000l - 0x04080cl - 4));
+	}
+
 }
