@@ -3,6 +3,10 @@ package fr.broeglin.jmmix.simulator;
 import static fr.broeglin.jmmix.simulator.InstructionSet.ADD;
 import static fr.broeglin.jmmix.simulator.InstructionSet.AND;
 import static fr.broeglin.jmmix.simulator.InstructionSet.ANDI;
+import static fr.broeglin.jmmix.simulator.InstructionSet.CMP;
+import static fr.broeglin.jmmix.simulator.InstructionSet.CMPI;
+import static fr.broeglin.jmmix.simulator.InstructionSet.CMPU;
+import static fr.broeglin.jmmix.simulator.InstructionSet.CMPUI;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCH;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCL;
 import static fr.broeglin.jmmix.simulator.InstructionSet.INCMH;
@@ -185,4 +189,129 @@ public class InstructionSetTest {
 		assertThat(proc.instPtr(), equalTo(0x10000000l - 0x04080cl - 4));
 	}
 
+	@Test
+	public void should_CMP_lower_than() {
+		proc.setRegister(2, Long.MIN_VALUE);
+		proc.setRegister(3, Long.MAX_VALUE);
+
+		CMP(proc, mem, 0x1, 0x2, 0x3);
+
+		assertThat(proc.register(1), equalTo(-1l));
+	}
+
+	@Test
+	public void should_CMP_equal() {
+		proc.setRegister(2, Long.MIN_VALUE);
+		proc.setRegister(3, Long.MIN_VALUE);
+
+		CMP(proc, mem, 0x1, 0x2, 0x3);
+
+		assertThat(proc.register(1), equalTo(0l));
+	}
+
+	@Test
+	public void should_CMP_greater_than() {
+		proc.setRegister(2, Long.MAX_VALUE);
+		proc.setRegister(3, Long.MIN_VALUE);
+
+		CMP(proc, mem, 0x1, 0x2, 0x3);
+
+		assertThat(proc.register(1), equalTo(1l));
+	}
+
+	@Test
+	public void should_CMPI_lower_than() {
+		proc.setRegister(2, 3);
+
+		CMPI(proc, mem, 0x1, 0x2, 4);
+
+		assertThat(proc.register(1), equalTo(-1l));
+	}
+
+	@Test
+	public void should_CMPI_equal() {
+		proc.setRegister(2, 3);
+
+		CMPI(proc, mem, 0x1, 0x2, 3);
+
+		assertThat(proc.register(1), equalTo(0l));
+	}
+
+	@Test
+	public void should_CMPI_greater_than() {
+		proc.setRegister(2, 3);
+
+		CMPI(proc, mem, 0x1, 0x2, 2);
+
+		assertThat(proc.register(1), equalTo(1l));
+	}
+
+	@Test
+	public void should_CMPU_greate_than() {
+		proc.setRegister(2, Long.MIN_VALUE);
+		proc.setRegister(3, Long.MAX_VALUE);
+
+		CMPU(proc, mem, 0x1, 0x2, 0x3);
+
+		// MIN is > to MAX if unsigned
+		assertThat(proc.register(1), equalTo(1l));
+	}
+
+	@Test
+	public void should_CMPU_equal() {
+		proc.setRegister(2, Long.MIN_VALUE);
+		proc.setRegister(3, Long.MIN_VALUE);
+
+		CMPU(proc, mem, 0x1, 0x2, 0x3);
+
+		assertThat(proc.register(1), equalTo(0l));
+	}
+
+	@Test
+	public void should_CMPU_lower_than() {
+		proc.setRegister(2, Long.MAX_VALUE);
+		proc.setRegister(3, Long.MIN_VALUE);
+
+		CMPU(proc, mem, 0x1, 0x2, 0x3);
+
+		// MIN is > to MAX if unsigned
+		assertThat(proc.register(1), equalTo(-1l));
+	}
+
+	@Test
+	public void should_CMPUI_lower_than() {
+		proc.setRegister(2, 3);
+
+		CMPUI(proc, mem, 0x1, 0x2, 4);
+
+		assertThat(proc.register(1), equalTo(-1l));
+	}
+
+	@Test
+	public void should_CMPUI_equal() {
+		proc.setRegister(2, 3);
+
+		CMPUI(proc, mem, 0x1, 0x2, 3);
+
+		assertThat(proc.register(1), equalTo(0l));
+	}
+
+	@Test
+	public void should_CMPUI_greater_than() {
+		proc.setRegister(2, 3);
+
+		CMPUI(proc, mem, 0x1, 0x2, 2);
+
+		assertThat(proc.register(1), equalTo(1l));
+	}
+
+	@Test
+	public void should_CMPUI_greater_than1() {
+		proc.setRegister(2, Long.MIN_VALUE);
+
+		CMPUI(proc, mem, 0x1, 0x2, 1);
+
+		// if unsigned MIN is > 1
+		assertThat(proc.register(1), equalTo(1l));
+	}
 }
