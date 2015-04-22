@@ -29,7 +29,14 @@ To run the simulator:
 or you can simply execute the unit tests (`mmixal` needs to be in the PATH for the
 tests to run).
 
+## Testing
 
+To run the tests:
+
+	mvn test
+
+The tests must be run under a system that has ``bash``, ``mmix``and ``mmixal`` in
+the PATH.
 
 ## Useful commands
 

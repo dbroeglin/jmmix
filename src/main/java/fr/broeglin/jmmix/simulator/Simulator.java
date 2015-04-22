@@ -1,7 +1,26 @@
 package fr.broeglin.jmmix.simulator;
 
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rA;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rB;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rD;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rE;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rF;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rH;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rI;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rJ;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rK;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rL;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rM;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rP;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rQ;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rR;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rT;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rTT;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rV;
+
 import java.util.logging.Logger;
-import static fr.broeglin.jmmix.simulator.SpecialRegisterName.*;
+
+import fr.broeglin.jmmix.simulator.trace.Tracer;
 
 public class Simulator {
 	private static final Logger logger = Logger.getLogger(Simulator.class
@@ -9,6 +28,7 @@ public class Simulator {
 
 	private final Memory memory;
 	private final Processor processor;
+	private Tracer tracer = null;
 
 	public Simulator() {
 		this(new Processor(), new Memory());
@@ -20,8 +40,7 @@ public class Simulator {
 	}
 
 	public void execute(int instruction) {
-		logger.finest(() -> String.format("%016x: %08x",
-				processor.instPtr(), instruction));
+		traceInstruction(instruction);
 
 		int op = (instruction & 0xff000000) >>> 24;
 		int x = (instruction & 0x00ff0000) >>> 16;
@@ -32,7 +51,16 @@ public class Simulator {
 		if (inst == null) {
 			throw new UnknownInstruction(op);
 		}
+
 		inst.op(processor, memory, x, y, z);
+	}
+
+	private void traceInstruction(int instruction) {
+		logger.finest(() -> String.format("         1. %016x: %08x",
+				processor.instPtr(), instruction));
+		if (tracer != null) {
+			tracer.instruction(processor.instPtr(), instruction);
+		}
 	}
 
 	public void execute() {
@@ -87,4 +115,13 @@ public class Simulator {
 		}
 
 	}
+
+	public Tracer getTracer() {
+		return tracer;
+	}
+
+	public void setTracer(Tracer tracer) {
+		this.tracer = tracer;
+	}
+
 }

@@ -56,7 +56,7 @@ public class DummyMmoTest extends AbstractMmoTest {
 	}
 
 	@Test
-	public void test() throws Exception {
+	public void should_not_change_state() throws Exception {
 		simulator.execute();
 
 		verify(proc, mem);
@@ -72,7 +72,5 @@ public class DummyMmoTest extends AbstractMmoTest {
 
 	@Mock
 	private Memory mem;
-
-	private Simulator simulator;
 
 }

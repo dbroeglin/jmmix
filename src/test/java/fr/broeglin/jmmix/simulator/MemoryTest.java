@@ -1,6 +1,8 @@
 package fr.broeglin.jmmix.simulator;
 
-import static fr.broeglin.jmmix.simulator.Memory.*;
+import static fr.broeglin.jmmix.simulator.Memory.DATA_SEGMENT;
+import static fr.broeglin.jmmix.simulator.Memory.INSTRUCTION_SEGMENT;
+import static fr.broeglin.jmmix.simulator.Memory.STACK_SEGMENT;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
