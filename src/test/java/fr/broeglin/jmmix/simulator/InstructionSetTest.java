@@ -1,6 +1,6 @@
 package fr.broeglin.jmmix.simulator;
 
-import static fr.broeglin.jmmix.simulator.InstructionSet.ADD;
+import static fr.broeglin.jmmix.simulator.InstructionSet.*;
 import static fr.broeglin.jmmix.simulator.InstructionSet.AND;
 import static fr.broeglin.jmmix.simulator.InstructionSet.ANDI;
 import static fr.broeglin.jmmix.simulator.InstructionSet.CMP;
@@ -313,5 +313,84 @@ public class InstructionSetTest {
 
 		// if unsigned MIN is > 1
 		assertThat(proc.register(1), equalTo(1l));
+	}
+
+	@Test
+	public void should_NEG() {
+		proc.setRegister(1, Long.MAX_VALUE);
+		proc.setRegister(2, 1);
+		proc.setRegister(3, 0);
+		proc.setRegister(4, -1);
+		proc.setRegister(5, -Long.MAX_VALUE);
+
+		NEG(proc, mem, 11, 0, 1);
+		NEG(proc, mem, 12, 0, 2);
+		NEG(proc, mem, 13, 0, 3);
+		NEG(proc, mem, 14, 0, 4);
+		NEG(proc, mem, 15, 0, 5);
+
+		NEG(proc, mem, 16, 3, 1);
+		NEG(proc, mem, 17, 3, 2);
+
+		assertThat(proc.register(11), equalTo(-Long.MAX_VALUE));
+		assertThat(proc.register(12), equalTo(-1l));
+		assertThat(proc.register(13), equalTo(0l));
+		assertThat(proc.register(14), equalTo(1l));
+		assertThat(proc.register(15), equalTo(Long.MAX_VALUE));
+		assertThat(proc.register(16), equalTo(-Long.MAX_VALUE + 3));
+		assertThat(proc.register(17), equalTo(2l));
+	}
+	
+	@Test
+	public void should_NEGI() {
+
+		NEGI(proc, mem, 11, 0, 1);
+		NEGI(proc, mem, 12, -1, 1);
+		NEGI(proc, mem, 13, 1, 1);
+		NEGI(proc, mem, 14, 2, -1);
+
+		assertThat(proc.register(11), equalTo(-1l));
+		assertThat(proc.register(12), equalTo(-2l));
+		assertThat(proc.register(13), equalTo(0l));
+		assertThat(proc.register(14), equalTo(3l));
+	}
+	
+	@Test
+	public void should_NEGU() {
+		proc.setRegister(1, Long.MAX_VALUE);
+		proc.setRegister(2, 1);
+		proc.setRegister(3, 0);
+		proc.setRegister(4, -1);
+		proc.setRegister(5, -Long.MAX_VALUE);
+
+		NEGU(proc, mem, 11, 0, 1);
+		NEGU(proc, mem, 12, 0, 2);
+		NEGU(proc, mem, 13, 0, 3);
+		NEGU(proc, mem, 14, 0, 4);
+		NEGU(proc, mem, 15, 0, 5);
+
+		NEGU(proc, mem, 16, 3, 1);
+		NEGU(proc, mem, 17, 3, 2);
+
+		assertThat(proc.register(11), equalTo(-Long.MAX_VALUE));
+		assertThat(proc.register(12), equalTo(-1l));
+		assertThat(proc.register(13), equalTo(0l));
+		assertThat(proc.register(14), equalTo(1l));
+		assertThat(proc.register(15), equalTo(Long.MAX_VALUE));
+		assertThat(proc.register(16), equalTo(-Long.MAX_VALUE + 3));
+		assertThat(proc.register(17), equalTo(2l));
+	}
+	
+	@Test
+	public void should_NEGUI() {
+		NEGUI(proc, mem, 11, 0, 1);
+		NEGUI(proc, mem, 12, -1, 1);
+		NEGUI(proc, mem, 13, 1, 1);
+		NEGUI(proc, mem, 14, 2, -1);
+
+		assertThat(proc.register(11), equalTo(-1l));
+		assertThat(proc.register(12), equalTo(-2l));
+		assertThat(proc.register(13), equalTo(0l));
+		assertThat(proc.register(14), equalTo(3l));
 	}
 }

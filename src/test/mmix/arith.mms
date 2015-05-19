@@ -19,5 +19,8 @@ Main	SET	$1,40
 	ADD	$5,$1,$2
 	ADD	$5,$3,$2
 
+	NEG	$13,0,$3
+	NEG 	$14,#ff,1
+
 	SET	$255,0
 	TRAP 	0

@@ -43,8 +43,8 @@ public final class InstructionSet {
 			null,
 			null,
 			null,
-			null,
-			null,
+			InstructionSet::NEG,
+			InstructionSet::NEGI,
 			null,
 			null,
 			null,
@@ -346,4 +346,23 @@ public final class InstructionSet {
 
 		proc.setRegister(x, (a < b) ? -1 : ((a == b) ? 0 : 1));
 	}
+
+	public static void NEG(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, (long)y - proc.register(z));
+	}
+
+	public static void NEGI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, (long)y - (long)z);
+	}
+	
+	public static void NEGU(Processor proc, Memory mem, int x, int y, int z) {
+		// TODO: double check this one
+		NEG(proc, mem, x, y, z);
+	}
+
+	public static void NEGUI(Processor proc, Memory mem, int x, int y, int z) {
+		// TODO: double check this one
+		NEGI(proc, mem, x, y, z);
+	}
+
 }
