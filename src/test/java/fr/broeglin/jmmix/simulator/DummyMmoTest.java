@@ -7,11 +7,13 @@ import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 
+import org.easymock.EasyMock;
 import org.easymock.EasyMockRule;
 import org.easymock.Mock;
 import org.junit.Before;
@@ -32,8 +34,9 @@ public class DummyMmoTest extends AbstractMmoTest {
 		new Loader(new DataInputStream(new FileInputStream(objectFile)),
 				simulator).load();
 
-		simulator = new Simulator(proc, mem);
+		simulator = new Simulator(proc, mem, new String[] { "sim" });
 
+		reset(proc);
 		simulator.initializeSpecialRegisters();
 		expect(proc.register(anyInt())).andStubDelegateTo(actualProcessor);
 		expect(proc.isRunning()).andStubDelegateTo(actualProcessor);

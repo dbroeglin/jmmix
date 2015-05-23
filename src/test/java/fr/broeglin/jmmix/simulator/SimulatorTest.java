@@ -47,4 +47,9 @@ public class SimulatorTest {
 		simulator.execute(0xbc000000);
 	}
 
+	@Test
+	public void reg_0_should_contain_default_argc() {
+		assertThat(simulator.getProcessor().register(0), equalTo(1l));
+	}
+
 }

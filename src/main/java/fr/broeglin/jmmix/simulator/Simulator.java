@@ -31,12 +31,18 @@ public class Simulator {
 	private Tracer tracer = null;
 
 	public Simulator() {
-		this(new Processor(), new Memory());
+		this(new Processor(), new Memory(), new String[] { "sim" });
 	}
 
-	Simulator(Processor processor, Memory memory) {
+	Simulator(Processor processor, Memory memory, String[] args) {
+		if (args == null || args.length < 1) {
+			throw new IllegalArgumentException("args should at least contain program name");
+		}
 		this.processor = processor;
 		this.memory = memory;
+		this.processor.setRegister(0, args.length);
+		// TODO: initialize arguments
+		this.processor.setRegister(2, 2); // TODO: ???
 	}
 
 	public void execute(int instruction) {

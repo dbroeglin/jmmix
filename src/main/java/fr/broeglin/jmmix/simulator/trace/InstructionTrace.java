@@ -1,6 +1,6 @@
 package fr.broeglin.jmmix.simulator.trace;
 
-public class InstructionTrace {
+public class InstructionTrace implements Trace {
 	private final long location;
 	private final int instruction;
 
