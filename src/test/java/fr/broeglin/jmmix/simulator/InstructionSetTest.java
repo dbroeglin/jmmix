@@ -55,6 +55,62 @@ public class InstructionSetTest {
 	}
 
 	@Test
+	public void should_2ADDU() {
+		checkOp(InstructionSet::_2ADDU, 0x5l, 0x1l, 0x3l);
+		checkOp(InstructionSet::_2ADDU, 0x7l, 0x2l, 0x3l);
+		checkOp(InstructionSet::_2ADDU, 0xdl, 0x4l, 0x5l);
+	}
+
+	@Test
+	public void should_4ADDU() {
+		checkOp(InstructionSet::_4ADDU, 0x7l, 0x1l, 0x3l);
+		checkOp(InstructionSet::_4ADDU, 0xbl, 0x2l, 0x3l);
+		checkOp(InstructionSet::_4ADDU, 0x15l, 0x4l, 0x5l);
+	}
+
+	@Test
+	public void should_8ADDU() {
+		checkOp(InstructionSet::_8ADDU, 0xbl, 0x1l, 0x3l);
+		checkOp(InstructionSet::_8ADDU, 0x13l, 0x2l, 0x3l);
+		checkOp(InstructionSet::_8ADDU, 0x25l, 0x4l, 0x5l);
+	}
+
+	@Test
+	public void should_16ADDU() {
+		checkOp(InstructionSet::_16ADDU, 0x13l, 0x1l, 0x3l);
+		checkOp(InstructionSet::_16ADDU, 0x23l, 0x2l, 0x3l);
+		checkOp(InstructionSet::_16ADDU, 0x45l, 0x4l, 0x5l);
+	}
+
+	@Test
+	public void should_2ADDUI() {
+		checkOpI(InstructionSet::_2ADDUI, 0x5l, 0x1l, 0x3);
+		checkOpI(InstructionSet::_2ADDUI, 0x7l, 0x2l, 0x3);
+		checkOpI(InstructionSet::_2ADDUI, 0xdl, 0x4l, 0x5);
+	}
+
+	@Test
+	public void should_4ADDUI() {
+		checkOpI(InstructionSet::_4ADDUI, 0x7l, 0x1l, 0x3);
+		checkOpI(InstructionSet::_4ADDUI, 0xbl, 0x2l, 0x3);
+		checkOpI(InstructionSet::_4ADDUI, 0x15l, 0x4l, 0x5);
+	}
+
+	@Test
+	public void should_8ADDUI() {
+		checkOpI(InstructionSet::_8ADDUI, 0xbl, 0x1l, 0x3);
+		checkOpI(InstructionSet::_8ADDUI, 0x13l, 0x2l, 0x3);
+		checkOpI(InstructionSet::_8ADDUI, 0x25l, 0x4l, 0x5);
+	}
+
+	@Test
+	public void should_16ADDUI() {
+		checkOpI(InstructionSet::_16ADDUI, 0x13l, 0x1l, 0x3);
+		checkOpI(InstructionSet::_16ADDUI, 0x23l, 0x2l, 0x3);
+		checkOpI(InstructionSet::_16ADDUI, 0x45l, 0x4l, 0x5);
+	}
+
+	@Test
 	public void should_SETL() {
 		proc.setRegister(1, 0xfedcfedcfedcfedcl);
 
@@ -340,7 +396,7 @@ public class InstructionSetTest {
 		assertThat(proc.register(16), equalTo(-Long.MAX_VALUE + 3));
 		assertThat(proc.register(17), equalTo(2l));
 	}
-	
+
 	@Test
 	public void should_NEGI() {
 
@@ -354,7 +410,7 @@ public class InstructionSetTest {
 		assertThat(proc.register(13), equalTo(0l));
 		assertThat(proc.register(14), equalTo(3l));
 	}
-	
+
 	@Test
 	public void should_NEGU() {
 		proc.setRegister(1, Long.MAX_VALUE);
@@ -380,7 +436,7 @@ public class InstructionSetTest {
 		assertThat(proc.register(16), equalTo(-Long.MAX_VALUE + 3));
 		assertThat(proc.register(17), equalTo(2l));
 	}
-	
+
 	@Test
 	public void should_NEGUI() {
 		NEGUI(proc, mem, 11, 0, 1);
@@ -393,4 +449,22 @@ public class InstructionSetTest {
 		assertThat(proc.register(13), equalTo(0l));
 		assertThat(proc.register(14), equalTo(3l));
 	}
+
+	private void checkOp(Instruction inst, long x, long y, long z) {
+		proc.setRegister(2, y);
+		proc.setRegister(3, z);
+
+		inst.op(proc, mem, 1, 2, 3);
+
+		assertThat(proc.register(1), equalTo(x));
+	}
+
+	private void checkOpI(Instruction inst, long x, long y, int z) {
+		proc.setRegister(2, y);
+
+		inst.op(proc, mem, 1, 2, z);
+
+		assertThat(proc.register(1), equalTo(x));
+	}
+
 }

@@ -18,6 +18,8 @@ Main	SET	$1,40
 
 	ADDU	$5,$1,$2
 	ADDU	$5,$3,$2
+	ADDU	$5,$1,2
+	ADDU	$5,$3,2
 	
 	ADD	$5,$1,$2
 	ADD	$5,$3,$2
@@ -26,6 +28,11 @@ Main	SET	$1,40
 	NEG 	$14,#ff,1
 	
 	NEGU	$15,0,$3
+
+	2ADDU	$20,$1,$2
+	4ADDU	$21,$1,$2
+	8ADDU	$22,$1,$2
+	16ADDU	$23,$1,$2
 
 	SET	$255,0
 	TRAP 	0

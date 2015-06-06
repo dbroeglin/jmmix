@@ -12,41 +12,29 @@ public final class InstructionSet {
 	}
 
 	private static final Instruction[] instructions = new Instruction[] {
-			InstructionSet::TRAP, null, null, null, null, null, null, null,
-			null, null, null, null, null, null, null, null, null, null, null,
-			null, null, null, null, null, null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			InstructionSet::ADD,
-			null,
-			InstructionSet::ADDU,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
+			InstructionSet::TRAP, null, null, null,
+			null, null, null, null,
+			null, null, null, null,
+			null, null, null, null,
+
+			null, null, null, null,
+			null, null, null, null,
+			null, null, null, null,
+			null, null, null, null,
+
+			InstructionSet::ADD, InstructionSet::ADDI, 
+			InstructionSet::ADDU, InstructionSet::ADDU,
+			null, null, null, null,
+			InstructionSet::_2ADDU, InstructionSet::_2ADDUI,
+			InstructionSet::_4ADDU, InstructionSet::_4ADDUI,
+			InstructionSet::_8ADDU, InstructionSet::_8ADDUI,
+			InstructionSet::_16ADDU, InstructionSet::_16ADDUI,
+
 			// 0x3x
-			null,
-			null,
-			null,
-			null,
-			InstructionSet::NEG,
-			InstructionSet::NEGI,
-			InstructionSet::NEGU,
-			InstructionSet::NEGUI,
+			null, null,
+			null, null,
+			InstructionSet::NEG, InstructionSet::NEGI,
+			InstructionSet::NEGU, InstructionSet::NEGUI,
 			null,
 			null,
 			null,
@@ -195,14 +183,53 @@ public final class InstructionSet {
 			null, null, InstructionSet::SWYM, null
 	};
 
+	public static void _2ADDU(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * 2 + proc.register(z));
+	}
+
+	public static void _2ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * 2 + z);
+	}
+
+	public static void _4ADDU(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * 4 + proc.register(z));
+	}
+
+	public static void _4ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * 4 + z);
+	}
+
+	public static void _8ADDU(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * 8 + proc.register(z));
+	}
+
+	public static void _8ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * 8 + z);
+	}
+
+	public static void _16ADDU(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * 16 + proc.register(z));
+	}
+
+	public static void _16ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * 16 + z);
+	}
+
 	public static void ADD(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + proc.register(z));
 	}
 
+	public static void ADDI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) + z);
+	}
+	
 	public static void ADDU(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + proc.register(z));
 	}
 
+	public static void ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) + z);
+	}
 	public static void OR(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) | proc.register(z));
 	}
@@ -348,13 +375,13 @@ public final class InstructionSet {
 	}
 
 	public static void NEG(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, (long)y - proc.register(z));
+		proc.setRegister(x, (long) y - proc.register(z));
 	}
 
 	public static void NEGI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, (long)y - (long)z);
+		proc.setRegister(x, (long) y - (long) z);
 	}
-	
+
 	public static void NEGU(Processor proc, Memory mem, int x, int y, int z) {
 		// TODO: double check this one
 		NEG(proc, mem, x, y, z);

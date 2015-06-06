@@ -198,7 +198,8 @@ public abstract class AbstractMmoTest {
 			if (registers.get(i).value != value) {
 				diff = true;
 				sb.append("register difference: ").append(registers.get(i))
-						.append(" <> ").append(value).append("\n");
+						.append(" <> ").append(String.format("#%x", value))
+						.append("\n");
 			}
 		}
 
