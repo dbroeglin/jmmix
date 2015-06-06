@@ -116,7 +116,7 @@ public class InstructionSetTest {
 
 		SETL(proc, mem, 0x01, 0x89, 0xab);
 
-		assertThat(proc.register(1), equalTo(0xfedcfedcfedc89abl));
+		assertThat(proc.register(1), equalTo(0x0000_0000_0000_89abl));
 	}
 
 	@Test
@@ -125,7 +125,7 @@ public class InstructionSetTest {
 
 		SETML(proc, mem, 0x01, 0x89, 0xab);
 
-		assertThat(proc.register(1), equalTo(0xfedc_fedc_89ab_fedcl));
+		assertThat(proc.register(1), equalTo(0x0000_0000_89ab_0000l));
 	}
 
 	@Test
@@ -133,7 +133,7 @@ public class InstructionSetTest {
 		proc.setRegister(1, 0xfedcfedcfedcfedcl);
 
 		SETMH(proc, mem, 0x01, 0x89, 0xab);
-		assertThat(proc.register(1), equalTo(0xfedc_89ab_fedc_fedcl));
+		assertThat(proc.register(1), equalTo(0x0000_89ab_0000_0000l));
 	}
 
 	@Test
@@ -142,7 +142,7 @@ public class InstructionSetTest {
 
 		SETH(proc, mem, 0x01, 0x89, 0xab);
 
-		assertThat(proc.register(1), equalTo(0x89abfedcfedcfedcl));
+		assertThat(proc.register(1), equalTo(0x89ab_0000_0000_0000l));
 	}
 
 	@Test

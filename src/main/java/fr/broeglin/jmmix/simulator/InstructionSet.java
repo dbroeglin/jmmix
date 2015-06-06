@@ -22,7 +22,7 @@ public final class InstructionSet {
 			null, null, null, null,
 			null, null, null, null,
 
-			InstructionSet::ADD, InstructionSet::ADDI, 
+			InstructionSet::ADD, InstructionSet::ADDI,
 			InstructionSet::ADDU, InstructionSet::ADDU,
 			null, null, null, null,
 			InstructionSet::_2ADDU, InstructionSet::_2ADDUI,
@@ -222,7 +222,7 @@ public final class InstructionSet {
 	public static void ADDI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + z);
 	}
-	
+
 	public static void ADDU(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + proc.register(z));
 	}
@@ -230,6 +230,7 @@ public final class InstructionSet {
 	public static void ADDUI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + z);
 	}
+
 	public static void OR(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) | proc.register(z));
 	}
@@ -247,23 +248,19 @@ public final class InstructionSet {
 	}
 
 	public static void SETL(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(x) & 0xffffffffffff0000l
-				| (y << 8 | z));
+		proc.setRegister(x, y << 8 | z);
 	}
 
 	public static void SETML(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(x) & 0xffffffff0000ffffl
-				| ((long) y << 24 | (long) z << 16));
+		proc.setRegister(x, (long) y << 24 | (long) z << 16);
 	}
 
 	public static void SETMH(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(x) & 0xffff0000ffffffffl
-				| ((long) y << 40 | (long) z << 32));
+		proc.setRegister(x, (long) y << 40 | (long) z << 32);
 	}
 
 	public static void SETH(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(x) & 0x0000ffffffffffffl
-				| ((long) y << 56 | (long) z << 48));
+		proc.setRegister(x, (long) y << 56 | (long) z << 48);
 	}
 
 	public static void INCL(Processor proc, Memory mem, int x, int y, int z) {
