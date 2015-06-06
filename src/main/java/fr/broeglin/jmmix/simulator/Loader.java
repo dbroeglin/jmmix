@@ -167,5 +167,4 @@ public class Loader {
 	int yz(int tetra) {
 		return tetra & 0xffff;
 	}
-
 }

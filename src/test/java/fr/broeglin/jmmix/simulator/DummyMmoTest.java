@@ -37,6 +37,7 @@ public class DummyMmoTest extends AbstractMmoTest {
 		simulator = new Simulator(proc, mem, new String[] { "sim" });
 
 		reset(proc);
+		reset(mem);
 		simulator.initializeSpecialRegisters();
 		expect(proc.register(anyInt())).andStubDelegateTo(actualProcessor);
 		expect(proc.isRunning()).andStubDelegateTo(actualProcessor);

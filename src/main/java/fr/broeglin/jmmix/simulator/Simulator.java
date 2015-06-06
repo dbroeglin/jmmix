@@ -1,5 +1,6 @@
 package fr.broeglin.jmmix.simulator;
 
+import static fr.broeglin.jmmix.simulator.Memory.POOL_SEGMENT;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rA;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rB;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rD;
@@ -18,6 +19,7 @@ import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rT;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rTT;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rV;
 
+import java.nio.charset.Charset;
 import java.util.logging.Logger;
 
 import fr.broeglin.jmmix.simulator.trace.Tracer;
@@ -36,13 +38,38 @@ public class Simulator {
 
 	Simulator(Processor processor, Memory memory, String[] args) {
 		if (args == null || args.length < 1) {
-			throw new IllegalArgumentException("args should at least contain program name");
+			throw new IllegalArgumentException(
+					"args should at least contain program name");
 		}
 		this.processor = processor;
 		this.memory = memory;
-		this.processor.setRegister(0, args.length);
-		// TODO: initialize arguments
+		loadCommandLineArguments(args);
 		this.processor.setRegister(2, 2); // TODO: ???
+	}
+
+	private void loadCommandLineArguments(String[] args) {
+		long lastPosition = POOL_SEGMENT + 8;
+
+		this.processor.setRegister(0, args.length);
+		this.processor.setRegister(1, lastPosition);
+		lastPosition += 8 * args.length;
+		this.memory.store64(lastPosition, 0l);
+
+		for (int i = 0; i < args.length; i++) {
+			String arg = args[i];
+			lastPosition += 8;
+
+			this.memory.store64(Memory.POOL_SEGMENT + 8 + 8 * i,
+					lastPosition);
+			byte[] bytes = arg.getBytes(Charset.forName("UTF-8"));
+			for (int j = 0; j < bytes.length; j++) {
+				this.memory.store8(lastPosition + j, bytes[j]);
+			}
+			lastPosition += bytes.length;
+			lastPosition = lastPosition - (lastPosition % 8) + 8;
+		}
+		this.memory.store64(POOL_SEGMENT, lastPosition);
+		// TODO: initialize arguments
 	}
 
 	public void execute(int instruction) {

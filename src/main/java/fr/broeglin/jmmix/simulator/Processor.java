@@ -7,7 +7,6 @@ public class Processor {
 	private long instPtr;
 	private boolean running = true;
 
-
 	long specialRegisters[] = new long[SpecialRegisterName.values().length];
 
 	public long register(int i) {
@@ -41,15 +40,15 @@ public class Processor {
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
-	
+
 	public long instPtr() {
 		return instPtr;
 	}
-	
+
 	public void incInstPtr(int offset) {
 		instPtr += offset * 4;
 	}
-	
+
 	public void setInstPtr(long instPtr) {
 		this.instPtr = instPtr;
 	}
