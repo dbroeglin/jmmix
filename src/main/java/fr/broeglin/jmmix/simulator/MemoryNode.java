@@ -97,11 +97,10 @@ public class MemoryNode {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder(String.format("->[#%016x]\n",
-				location));
+		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < NODE_SIZE; i++) {
-			if (memory[i] != 0) {
+			if (i == 0 || memory[i] != 0) {
 				sb.append(String.format("M8[#%016x] = #%016x\n", location + i
 						* 8, memory[i]));
 			}

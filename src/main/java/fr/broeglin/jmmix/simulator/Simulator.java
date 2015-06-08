@@ -138,6 +138,7 @@ public class Simulator {
 		for (int i = 0; i < Processor.NB_REGISTERS; i++) {
 			dumpRegister(sb, "$" + i, getProcessor().register(i));
 		}
+		getMemory().dump(sb);
 
 		return sb.toString();
 	}

@@ -70,8 +70,8 @@ public class Memory {
 	public String toString() {
 		// TODO: finish implementation
 		StringBuilder sb = new StringBuilder();
-		
-		for(MemoryNode node: memoryMap.values()) {
+
+		for (MemoryNode node : memoryMap.values()) {
 			sb.append(node.toString());
 		}
 		return sb.toString();
@@ -83,5 +83,11 @@ public class Memory {
 
 	public long getAllocatedSize() {
 		return memoryMap.size() * MemoryNode.NODE_SIZE;
+	}
+
+	public void dump(StringBuilder sb) {
+		for (MemoryNode node : memoryMap.values()) {
+			sb.append(node.toString());
+		}
 	}
 }
