@@ -79,20 +79,13 @@ public final class InstructionSet {
 			null,
 			// 0x6x
 			null, null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
+			InstructionSet::CSZ, InstructionSet::CSZI,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
 			// 0x7x
 			null, null, null,
 			null,
@@ -166,11 +159,14 @@ public final class InstructionSet {
 			InstructionSet::NAND, InstructionSet::NANDI,
 			InstructionSet::NXOR, InstructionSet::NXORI,
 			// 0xdx
-			null, null, null, null, null, null, null, null, null, null, null,
 			null, null,
-			null,
-			null,
-			null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
 			// 0xex
 			InstructionSet::SETH, InstructionSet::SETMH, InstructionSet::SETML,
 			InstructionSet::SETL, InstructionSet::INCH, InstructionSet::INCMH,
@@ -435,6 +431,18 @@ public final class InstructionSet {
 	public static void NEGUI(Processor proc, Memory mem, int x, int y, int z) {
 		// TODO: double check this one
 		NEGI(proc, mem, x, y, z);
+	}
+
+	public static void CSZ(Processor proc, Memory mem, int x, int y, int z) {
+		if (proc.register(y) == 0) {
+			proc.setRegister(x, proc.register(z));
+		}
+	}
+
+	public static void CSZI(Processor proc, Memory mem, int x, int y, int z) {
+		if (proc.register(y) == 0) {
+			proc.setRegister(x, (byte) z);
+		}
 	}
 
 }

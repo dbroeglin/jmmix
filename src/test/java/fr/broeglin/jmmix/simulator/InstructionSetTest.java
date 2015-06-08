@@ -315,6 +315,47 @@ public class InstructionSetTest {
 				0xff00_0000_0000_0007l,
 				0x03);
 	}
+	
+	@Test
+	public void CSZ_should_set_if_0() {
+		proc.setRegister(1, 0x2al);
+		
+		checkOp(InstructionSet::CSZ,
+				0x33l,
+				0x0l,
+				0x33l);
+	}
+
+	@Test
+	public void CSZ_should_not_set_if_not_0() {
+		proc.setRegister(1, 0x2al);
+		
+		checkOp(InstructionSet::CSZ,
+				0x2al,
+				0x1l,
+				0x33l);
+	}
+
+	@Test
+	public void CSZI_should_set_if_0() {
+		proc.setRegister(1, 0x2al);
+		
+		checkOpI(InstructionSet::CSZI,
+				0x33l,
+				0x0l,
+				0x33);
+	}
+
+	@Test
+	public void CSZI_should_not_set_if_not_0() {
+		proc.setRegister(1, 0x2al);
+		
+		checkOpI(InstructionSet::CSZI,
+				0x2al,
+				0x1l,
+				0x33);
+	}
+
 
 	@Test
 	public void should_JMP() {
