@@ -185,46 +185,135 @@ public class InstructionSetTest {
 
 	@Test
 	public void should_OR() {
-		proc.setRegister(1, 0x0l);
-		proc.setRegister(2, 0xff00000000000001l);
-		proc.setRegister(3, 0x0ff0000000000002l);
+		checkOp(InstructionSet::OR,
+				0xfff0_0000_0000_0003l,
+				0xff00_0000_0000_0001l,
+				0x0ff0_0000_0000_0002l);
 
-		OR(proc, mem, 0x01, 0x02, 0x03);
-
-		assertThat(proc.register(1),
-				equalTo(0xff00000000000001l | 0x0ff0000000000002l));
 	}
 
 	@Test
 	public void should_ORI() {
-		proc.setRegister(1, 0x0l);
-		proc.setRegister(2, 0xff00000000000007l);
+		checkOpI(InstructionSet::ORI,
+				0xff00_0000_0000_000fl, 
+				0xff00_0000_0000_0007l, 
+				0x0a);
+	}
 
-		ORI(proc, mem, 0x01, 0x02, 0x0a);
+	@Test
+	public void should_ORN() {
+		checkOp(InstructionSet::ORN,
+				0xff0f_ffff_ffff_fffdl,
+				0xff00_0000_0000_0001l, 
+				0x0ff0_0000_0000_0002l);
 
-		assertThat(proc.register(1), equalTo(0xff0000000000000fl));
+	}
+
+	@Test
+	public void should_ORNI() {
+		checkOpI(InstructionSet::ORNI,
+				0xffff_ffff_ffff_fff7l, 
+				0xff00_0000_0000_0007l, 
+				0x0a);
+	}
+	
+	@Test
+	public void should_XOR() {
+		checkOp(InstructionSet::XOR,
+				0xf0f0_0000_0000_0003l,
+				0xff00_0000_0000_0001l, 
+				0x0ff0_0000_0000_0002l);
+
+	}
+
+	@Test
+	public void should_XORI() {
+		checkOpI(InstructionSet::XORI,
+				0xff00_0000_0000_000dl, 
+				0xff00_0000_0000_0007l, 
+				0x0a);
+	}
+	
+	@Test
+	public void should_NXOR() {
+		checkOp(InstructionSet::NXOR,
+				0x0f0f_ffff_ffff_fffcl,
+				0xff00_0000_0000_0001l, 
+				0x0ff0_0000_0000_0002l);
+
+	}
+
+	@Test
+	public void should_NXORI() {
+		checkOpI(InstructionSet::NXORI,
+				0x00ff_ffff_ffff_fff2l, 
+				0xff00_0000_0000_0007l, 
+				0x0a);
+	}
+
+	@Test
+	public void should_NOR() {
+		checkOp(InstructionSet::NOR,
+				0x000f_ffff_ffff_fffcl,
+				0xff00_0000_0000_0001l,
+				0x0ff0_0000_0000_0002l);
+
+	}
+
+	@Test
+	public void should_NORI() {
+		checkOpI(InstructionSet::NORI,
+				0x00ff_ffff_ffff_fff0l,
+				0xff00_0000_0000_0007l,
+				0x0a);
 	}
 
 	@Test
 	public void should_AND() {
-		proc.setRegister(1, 0x0l);
-		proc.setRegister(2, 0xff00000000000001l);
-		proc.setRegister(3, 0x0ff0000000000002l);
-
-		AND(proc, mem, 0x01, 0x02, 0x03);
-
-		assertThat(proc.register(1),
-				equalTo(0xff00000000000001l & 0x0ff0000000000002l));
+		checkOp(InstructionSet::AND,
+				0x0f00_0000_0000_0000l,
+				0xff00_0000_0000_0001l,
+				0x0ff0_0000_0000_0002l);
 	}
 
 	@Test
 	public void should_ANDI() {
-		proc.setRegister(1, 0x0l);
-		proc.setRegister(2, 0xff00000000000007l);
+		checkOpI(InstructionSet::ANDI,
+				0x0000_0000_0000_0003l,
+				0xff00_0000_0000_0007l,
+				0x03);
+	}
 
-		ANDI(proc, mem, 0x01, 0x02, 0x03);
+	@Test
+	public void should_NAND() {
+		checkOp(InstructionSet::NAND,
+				0xf0ff_ffff_ffff_ffffl,
+				0xff00_0000_0000_0001l,
+				0x0ff0_0000_0000_0002l);
+	}
 
-		assertThat(proc.register(1), equalTo(0x3l));
+	@Test
+	public void should_NANDI() {
+		checkOpI(InstructionSet::NANDI,
+				0xffff_ffff_ffff_fffcl,
+				0xff00_0000_0000_0007l,
+				0x03);
+	}
+
+	@Test
+	public void should_ANDN() {
+		checkOp(InstructionSet::ANDN,
+				0xf000_0000_0000_0001l,
+				0xff00_0000_0000_0001l,
+				0x0ff0_0000_0000_0002l);
+	}
+
+	@Test
+	public void should_ANDNI() {
+		checkOpI(InstructionSet::ANDNI,
+				0xff00_0000_0000_0004l,
+				0xff00_0000_0000_0007l,
+				0x03);
 	}
 
 	@Test

@@ -157,14 +157,14 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0xcx
-			InstructionSet::OR, InstructionSet::ORI, null, null, null, null,
-			null, null,
-			InstructionSet::AND, InstructionSet::ANDI, null,
-			null,
-			null,
-			null,
-			null,
-			null,
+			InstructionSet::OR, InstructionSet::ORI,
+			InstructionSet::ORN, InstructionSet::ORNI,
+			InstructionSet::NOR, InstructionSet::NORI,
+			InstructionSet::XOR, InstructionSet::XORI,
+			InstructionSet::AND, InstructionSet::ANDI,
+			InstructionSet::ANDN, InstructionSet::ANDNI,
+			InstructionSet::NAND, InstructionSet::NANDI,
+			InstructionSet::NXOR, InstructionSet::NXORI,
 			// 0xdx
 			null, null, null, null, null, null, null, null, null, null, null,
 			null, null,
@@ -239,12 +239,60 @@ public final class InstructionSet {
 		proc.setRegister(x, proc.register(y) | (byte) z);
 	}
 
+	public static void XOR(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) ^ proc.register(z));
+	}
+
+	public static void XORI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) ^ (byte) z);
+	}
+
+	public static void NXOR(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, ~(proc.register(y) ^ proc.register(z)));
+	}
+
+	public static void NXORI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, ~(proc.register(y) ^ (byte) z));
+	}
+
+	public static void ORN(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) | ~proc.register(z));
+	}
+
+	public static void ORNI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) | ~(byte) z);
+	}
+
 	public static void AND(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) & proc.register(z));
 	}
 
 	public static void ANDI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) & (byte) z);
+	}
+
+	public static void NAND(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, ~(proc.register(y) & proc.register(z)));
+	}
+
+	public static void NANDI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, ~(proc.register(y) & (byte) z));
+	}
+
+	public static void ANDN(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) & ~proc.register(z));
+	}
+
+	public static void ANDNI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) & ~(byte) z);
+	}
+
+	public static void NOR(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, ~(proc.register(y) | proc.register(z)));
+	}
+
+	public static void NORI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, ~(proc.register(y) | (byte) z));
 	}
 
 	public static void SETL(Processor proc, Memory mem, int x, int y, int z) {
