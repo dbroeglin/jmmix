@@ -44,11 +44,23 @@ public class MemoryTest {
 	}
 
 	@Test
-	public void load_stack_segment() {
+	public void load_stack_segment_should_not_create_memory_node() {
 		assertThat(memory.getAllocatedSize(),
 				equalTo(MemoryNode.NODE_SIZE * 2l));
 		assertThat(memory.load64(STACK_SEGMENT), equalTo(0l));
+
+		assertThat(memory.getAllocatedSize(),
+				equalTo(MemoryNode.NODE_SIZE * 2l));
+	}
+
+	@Test
+	public void store_stack_segment_should_not_create_memory_node() {
+		assertThat(memory.getAllocatedSize(),
+				equalTo(MemoryNode.NODE_SIZE * 2l));
+		memory.store8(STACK_SEGMENT, 0);
+
 		assertThat(memory.getAllocatedSize(),
 				equalTo(MemoryNode.NODE_SIZE * 3l));
 	}
+
 }

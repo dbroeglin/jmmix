@@ -22,6 +22,8 @@ import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rV;
 import java.nio.charset.Charset;
 import java.util.logging.Logger;
 
+import fr.broeglin.jmmix.simulator.instructions.Instruction;
+import fr.broeglin.jmmix.simulator.instructions.InstructionSet;
 import fr.broeglin.jmmix.simulator.trace.Tracer;
 
 public class Simulator {

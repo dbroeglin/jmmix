@@ -1,6 +1,9 @@
-package fr.broeglin.jmmix.simulator;
+package fr.broeglin.jmmix.simulator.instructions;
 
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
+import fr.broeglin.jmmix.simulator.Memory;
+import fr.broeglin.jmmix.simulator.Processor;
+import fr.broeglin.jmmix.simulator.UnknownInstruction;
 
 public final class InstructionSet {
 
@@ -12,7 +15,8 @@ public final class InstructionSet {
 	}
 
 	private static final Instruction[] instructions = new Instruction[] {
-			InstructionSet::TRAP, null, null, null,
+			TrapInstruction::TRAP, null, 
+			null, null,
 			null, null, null, null,
 			null, null, null, null,
 			null, null, null, null,
@@ -168,15 +172,23 @@ public final class InstructionSet {
 			null, null,
 			null, null,
 			// 0xex
-			InstructionSet::SETH, InstructionSet::SETMH, InstructionSet::SETML,
-			InstructionSet::SETL, InstructionSet::INCH, InstructionSet::INCMH,
-			InstructionSet::INCML, InstructionSet::INCL, null, null, null,
-			null, null, null, null, null,
+			InstructionSet::SETH, InstructionSet::SETMH,
+			InstructionSet::SETML, InstructionSet::SETL,
+			InstructionSet::INCH, InstructionSet::INCMH,
+			InstructionSet::INCML, InstructionSet::INCL,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
 			// 0xfx
-			InstructionSet::JMP, InstructionSet::JMPB, null, null, null, null,
-			null, null, null, null,
+			InstructionSet::JMP, InstructionSet::JMPB,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
 			null,
-			null, null, InstructionSet::SWYM, null
+			null, null,
+			InstructionSet::SWYM, null
 	};
 
 	public static void _2ADDU(Processor proc, Memory mem, int x, int y, int z) {
@@ -324,16 +336,6 @@ public final class InstructionSet {
 	public static void INCH(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(x)
 				+ ((long) y << 56 | (long) z << 48));
-	}
-
-	public static void TRAP(Processor proc, Memory mem, int x, int y, int z) {
-		switch (x) {
-		case 0:
-			proc.setSpecialRegister(rBB, 255);
-			// TODO: proc.setSpecialRegister(rWW, inst_ptr) ;
-			proc.setRunning(false);
-			break;
-		}
 	}
 
 	public static void SYNCD(Processor proc, Memory mem, int x, int y, int z) {

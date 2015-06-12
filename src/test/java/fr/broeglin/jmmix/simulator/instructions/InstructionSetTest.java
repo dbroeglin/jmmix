@@ -1,28 +1,14 @@
-package fr.broeglin.jmmix.simulator;
+package fr.broeglin.jmmix.simulator.instructions;
 
-import static fr.broeglin.jmmix.simulator.InstructionSet.*;
-import static fr.broeglin.jmmix.simulator.InstructionSet.AND;
-import static fr.broeglin.jmmix.simulator.InstructionSet.ANDI;
-import static fr.broeglin.jmmix.simulator.InstructionSet.CMP;
-import static fr.broeglin.jmmix.simulator.InstructionSet.CMPI;
-import static fr.broeglin.jmmix.simulator.InstructionSet.CMPU;
-import static fr.broeglin.jmmix.simulator.InstructionSet.CMPUI;
-import static fr.broeglin.jmmix.simulator.InstructionSet.INCH;
-import static fr.broeglin.jmmix.simulator.InstructionSet.INCL;
-import static fr.broeglin.jmmix.simulator.InstructionSet.INCMH;
-import static fr.broeglin.jmmix.simulator.InstructionSet.INCML;
-import static fr.broeglin.jmmix.simulator.InstructionSet.JMP;
-import static fr.broeglin.jmmix.simulator.InstructionSet.JMPB;
-import static fr.broeglin.jmmix.simulator.InstructionSet.OR;
-import static fr.broeglin.jmmix.simulator.InstructionSet.ORI;
-import static fr.broeglin.jmmix.simulator.InstructionSet.SETH;
-import static fr.broeglin.jmmix.simulator.InstructionSet.SETL;
-import static fr.broeglin.jmmix.simulator.InstructionSet.SETMH;
-import static fr.broeglin.jmmix.simulator.InstructionSet.SETML;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
+import fr.broeglin.jmmix.simulator.Memory;
+import fr.broeglin.jmmix.simulator.Processor;
+import fr.broeglin.jmmix.simulator.instructions.Instruction;
 
 public class InstructionSetTest {
 
