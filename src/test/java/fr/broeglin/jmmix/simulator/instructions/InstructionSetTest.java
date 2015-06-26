@@ -181,8 +181,8 @@ public class InstructionSetTest {
 	@Test
 	public void should_ORI() {
 		checkOpI(InstructionSet::ORI,
-				0xff00_0000_0000_000fl, 
-				0xff00_0000_0000_0007l, 
+				0xff00_0000_0000_000fl,
+				0xff00_0000_0000_0007l,
 				0x0a);
 	}
 
@@ -190,7 +190,7 @@ public class InstructionSetTest {
 	public void should_ORN() {
 		checkOp(InstructionSet::ORN,
 				0xff0f_ffff_ffff_fffdl,
-				0xff00_0000_0000_0001l, 
+				0xff00_0000_0000_0001l,
 				0x0ff0_0000_0000_0002l);
 
 	}
@@ -198,16 +198,16 @@ public class InstructionSetTest {
 	@Test
 	public void should_ORNI() {
 		checkOpI(InstructionSet::ORNI,
-				0xffff_ffff_ffff_fff7l, 
-				0xff00_0000_0000_0007l, 
+				0xffff_ffff_ffff_fff7l,
+				0xff00_0000_0000_0007l,
 				0x0a);
 	}
-	
+
 	@Test
 	public void should_XOR() {
 		checkOp(InstructionSet::XOR,
 				0xf0f0_0000_0000_0003l,
-				0xff00_0000_0000_0001l, 
+				0xff00_0000_0000_0001l,
 				0x0ff0_0000_0000_0002l);
 
 	}
@@ -215,16 +215,16 @@ public class InstructionSetTest {
 	@Test
 	public void should_XORI() {
 		checkOpI(InstructionSet::XORI,
-				0xff00_0000_0000_000dl, 
-				0xff00_0000_0000_0007l, 
+				0xff00_0000_0000_000dl,
+				0xff00_0000_0000_0007l,
 				0x0a);
 	}
-	
+
 	@Test
 	public void should_NXOR() {
 		checkOp(InstructionSet::NXOR,
 				0x0f0f_ffff_ffff_fffcl,
-				0xff00_0000_0000_0001l, 
+				0xff00_0000_0000_0001l,
 				0x0ff0_0000_0000_0002l);
 
 	}
@@ -232,8 +232,8 @@ public class InstructionSetTest {
 	@Test
 	public void should_NXORI() {
 		checkOpI(InstructionSet::NXORI,
-				0x00ff_ffff_ffff_fff2l, 
-				0xff00_0000_0000_0007l, 
+				0x00ff_ffff_ffff_fff2l,
+				0xff00_0000_0000_0007l,
 				0x0a);
 	}
 
@@ -301,11 +301,11 @@ public class InstructionSetTest {
 				0xff00_0000_0000_0007l,
 				0x03);
 	}
-	
+
 	@Test
 	public void CSZ_should_set_if_0() {
 		proc.setRegister(1, 0x2al);
-		
+
 		checkOp(InstructionSet::CSZ,
 				0x33l,
 				0x0l,
@@ -315,7 +315,7 @@ public class InstructionSetTest {
 	@Test
 	public void CSZ_should_not_set_if_not_0() {
 		proc.setRegister(1, 0x2al);
-		
+
 		checkOp(InstructionSet::CSZ,
 				0x2al,
 				0x1l,
@@ -325,7 +325,7 @@ public class InstructionSetTest {
 	@Test
 	public void CSZI_should_set_if_0() {
 		proc.setRegister(1, 0x2al);
-		
+
 		checkOpI(InstructionSet::CSZI,
 				0x33l,
 				0x0l,
@@ -335,13 +335,12 @@ public class InstructionSetTest {
 	@Test
 	public void CSZI_should_not_set_if_not_0() {
 		proc.setRegister(1, 0x2al);
-		
+
 		checkOpI(InstructionSet::CSZI,
 				0x2al,
 				0x1l,
 				0x33);
 	}
-
 
 	@Test
 	public void should_JMP() {
@@ -566,6 +565,11 @@ public class InstructionSetTest {
 		assertThat(proc.register(14), equalTo(3l));
 	}
 
+	@Test
+	public void FADD_should_add_floats() {
+		checkOp(InstructionSet::FADD, 3.0, 1.0, 2.0);
+	}
+
 	private void checkOp(Instruction inst, long x, long y, long z) {
 		proc.setRegister(2, y);
 		proc.setRegister(3, z);
@@ -573,6 +577,15 @@ public class InstructionSetTest {
 		inst.op(proc, mem, 1, 2, 3);
 
 		assertThat(proc.register(1), equalTo(x));
+	}
+
+	private void checkOp(Instruction inst, double x, double y, double z) {
+		proc.setRegister(2, Double.doubleToRawLongBits(y));
+		proc.setRegister(3, Double.doubleToRawLongBits(z));
+
+		inst.op(proc, mem, 1, 2, 3);
+
+		assertThat(Double.longBitsToDouble(proc.register(1)), equalTo(x));
 	}
 
 	private void checkOpI(Instruction inst, long x, long y, int z) {
@@ -583,4 +596,5 @@ public class InstructionSetTest {
 		assertThat(proc.register(1), equalTo(x));
 	}
 
+	
 }

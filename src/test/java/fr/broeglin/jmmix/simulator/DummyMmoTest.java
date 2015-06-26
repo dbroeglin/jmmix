@@ -13,7 +13,6 @@ import static org.easymock.EasyMock.verify;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 
-import org.easymock.EasyMock;
 import org.easymock.EasyMockRule;
 import org.easymock.Mock;
 import org.junit.Before;

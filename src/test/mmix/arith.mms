@@ -15,6 +15,27 @@ Main	SET	$1,40
 	INCMH	$4,#4567
 	INCML	$4,#89ab
 	INCL	$4,#cdef
+	
+	# 1.5
+	SETH	$200,#3ff8
+	INCMH	$200,#0000
+	INCML	$200,#0000
+	INCL	$209,#0000
+
+	# 10.25e15
+	SETH	$201,#4342
+	INCMH	$201,#3529
+	INCML	$201,#0c79
+	INCL	$201,#5000
+
+	# MAX_VALUE 
+	SETH	$202,#7fef
+	INCMH	$202,#ffff
+	INCML	$202,#ffff
+	INCL	$202,#ffff
+	
+	
+# End of value setup
 
 	ADDU	$5,$1,$2
 	ADDU	$5,$3,$2
@@ -33,6 +54,9 @@ Main	SET	$1,40
 	4ADDU	$21,$1,$2
 	8ADDU	$22,$1,$2
 	16ADDU	$23,$1,$2
+
+	FADD	$25,$200,$201
+	FADD	$26,$202,$202
 
 	SET	$255,0
 	TRAP 	0

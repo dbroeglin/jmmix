@@ -1,6 +1,8 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
+import static java.lang.Double.doubleToRawLongBits;
+import static java.lang.Double.longBitsToDouble;
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
 import fr.broeglin.jmmix.simulator.UnknownInstruction;
@@ -15,16 +17,23 @@ public final class InstructionSet {
 	}
 
 	private static final Instruction[] instructions = new Instruction[] {
-			TrapInstruction::TRAP, null, 
+			TrapInstruction::TRAP, null,
 			null, null,
-			null, null, null, null,
-			null, null, null, null,
-			null, null, null, null,
+			InstructionSet::FADD, null, 
+			null, null,
+			null, null, 
+			null, null,
+			null, null, 
+			null, null,
 
-			null, null, null, null,
-			null, null, null, null,
-			null, null, null, null,
-			null, null, null, null,
+			null, null, 
+			null, null,
+			null, null, 
+			null, null,
+			null, null, 
+			null, null,
+			null, null, 
+			null, null,
 
 			InstructionSet::ADD, InstructionSet::ADDI,
 			InstructionSet::ADDU, InstructionSet::ADDU,
@@ -447,4 +456,11 @@ public final class InstructionSet {
 		}
 	}
 
+	public static void FADD(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(
+				x,
+				doubleToRawLongBits(
+				longBitsToDouble(proc.register(y))
+						+ longBitsToDouble(proc.register(z))));
+	}
 }
