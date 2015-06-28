@@ -56,8 +56,8 @@ public abstract class AbstractMmoTest {
 	// mmix> l[24]=#0
 	private static final File MMIX_DIR = new File("src/test/mmix");
 	protected File objectFile;
-	protected List<InstructionTrace> instructions;
-	protected List<RegisterTrace> registers;
+	protected List<InstructionTrace> mmixInstructions;
+	protected List<RegisterTrace> mmixRegisters;
 	protected Simulator simulator;
 
 	@Before
@@ -105,12 +105,12 @@ public abstract class AbstractMmoTest {
 		OutputStreamWriter out = new OutputStreamWriter(
 				process.getOutputStream());
 
-		for (int i = 0; i < 32; i++) {
+		for (int i = 0; i < 232; i++) {
 			out.write(String.format("l%d#\n", i));
 			out.flush();
 		}
 		out.close();
-		instructions = null;
+		mmixInstructions = null;
 		Map<Class<?>, List<Object>> result =
 				new BufferedReader(
 						new InputStreamReader(process.getInputStream()))
@@ -122,8 +122,8 @@ public abstract class AbstractMmoTest {
 
 		process.waitFor(5, SECONDS);
 
-		instructions = (List) result.get(InstructionTrace.class);
-		registers = (List) result.get(RegisterTrace.class);
+		mmixInstructions = (List) result.get(InstructionTrace.class);
+		mmixRegisters = (List) result.get(RegisterTrace.class);
 
 		process.destroy();
 	}
@@ -170,12 +170,12 @@ public abstract class AbstractMmoTest {
 
 		List<InstructionTrace> sims = ((InstructionTracer) simulator
 				.getTracer()).getInstructions();
-		int size = Math.min(instructions.size(), sims.size());
+		int size = Math.min(mmixInstructions.size(), sims.size());
 		StringBuilder sb = new StringBuilder();
 		boolean diff = false;
 
 		for (int i = 0; i < size; i++) {
-			InstructionTrace inst = instructions.get(i);
+			InstructionTrace inst = mmixInstructions.get(i);
 			InstructionTrace simInst = sims.get(i);
 
 			if (!inst.equals(simInst)) {
@@ -183,8 +183,8 @@ public abstract class AbstractMmoTest {
 				diff = true;
 			}
 		}
-		if (instructions.size() > size) {
-			sb.append(instructions.size() - size).append(
+		if (mmixInstructions.size() > size) {
+			sb.append(mmixInstructions.size() - size).append(
 					" instructions more in MMIX:\n");
 		}
 		if (sims.size() > size) {
@@ -192,12 +192,12 @@ public abstract class AbstractMmoTest {
 					" instructions more in JMMIX\n");
 		}
 
-		for (int i = 0; i < 32; i++) {
+		for (int i = 0; i < 64; i++) {
 			long value = simulator.getProcessor().register(i);
 
-			if (registers.get(i).value != value) {
+			if (mmixRegisters.get(i).value != value) {
 				diff = true;
-				sb.append("register difference: ").append(registers.get(i))
+				sb.append("register difference: ").append(mmixRegisters.get(i))
 						.append(" <> ").append(String.format("#%x", value))
 						.append("\n");
 			}

@@ -16,19 +16,19 @@ public class Loader {
 	public static final int MM = 0x98000000;
 
 	public static final int LOP_QUOTE = 0x00000; // the quotation lopcode
-	public static final int LOP_LOC = 0x10000; // the location lopcode
-	public static final int LOP_SKIP = 0x20000; // the skip lopcode
-	public static final int LOP_FIXO = 0x30000; // the octabyte-fix lopcode
-	public static final int LOP_FIXR = 0x40000; // the relative-fix lopcode
-	public static final int LOP_FIXRX = 0x50000; // extended relative-fix
+	public static final int LOP_LOC = 0x010000; // the location lopcode
+	public static final int LOP_SKIP = 0x020000; // the skip lopcode
+	public static final int LOP_FIXO = 0x030000; // the octabyte-fix lopcode
+	public static final int LOP_FIXR = 0x040000; // the relative-fix lopcode
+	public static final int LOP_FIXRX = 0x050000; // extended relative-fix
 													// lopcode
-	public static final int LOP_FILE = 0x60000; // the file name lopcode
-	public static final int LOP_LINE = 0x70000; // the file position lopcode
-	public static final int LOP_SPEC = 0x80000; // the special hook lopcode
-	public static final int LOP_PRE = 0x90000; // the preamble lopcode
-	public static final int LOP_POST = 0xa0000; // the postamble lopcode
-	public static final int LOP_STAB = 0xb0000; // the symbol table lopcode
-	public static final int LOP_end = 0xc0000; // the end-it-all lopcode
+	public static final int LOP_FILE = 0x060000; // the file name lopcode
+	public static final int LOP_LINE = 0x070000; // the file position lopcode
+	public static final int LOP_SPEC = 0x080000; // the special hook lopcode
+	public static final int LOP_PRE = 0x090000; // the preamble lopcode
+	public static final int LOP_POST = 0x0a0000; // the postamble lopcode
+	public static final int LOP_STAB = 0x0b0000; // the symbol table lopcode
+	public static final int LOP_end = 0x0c0000; // the end-it-all lopcode
 
 	private long currentPosition = 0x0;
 	private Simulator simulator;
@@ -66,6 +66,9 @@ public class Loader {
 	public void load(int tetra) throws IOException {
 		if (isLop(tetra)) {
 			switch (lopCode(tetra)) {
+			case LOP_LOC:
+				localize(tetra);
+				break;
 			case LOP_SKIP:
 				incrementCurrentPosition(yz(tetra));
 				break;
@@ -145,6 +148,22 @@ public class Loader {
 
 	public long getCurrentPosition() {
 		return this.currentPosition;
+	}
+
+	void localize(int tetra) throws IOException {
+		int tetraCount = z(tetra);
+		int segment = y(tetra);
+		
+		if (tetraCount == 2) {
+			currentPosition = (long)segment << 56 | (long)readTetra() << 32 | readTetra() & 0xffffffffl;
+		} else if (tetraCount == 1) {
+			currentPosition = (long)segment << 56 | (long)readTetra() & 0xffffffffl;
+		} else {
+			String msg = format("z value of #%016x must be 2 or 1 (tetra count)", tetra);
+			logger.severe(msg);
+			throw new LoaderException(msg); 
+		}
+		logger.finest(() -> format("Moved to position: #%016x", currentPosition));
 	}
 
 	void incrementCurrentPosition(int increment) {

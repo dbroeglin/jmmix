@@ -19,24 +19,24 @@ public final class InstructionSet {
 	private static final Instruction[] instructions = new Instruction[] {
 			TrapInstruction::TRAP, null,
 			null, null,
-			InstructionSet::FADD, null, 
+			FloatInstructions::FADD, FloatInstructions::FIX,
 			null, null,
-			null, null, 
 			null, null,
-			null, null, 
+			null, null,
+			null, null,
 			null, null,
 
-			null, null, 
 			null, null,
-			null, null, 
 			null, null,
-			null, null, 
 			null, null,
-			null, null, 
+			null, null,
+			null, null,
+			null, null,
+			null, null,
 			null, null,
 
 			InstructionSet::ADD, InstructionSet::ADDI,
-			InstructionSet::ADDU, InstructionSet::ADDU,
+			InstructionSet::ADDU, InstructionSet::ADDUI,
 			null, null, null, null,
 			InstructionSet::_2ADDU, InstructionSet::_2ADDUI,
 			InstructionSet::_4ADDU, InstructionSet::_4ADDUI,
@@ -114,20 +114,18 @@ public final class InstructionSet {
 			null,
 			null,
 			null,
+			
 			// 0x8x
-			null, null, null, null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
+			
+			null, null,
+			null, null,
+			null, InstructionSet::LDOI,
+			null, null,
+			
 			// 0x9x
 			null, null, null, null, null,
 			null,
@@ -456,11 +454,7 @@ public final class InstructionSet {
 		}
 	}
 
-	public static void FADD(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(
-				x,
-				doubleToRawLongBits(
-				longBitsToDouble(proc.register(y))
-						+ longBitsToDouble(proc.register(z))));
+	public static void LDOI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, mem.load64(proc.register(y) + z));
 	}
 }

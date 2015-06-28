@@ -1,5 +1,23 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.ADD;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.CMP;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.CMPI;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.CMPU;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.CMPUI;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.INCH;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.INCL;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.INCMH;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.INCML;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.JMP;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.JMPB;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.NEG;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.NEGI;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.NEGU;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.NEGUI;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.SETH;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.SETL;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.SETMH;
 import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -8,7 +26,6 @@ import org.junit.Test;
 
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
-import fr.broeglin.jmmix.simulator.instructions.Instruction;
 
 public class InstructionSetTest {
 
@@ -565,11 +582,6 @@ public class InstructionSetTest {
 		assertThat(proc.register(14), equalTo(3l));
 	}
 
-	@Test
-	public void FADD_should_add_floats() {
-		checkOp(InstructionSet::FADD, 3.0, 1.0, 2.0);
-	}
-
 	private void checkOp(Instruction inst, long x, long y, long z) {
 		proc.setRegister(2, y);
 		proc.setRegister(3, z);
@@ -577,15 +589,6 @@ public class InstructionSetTest {
 		inst.op(proc, mem, 1, 2, 3);
 
 		assertThat(proc.register(1), equalTo(x));
-	}
-
-	private void checkOp(Instruction inst, double x, double y, double z) {
-		proc.setRegister(2, Double.doubleToRawLongBits(y));
-		proc.setRegister(3, Double.doubleToRawLongBits(z));
-
-		inst.op(proc, mem, 1, 2, 3);
-
-		assertThat(Double.longBitsToDouble(proc.register(1)), equalTo(x));
 	}
 
 	private void checkOpI(Instruction inst, long x, long y, int z) {
@@ -596,5 +599,4 @@ public class InstructionSetTest {
 		assertThat(proc.register(1), equalTo(x));
 	}
 
-	
 }

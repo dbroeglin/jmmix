@@ -29,6 +29,10 @@ To run the simulator:
 or you can simply execute the unit tests (`mmixal` needs to be in the PATH for the
 tests to run).
 
+Running the simulator with logging:
+
+	java -Djava.util.logging.config.file=src/test/resources/logging.properties -jar jmmix.jar <mmo file>
+
 ## Testing
 
 To run the tests:
