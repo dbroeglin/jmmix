@@ -28,10 +28,10 @@ public class FloatInstructions {
 			// TODO: we need to implement default roundings
 			y = ROUND_NEAR;
 		}
-		
+
 		switch (y) {
 		case ROUND_OFF:
-			result = (long)value;
+			result = (long) value;
 			break;
 		case ROUND_UP:
 			result = Math.round(Math.ceil(value));
@@ -46,6 +46,14 @@ public class FloatInstructions {
 			throw new InvalidInstruction(5, x, y, z);
 		}
 		proc.setRegister(x, result);
+	}
+
+	public static void FIXU(Processor proc, Memory mem, int x, int y, int z) {
+		throw new RuntimeException("Not yet implemented");
+	}
+	
+	public static void FEQL(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) == proc.register(z) ? 1l : 0l);
 	}
 
 }
