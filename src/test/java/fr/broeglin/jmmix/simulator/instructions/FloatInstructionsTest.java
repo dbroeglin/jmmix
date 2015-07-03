@@ -19,6 +19,11 @@ public class FloatInstructionsTest {
 	public void FADD_should_add_floats() {
 		checkOp(FloatInstructions::FADD, 3.0, 1.0, 2.0);
 	}
+	
+	@Test
+	public void FADD_should_substract_floats() {
+		checkOp(FloatInstructions::FSUB, 1.0, 3.0, 2.0);
+	}
 
 	@Test
 	public void FIX_should_convert_to_long_NEAR_default() {
@@ -105,7 +110,6 @@ public class FloatInstructionsTest {
 
 	private void checkFIX(Instruction inst, double roundedValue,
 			long expectedValue, int y) {
-		System.err.format("v: %f\n", roundedValue);
 		proc.setRegister(2, doubleToRawLongBits(roundedValue));
 
 		inst.op(proc, mem, 1, y, 2);

@@ -20,7 +20,7 @@ public final class InstructionSet {
 			TrapInstruction::TRAP, null,
 			null, FloatInstructions::FEQL,
 			FloatInstructions::FADD, FloatInstructions::FIX,
-			null, null,
+			FloatInstructions::FSUB, null,
 			null, null,
 			null, null,
 			null, null,

@@ -10,6 +10,12 @@ mv12_1	OCTA #c028333333333333
 mv12_5	OCTA #c029000000000000
 mv12_9	OCTA #c029cccccccccccd
 
+
+max	OCTA #7fefffffffffffff
+inf	OCTA #7ff0000000000000
+nan	OCTA #7ff8000000000000
+
+
 	LOC #100
 
 Main	LDA $200,v12_0
@@ -30,9 +36,26 @@ Main	LDA $200,v12_0
 	LDA $219,mv12_9
 	LDO $219,$219
 
+	LDA $220,max
+	LDO $220,$220
+	LDA $221,inf
+	LDO $221,$221
+	LDA $222,nan
+	LDO $222,$222
+
 	FEQL $1,$200,$200
 	FEQL $2,$200,$201
 
+	FADD $3,$220,$220 # max + max = inf
+	
+	FSUB $10,$209,$200
+	FSUB $11,$219,$209
+	FSUB $12,$220,$220
+	FSUB $13,$221,$220
+	FSUB $14,$221,$221
+
+	FSUB $15,$221,$221
+	FSUB $16,$222,$200
 
 	SET $255,0
 	TRAP 0,Halt,0

@@ -21,6 +21,13 @@ public class FloatInstructions {
 						+ longBitsToDouble(proc.register(z))));
 	}
 
+	public static void FSUB(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(
+				x,
+				doubleToRawLongBits(
+				longBitsToDouble(proc.register(y))
+						- longBitsToDouble(proc.register(z))));
+	}
 	public static void FIX(Processor proc, Memory mem, int x, int y, int z) {
 		long result = 0;
 		double value = Double.longBitsToDouble(proc.register(z));
