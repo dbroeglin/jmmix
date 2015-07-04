@@ -4,6 +4,7 @@ import static java.lang.Double.doubleToRawLongBits;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import fr.broeglin.jmmix.simulator.Memory;
@@ -180,8 +181,25 @@ public class FloatInstructionsTest {
 		checkOp(FloatInstructions::FEQL, 0l, Double.MIN_VALUE, Double.MAX_VALUE);
 		checkOp(FloatInstructions::FEQL, 0l, 0.0, 0.000000001);
 		checkOp(FloatInstructions::FEQL, 0l, 0.0002, 0.0001);
+		
+		Assert.assertTrue(Double.NaN != Double.NaN);
 	}
 
+	@Test
+	public void FUN_should_set_1_if_not_a_number() {
+		checkOp(FloatInstructions::FUN, 1l, Double.NaN, Double.NaN);
+		checkOp(FloatInstructions::FUN, 1l, 0.1, Double.NaN);
+		checkOp(FloatInstructions::FUN, 1l, Double.NaN, 0.1);
+	}
+	
+	@Test
+	public void FUN_should_set_0_if_is_a_number() {
+		checkOp(FloatInstructions::FUN, 0l, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		checkOp(FloatInstructions::FUN, 0l, 0.1, 0.3);
+		checkOp(FloatInstructions::FUN, 0l, Double.MAX_VALUE, 0.1);
+	}
+	
+	
 
 	private void checkFIX(Instruction inst, double roundedValue,
 			long expectedValue, int y) {

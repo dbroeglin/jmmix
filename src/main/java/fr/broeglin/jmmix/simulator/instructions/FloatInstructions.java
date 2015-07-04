@@ -75,7 +75,7 @@ public class FloatInstructions {
 
 		switch (y) {
 		case ROUND_OFF:
-			result = (double)(long) value;
+			result = (double) (long) value;
 			break;
 		case ROUND_UP:
 			result = Math.ceil(value);
@@ -100,4 +100,8 @@ public class FloatInstructions {
 		proc.setRegister(x, proc.register(y) == proc.register(z) ? 1l : 0l);
 	}
 
+	public static void FUN(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, Double.isNaN(longBitsToDouble(proc.register(y)))
+				|| Double.isNaN(longBitsToDouble(proc.register(z))) ? 1l : 0l);
+	}
 }
