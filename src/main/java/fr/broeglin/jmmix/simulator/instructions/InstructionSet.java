@@ -17,7 +17,7 @@ public final class InstructionSet {
 	}
 
 	private static final Instruction[] instructions = new Instruction[] {
-			TrapInstruction::TRAP, null,
+			TrapInstruction::TRAP, FloatInstructions::FCMP,
 			FloatInstructions::FUN, FloatInstructions::FEQL,
 			FloatInstructions::FADD, FloatInstructions::FIX,
 			FloatInstructions::FSUB, null,

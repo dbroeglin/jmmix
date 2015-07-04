@@ -46,7 +46,9 @@ Main	LDA $200,v12_0
 	FEQL $1,$200,$200
 	FEQL $2,$200,$201
 
-	FADD $3,$220,$220 # max + max = inf
+	FEQL $3,$222,$222
+
+	FADD $9,$220,$220 # max + max = inf
 	
 	FSUB $10,$209,$200
 	FSUB $11,$219,$209
@@ -63,6 +65,14 @@ Main	LDA $200,v12_0
 	FUN $31,$201,$222
 	FUN $32,$222,$222
 	FUN $33,$201,$202
+
+	FCMP $40,$200,$200
+	FCMP $41,$201,$200
+	FCMP $42,$222,$222
+	# TODO
+	# FCMP $43,$222,$200 # looks like Java and MMIX
+	# FCMP $44,$200,$222 # disagree on this one
+	FCMP $45,$220,$221
 
 	SET $255,0
 	TRAP 0,Halt,0
