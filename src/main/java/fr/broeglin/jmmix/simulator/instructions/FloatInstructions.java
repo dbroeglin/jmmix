@@ -18,16 +18,16 @@ public class FloatInstructions {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				registerAsLong(proc, y)
-						+ registerAsLong(proc, z)));
+				registerAsDouble(proc, y)
+						+ registerAsDouble(proc, z)));
 	}
 
 	public static void FSUB(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				registerAsLong(proc, y)
-						- registerAsLong(proc, z)));
+				registerAsDouble(proc, y)
+						- registerAsDouble(proc, z)));
 	}
 
 	public static void FREM(Processor proc, Memory mem, int x, int y, int z) {
@@ -35,10 +35,15 @@ public class FloatInstructions {
 				x,
 				doubleToRawLongBits(
 				Math.IEEEremainder(
-						registerAsLong(proc, y),
-						registerAsLong(proc, z))));
+						registerAsDouble(proc, y),
+						registerAsDouble(proc, z))));
 	}
 
+	public static void FLOT(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, Double.doubleToRawLongBits((double)proc.register(z)));
+		
+	}
+	
 	public static void FIX(Processor proc, Memory mem, int x, int y, int z) {
 		long result = 0;
 		double value = Double.longBitsToDouble(proc.register(z));
@@ -98,24 +103,24 @@ public class FloatInstructions {
 	}
 
 	public static void FEQL(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, registerAsLong(proc, y) == registerAsLong(proc, z) ? 1l : 0l);
+		proc.setRegister(x, registerAsDouble(proc, y) == registerAsDouble(proc, z) ? 1l : 0l);
 	}
 
 	public static void FCMP(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x,
 				Long.signum(
 						Double.compare(
-								registerAsLong(proc, y),
-								registerAsLong(proc, z))));
+								registerAsDouble(proc, y),
+								registerAsDouble(proc, z))));
 	}
 
-	private static double registerAsLong(Processor proc, int y) {
+	private static double registerAsDouble(Processor proc, int y) {
 		return longBitsToDouble(proc.register(y));
 	}
 
 	public static void FUN(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x,
-				isNaN(registerAsLong(proc, y))
-						|| isNaN(registerAsLong(proc, z)) ? 1l : 0l);
+				isNaN(registerAsDouble(proc, y))
+						|| isNaN(registerAsDouble(proc, z)) ? 1l : 0l);
 	}
 }

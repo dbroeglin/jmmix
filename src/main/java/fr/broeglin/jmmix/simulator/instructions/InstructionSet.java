@@ -21,7 +21,7 @@ public final class InstructionSet {
 			FloatInstructions::FUN, FloatInstructions::FEQL,
 			FloatInstructions::FADD, FloatInstructions::FIX,
 			FloatInstructions::FSUB, null,
-			null, null,
+			FloatInstructions::FLOT, null,
 			null, null,
 			null, null,
 			null, null,

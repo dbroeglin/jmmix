@@ -10,6 +10,9 @@ mv12_1	OCTA #c028333333333333
 mv12_5	OCTA #c029000000000000
 mv12_9	OCTA #c029cccccccccccd
 
+one	OCTA #0000000000000001
+mone	OCTA #fffffffffffffffe
+
 	LOC #100
 
 Main	LDA $200,v12_0
@@ -30,6 +33,10 @@ Main	LDA $200,v12_0
 	LDA $219,mv12_9
 	LDO $219,$219
 
+	LDA $250,one
+	LDO $250,$250
+	LDA $251,mone
+	LDO $251,$251
 
 	FIX $10,0,$200
 	FIX $11,1,$200
@@ -126,6 +133,9 @@ Main	LDA $200,v12_0
 	FINT $87,2,$219
 	FINT $88,3,$219
 	FINT $89,4,$219
+
+	FLOT $100,0,$250
+	FLOT $101,0,$251
 
 	SET $2,0 # TODO : why is this one necessary ?
 

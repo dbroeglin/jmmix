@@ -29,8 +29,17 @@ public class FloatInstructionsTest {
 	}
 
 	@Test
+	public void FLOT_should_convert_long_to_float() {
+		checkOp(FloatInstructions::FLOT, -1.0, 0, -1);
+		checkOp(FloatInstructions::FLOT,
+				9.223372036854776E18, 0, Long.MAX_VALUE);
+		checkOp(FloatInstructions::FLOT,
+				-9.223372036854776E18, 0, Long.MIN_VALUE);
+	}
+
+	@Test
 	public void FREM_should_return_IEEE_remainder() {
-		checkOp(FloatInstructions::FREM, -1.0, 3, 2);
+		checkOp(FloatInstructions::FREM, -1.0, 3.0, 2);
 		checkOp(FloatInstructions::FREM, 0.5, 39.5, 13.0);
 		checkOp(FloatInstructions::FREM, -0.5, -39.5, 13.0);
 		checkOp(FloatInstructions::FREM, 1.0, 12.5, 11.5);
@@ -243,6 +252,7 @@ public class FloatInstructionsTest {
 			double expectedValue, int y) {
 		proc.setRegister(2, doubleToRawLongBits(roundedValue));
 
+		
 		inst.op(proc, mem, 1, y, 2);
 
 		assertThat(proc.register(1),
@@ -258,6 +268,15 @@ public class FloatInstructionsTest {
 		assertThat(Double.longBitsToDouble(proc.register(1)), equalTo(x));
 	}
 
+	private void checkOp(Instruction inst, double x, long y, long z) {
+		proc.setRegister(2, y);
+		proc.setRegister(3, z);
+
+		inst.op(proc, mem, 1, 2, 3);
+
+		assertThat(Double.longBitsToDouble(proc.register(1)), equalTo(x));
+	}
+	
 	private void checkOp(Instruction inst, long x, double y, double z) {
 		proc.setRegister(2, Double.doubleToRawLongBits(y));
 		proc.setRegister(3, Double.doubleToRawLongBits(z));
