@@ -60,9 +60,36 @@ public class FloatInstructions {
 			result = Math.round(Math.rint(value));
 			break;
 		default:
-			throw new InvalidInstruction(5, x, y, z);
+			throw new InvalidInstruction(0x5, x, y, z);
 		}
 		proc.setRegister(x, result);
+	}
+
+	public static void FINT(Processor proc, Memory mem, int x, int y, int z) {
+		double result = 0;
+		double value = Double.longBitsToDouble(proc.register(z));
+		if (y == 0) {
+			// TODO: we need to implement default roundings
+			y = ROUND_NEAR;
+		}
+
+		switch (y) {
+		case ROUND_OFF:
+			result = (double)(long) value;
+			break;
+		case ROUND_UP:
+			result = Math.ceil(value);
+			break;
+		case ROUND_DOWN:
+			result = Math.floor(value);
+			break;
+		case ROUND_NEAR:
+			result = Math.rint(value);
+			break;
+		default:
+			throw new InvalidInstruction(0x17, x, y, z);
+		}
+		proc.setRegister(x, Double.doubleToRawLongBits(result));
 	}
 
 	public static void FIXU(Processor proc, Memory mem, int x, int y, int z) {

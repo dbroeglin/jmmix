@@ -192,7 +192,7 @@ public abstract class AbstractMmoTest {
 					" instructions more in JMMIX\n");
 		}
 
-		for (int i = 0; i < 64; i++) {
+		for (int i = 0; i < 128; i++) {
 			long value = simulator.getProcessor().register(i);
 
 			if (mmixRegisters.get(i).value != value) {

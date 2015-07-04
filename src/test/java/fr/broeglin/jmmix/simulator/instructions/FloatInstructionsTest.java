@@ -98,6 +98,73 @@ public class FloatInstructionsTest {
 		checkFIX(FloatInstructions::FIX, 12.5, 12l, 4);
 		checkFIX(FloatInstructions::FIX, 12.8, 13l, 4);
 	}
+
+	@Test
+	public void FINT_should_convert_to_long_NEAR_default() {
+		checkFINT(FloatInstructions::FINT, -11.5, -12.0, 4);
+		checkFINT(FloatInstructions::FINT, -12.0, -12.0, 4);
+		checkFINT(FloatInstructions::FINT, -12.2, -12.0, 4);
+		checkFINT(FloatInstructions::FINT, -12.5, -12.0, 4);
+		checkFINT(FloatInstructions::FINT, -12.8, -13.0, 4);
+		checkFINT(FloatInstructions::FINT, 11.5, 12.0, 4);
+		checkFINT(FloatInstructions::FINT, 12.0, 12.0, 4);
+		checkFINT(FloatInstructions::FINT, 12.2, 12.0, 4);
+		checkFINT(FloatInstructions::FINT, 12.5, 12.0, 4);
+		checkFINT(FloatInstructions::FINT, 12.8, 13.0, 4);
+	} 
+	
+	@Test
+	public void FINT_should_convert_to_long_OFF() {
+		checkFINT(FloatInstructions::FINT, -11.5, -11.0, 1);
+		checkFINT(FloatInstructions::FINT, -12.0, -12.0, 1);
+		checkFINT(FloatInstructions::FINT, -12.2, -12.0, 1);
+		checkFINT(FloatInstructions::FINT, -12.5, -12.0, 1);
+		checkFINT(FloatInstructions::FINT, -12.8, -12.0, 1);
+		checkFINT(FloatInstructions::FINT, 11.5, 11.0, 1);
+		checkFINT(FloatInstructions::FINT, 12.0, 12.0, 1);
+		checkFINT(FloatInstructions::FINT, 12.2, 12.0, 1);
+		checkFINT(FloatInstructions::FINT, 12.5, 12.0, 1);
+		checkFINT(FloatInstructions::FINT, 12.8, 12.0, 1);
+	}
+
+	@Test
+	public void FINT_should_convert_to_long_UP() {
+		checkFINT(FloatInstructions::FINT, -12.0, -12.0, 2);
+		checkFINT(FloatInstructions::FINT, -12.2, -12.0, 2);
+		checkFINT(FloatInstructions::FINT, -12.5, -12.0, 2);
+		checkFINT(FloatInstructions::FINT, -12.8, -12.0, 2);
+		checkFINT(FloatInstructions::FINT, 12.0, 12.0, 2);
+		checkFINT(FloatInstructions::FINT, 12.2, 13.0, 2);
+		checkFINT(FloatInstructions::FINT, 12.5, 13.0, 2);
+		checkFINT(FloatInstructions::FINT, 12.8, 13.0, 2);
+	}
+
+	@Test
+	public void FINT_should_convert_to_long_DOWN() {
+		checkFINT(FloatInstructions::FINT, -12.0, -12.0, 3);
+		checkFINT(FloatInstructions::FINT, -12.2, -13.0, 3);
+		checkFINT(FloatInstructions::FINT, -12.5, -13.0, 3);
+		checkFINT(FloatInstructions::FINT, -12.8, -13.0, 3);
+		checkFINT(FloatInstructions::FINT, 12.0, 12.0, 3);
+		checkFINT(FloatInstructions::FINT, 12.2, 12.0, 3);
+		checkFINT(FloatInstructions::FINT, 12.5, 12.0, 3);
+		checkFINT(FloatInstructions::FINT, 12.8, 12.0, 3);
+	}
+
+	@Test
+	public void FINT_should_convert_to_long_NEAR() {
+		checkFINT(FloatInstructions::FINT, -11.5, -12.0, 4);
+		checkFINT(FloatInstructions::FINT, -12.0, -12.0, 4);
+		checkFINT(FloatInstructions::FINT, -12.2, -12.0, 4);
+		checkFINT(FloatInstructions::FINT, -12.5, -12.0, 4);
+		checkFINT(FloatInstructions::FINT, -12.8, -13.0, 4);
+		checkFINT(FloatInstructions::FINT, 11.5, 12.0, 4);
+		checkFINT(FloatInstructions::FINT, 12.0, 12.0, 4);
+		checkFINT(FloatInstructions::FINT, 12.2, 12.0, 4);
+		checkFINT(FloatInstructions::FINT, 12.5, 12.0, 4);
+		checkFINT(FloatInstructions::FINT, 12.8, 13.0, 4);
+	}
+
 	
 	@Test
 	public void FEQL_should_set_1_if_equal() {
@@ -125,7 +192,15 @@ public class FloatInstructionsTest {
 		assertThat(proc.register(1), equalTo(expectedValue));
 	}
 	
+	private void checkFINT(Instruction inst, double roundedValue,
+			double expectedValue, int y) {
+		proc.setRegister(2, doubleToRawLongBits(roundedValue));
 
+		inst.op(proc, mem, 1, y, 2);
+
+		assertThat(proc.register(1), equalTo(doubleToRawLongBits(expectedValue)));
+	}
+	
 	private void checkOp(Instruction inst, double x, double y, double z) {
 		proc.setRegister(2, Double.doubleToRawLongBits(y));
 		proc.setRegister(3, Double.doubleToRawLongBits(z));

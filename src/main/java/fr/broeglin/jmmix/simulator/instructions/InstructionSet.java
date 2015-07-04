@@ -30,7 +30,7 @@ public final class InstructionSet {
 			null, null,
 			null, null,
 			null, null,
-			FloatInstructions::FREM, null,
+			FloatInstructions::FREM, FloatInstructions::FINT,
 			null, null,
 			null, null,
 			null, null,
