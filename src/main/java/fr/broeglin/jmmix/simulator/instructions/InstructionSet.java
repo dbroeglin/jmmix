@@ -26,15 +26,17 @@ public final class InstructionSet {
 			null, null,
 			null, null,
 
+			// 0x1x
 			null, null,
 			null, null,
 			null, null,
-			null, null,
+			FloatInstructions::FREM, null,
 			null, null,
 			null, null,
 			null, null,
 			null, null,
 
+			// 0x2x
 			InstructionSet::ADD, InstructionSet::ADDI,
 			InstructionSet::ADDU, InstructionSet::ADDUI,
 			null, null, null, null,

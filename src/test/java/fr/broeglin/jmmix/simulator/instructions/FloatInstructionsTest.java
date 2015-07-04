@@ -24,6 +24,14 @@ public class FloatInstructionsTest {
 	public void FADD_should_substract_floats() {
 		checkOp(FloatInstructions::FSUB, 1.0, 3.0, 2.0);
 	}
+	
+	@Test
+	public void FREM_should_return_IEEE_remainder() {
+		checkOp(FloatInstructions::FREM, -1.0, 3, 2);
+		checkOp(FloatInstructions::FREM, 0.5, 39.5, 13.0);
+		checkOp(FloatInstructions::FREM, -0.5, -39.5, 13.0);
+		checkOp(FloatInstructions::FREM, 1.0, 12.5, 11.5);
+	}
 
 	@Test
 	public void FIX_should_convert_to_long_NEAR_default() {

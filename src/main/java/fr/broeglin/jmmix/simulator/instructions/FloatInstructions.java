@@ -28,6 +28,16 @@ public class FloatInstructions {
 				longBitsToDouble(proc.register(y))
 						- longBitsToDouble(proc.register(z))));
 	}
+
+	public static void FREM(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(
+				x,
+				doubleToRawLongBits(
+				Math.IEEEremainder(
+						longBitsToDouble(proc.register(y)),
+						longBitsToDouble(proc.register(z)))));
+	}
+
 	public static void FIX(Processor proc, Memory mem, int x, int y, int z) {
 		long result = 0;
 		double value = Double.longBitsToDouble(proc.register(z));
@@ -58,7 +68,7 @@ public class FloatInstructions {
 	public static void FIXU(Processor proc, Memory mem, int x, int y, int z) {
 		throw new RuntimeException("Not yet implemented");
 	}
-	
+
 	public static void FEQL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) == proc.register(z) ? 1l : 0l);
 	}

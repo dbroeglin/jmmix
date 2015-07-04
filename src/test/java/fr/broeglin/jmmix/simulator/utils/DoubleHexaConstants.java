@@ -29,7 +29,6 @@ public class DoubleHexaConstants {
 		dumpDouble(-12.5);
 		dumpDouble(-12.9);
 		dumpDouble(Double.POSITIVE_INFINITY - Double.POSITIVE_INFINITY);
-
 	}
 
 	private static final void dumpDouble(double val) {
