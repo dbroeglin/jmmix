@@ -21,15 +21,15 @@ public final class InstructionSet {
 			FloatInstructions::FUN, FloatInstructions::FEQL,
 			FloatInstructions::FADD, FloatInstructions::FIX,
 			FloatInstructions::FSUB, null,
-			FloatInstructions::FLOT, null,
+			FloatInstructions::FLOT, FloatInstructions::FLOTI,
 			null, null,
 			null, null,
 			null, null,
 
 			// 0x1x
+			FloatInstructions::FMUL, null,
 			null, null,
-			null, null,
-			null, null,
+			FloatInstructions::FDIV, null,
 			FloatInstructions::FREM, FloatInstructions::FINT,
 			null, null,
 			null, null,

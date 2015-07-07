@@ -74,5 +74,9 @@ Main	LDA $200,v12_0
 	# FCMP $44,$200,$222 # disagree on this one
 	FCMP $45,$220,$221
 
+	FMUL $50,$200,$219
+	
+	FDIV $60,$200,$219
+
 	SET $255,0
 	TRAP 0,Halt,0

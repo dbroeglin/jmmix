@@ -21,6 +21,22 @@ public class FloatInstructions {
 				registerAsDouble(proc, y)
 						+ registerAsDouble(proc, z)));
 	}
+	
+	public static void FMUL(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(
+				x,
+				doubleToRawLongBits(
+				registerAsDouble(proc, y)
+						* registerAsDouble(proc, z)));
+	}
+
+	public static void FDIV(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(
+				x,
+				doubleToRawLongBits(
+				registerAsDouble(proc, y)
+						/ registerAsDouble(proc, z)));
+	}
 
 	public static void FSUB(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(
@@ -41,7 +57,10 @@ public class FloatInstructions {
 
 	public static void FLOT(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, Double.doubleToRawLongBits((double)proc.register(z)));
-		
+	}
+	
+	public static void FLOTI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, Double.doubleToRawLongBits((double)(byte)z));
 	}
 	
 	public static void FIX(Processor proc, Memory mem, int x, int y, int z) {

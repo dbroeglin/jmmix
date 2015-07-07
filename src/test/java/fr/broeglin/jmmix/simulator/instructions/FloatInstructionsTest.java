@@ -24,6 +24,16 @@ public class FloatInstructionsTest {
 	}
 
 	@Test
+	public void FMUL_should_add_floats() {
+		checkOp(FloatInstructions::FMUL, 12.75, 4.25, 3.0);
+	}
+
+	@Test
+	public void FDIV_should_add_floats() {
+		checkOp(FloatInstructions::FDIV, 4.25, 12.75, 3.0);
+	}
+	
+	@Test
 	public void FADD_should_substract_floats() {
 		checkOp(FloatInstructions::FSUB, 1.0, 3.0, 2.0);
 	}
@@ -35,6 +45,16 @@ public class FloatInstructionsTest {
 				9.223372036854776E18, 0, Long.MAX_VALUE);
 		checkOp(FloatInstructions::FLOT,
 				-9.223372036854776E18, 0, Long.MIN_VALUE);
+	}
+	
+	@Test
+	public void FLOTI_should_convert_long_to_float() {
+		checkOpI(FloatInstructions::FLOTI, -128, 0, -128);
+		checkOpI(FloatInstructions::FLOTI, -1.0, 0, -1);
+		checkOpI(FloatInstructions::FLOTI,
+				0, 0, 0);
+		checkOpI(FloatInstructions::FLOTI,
+				127, 0, 127);
 	}
 
 	@Test
@@ -273,6 +293,14 @@ public class FloatInstructionsTest {
 		proc.setRegister(3, z);
 
 		inst.op(proc, mem, 1, 2, 3);
+
+		assertThat(Double.longBitsToDouble(proc.register(1)), equalTo(x));
+	}
+	
+	private void checkOpI(Instruction inst, double x, long y, int z) {
+		proc.setRegister(2, y);
+
+		inst.op(proc, mem, 1, 2, z);
 
 		assertThat(Double.longBitsToDouble(proc.register(1)), equalTo(x));
 	}
