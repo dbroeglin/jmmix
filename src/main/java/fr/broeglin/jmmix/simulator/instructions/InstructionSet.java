@@ -29,7 +29,7 @@ public final class InstructionSet {
 			// 0x1x
 			FloatInstructions::FMUL, null,
 			null, null,
-			FloatInstructions::FDIV, null,
+			FloatInstructions::FDIV, FloatInstructions::FSQRT,
 			FloatInstructions::FREM, FloatInstructions::FINT,
 			null, null,
 			null, null,

@@ -21,7 +21,7 @@ public class FloatInstructions {
 				registerAsDouble(proc, y)
 						+ registerAsDouble(proc, z)));
 	}
-	
+
 	public static void FMUL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(
 				x,
@@ -34,8 +34,14 @@ public class FloatInstructions {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				registerAsDouble(proc, y)
-						/ registerAsDouble(proc, z)));
+				registerAsDouble(proc, y) / registerAsDouble(proc, z)));
+	}
+
+	public static void FSQRT(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(
+				x,
+				doubleToRawLongBits(
+				Math.sqrt(registerAsDouble(proc, z))));
 	}
 
 	public static void FSUB(Processor proc, Memory mem, int x, int y, int z) {
@@ -56,13 +62,14 @@ public class FloatInstructions {
 	}
 
 	public static void FLOT(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, Double.doubleToRawLongBits((double)proc.register(z)));
+		proc.setRegister(x,
+				Double.doubleToRawLongBits((double) proc.register(z)));
 	}
-	
+
 	public static void FLOTI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, Double.doubleToRawLongBits((double)z));
+		proc.setRegister(x, Double.doubleToRawLongBits((double) z));
 	}
-	
+
 	public static void FIX(Processor proc, Memory mem, int x, int y, int z) {
 		long result = 0;
 		double value = Double.longBitsToDouble(proc.register(z));
@@ -122,7 +129,9 @@ public class FloatInstructions {
 	}
 
 	public static void FEQL(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, registerAsDouble(proc, y) == registerAsDouble(proc, z) ? 1l : 0l);
+		proc.setRegister(x,
+				registerAsDouble(proc, y) == registerAsDouble(proc, z) ? 1l
+						: 0l);
 	}
 
 	public static void FCMP(Processor proc, Memory mem, int x, int y, int z) {

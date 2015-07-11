@@ -19,22 +19,28 @@ public class FloatInstructionsTest {
 	Memory mem = new Memory();
 
 	@Test
-	public void FADD_should_add_floats() {
+	public void FADD_should_add_doubles() {
 		checkOp(FloatInstructions::FADD, 3.0, 1.0, 2.0);
 	}
 
 	@Test
-	public void FMUL_should_add_floats() {
+	public void FMUL_should_add_doubles() {
 		checkOp(FloatInstructions::FMUL, 12.75, 4.25, 3.0);
 	}
 
 	@Test
-	public void FDIV_should_add_floats() {
+	public void FDIV_should_add_doubles() {
 		checkOp(FloatInstructions::FDIV, 4.25, 12.75, 3.0);
 	}
 	
+
 	@Test
-	public void FADD_should_substract_floats() {
+	public void FSQRT_should_sqrt_doubles() {
+		checkOp(FloatInstructions::FSQRT, 2.0, 0, 4.0);
+	}
+	
+	@Test
+	public void FADD_should_substract_doubles() {
 		checkOp(FloatInstructions::FSUB, 1.0, 3.0, 2.0);
 	}
 
