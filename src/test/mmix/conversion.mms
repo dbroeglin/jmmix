@@ -136,6 +136,8 @@ Main	LDA $200,v12_0
 
 	FLOT $100,0,$250
 	FLOT $101,0,$251
+	FLOT $102,0,-127
+	FLOT $103,0,127
 
 	SET $2,0 # TODO : why is this one necessary ?
 

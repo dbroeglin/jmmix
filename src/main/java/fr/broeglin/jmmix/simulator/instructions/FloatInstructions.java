@@ -60,7 +60,7 @@ public class FloatInstructions {
 	}
 	
 	public static void FLOTI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, Double.doubleToRawLongBits((double)(byte)z));
+		proc.setRegister(x, Double.doubleToRawLongBits((double)z));
 	}
 	
 	public static void FIX(Processor proc, Memory mem, int x, int y, int z) {
