@@ -38,17 +38,21 @@ Main	SET	$1,40
 # End of value setup
 
 	ADDU	$5,$1,$2
-	ADDU	$5,$3,$2
-	ADDU	$5,$1,2
-	ADDU	$5,$3,2
+	ADDU	$6,$3,$2
+	ADDU	$7,$1,2
+	ADDU	$8,$3,2
 	
-	ADD	$5,$1,$2
-	ADD	$5,$3,$2
+	ADD	$9,$1,$2
+	ADD	$10,$3,$2
 
 	NEG	$13,0,$3
 	NEG 	$14,#ff,1
 	
 	NEGU	$15,0,$3
+
+	SUB	$16,$1,$2
+	SUB	$17,$1,2
+	SUB	$19,$1,-2
 
 	2ADDU	$20,$1,$2
 	4ADDU	$21,$1,$2

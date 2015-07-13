@@ -114,6 +114,27 @@ public class InstructionSetTest {
 	}
 
 	@Test
+	public void should_SUB() {
+		checkOp(InstructionSet::SUB,
+				0x0000_0000_0000_0003l,
+				0xff00_0000_0000_0005l,
+				0xff00_0000_0000_0002l);
+
+		checkOp(InstructionSet::SUB,
+				0x0000_0000_0000_0003l,
+				0x0000_0000_0000_0005l,
+				0x0000_0000_0000_0002l);
+	}
+
+	@Test
+	public void should_SUBI() {
+		checkOpI(InstructionSet::SUBI,
+				0x0000_0000_0000_0003l,
+				0x0000_0000_0000_0005l,
+				2);
+	}
+
+	@Test
 	public void should_SETL() {
 		proc.setRegister(1, 0xfedcfedcfedcfedcl);
 
@@ -436,13 +457,8 @@ public class InstructionSetTest {
 
 	@Test
 	public void should_CMPU_greate_than() {
-		proc.setRegister(2, Long.MIN_VALUE);
-		proc.setRegister(3, Long.MAX_VALUE);
-
-		CMPU(proc, mem, 0x1, 0x2, 0x3);
-
 		// MIN is > to MAX if unsigned
-		assertThat(proc.register(1), equalTo(1l));
+		checkOp(InstructionSet::CMPU, 1l, Long.MIN_VALUE, Long.MAX_VALUE);
 	}
 
 	@Test
