@@ -15,6 +15,8 @@ Main	SET	$1,40
 	INCMH	$4,#4567
 	INCML	$4,#89ab
 	INCL	$4,#cdef
+
+	# $5 stays at 0
 	
 	# 1.5
 	SETH	$200,#3ff8
@@ -52,7 +54,7 @@ Main	SET	$1,40
 
 	SUB	$16,$1,$2
 	SUB	$17,$1,2
-	SUB	$19,$1,-2
+	SUB	$18,$1,-2
 
 	2ADDU	$20,$1,$2
 	4ADDU	$21,$1,$2
@@ -61,6 +63,11 @@ Main	SET	$1,40
 
 	FADD	$25,$200,$201
 	FADD	$26,$202,$202
+
+	SUBU	$31,$5,$2
+	SUBU	$32,$5,2
+	SUBU	$33,$5,-2
+	SUBU	$33,$3,-1
 
 	SET	$255,0
 	TRAP 	0

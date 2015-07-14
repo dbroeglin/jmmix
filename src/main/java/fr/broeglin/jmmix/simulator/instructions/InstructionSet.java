@@ -40,7 +40,7 @@ public final class InstructionSet {
 			InstructionSet::ADD, InstructionSet::ADDI,
 			InstructionSet::ADDU, InstructionSet::ADDUI,
 			InstructionSet::SUB, InstructionSet::SUBI,
-			null, null,
+			InstructionSet::SUBU, InstructionSet::SUBUI,
 			InstructionSet::_2ADDU, InstructionSet::_2ADDUI,
 			InstructionSet::_4ADDU, InstructionSet::_4ADDUI,
 			InstructionSet::_8ADDU, InstructionSet::_8ADDUI,
@@ -256,7 +256,15 @@ public final class InstructionSet {
 	public static void SUBI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) - z);
 	}
-	
+
+	public static void SUBU(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) - proc.register(z));
+	}
+
+	public static void SUBUI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) - z);
+	}
+
 	public static void OR(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) | proc.register(z));
 	}

@@ -135,6 +135,31 @@ public class InstructionSetTest {
 	}
 
 	@Test
+	public void should_SUBU() {
+		checkOp(InstructionSet::SUB,
+				0x0fff_ffff_ffff_ffffl,
+				0x1000_0000_0000_0000l,
+				0x0000_0000_0000_0001l);
+
+		checkOp(InstructionSet::SUB,
+				0xffff_ffff_ffff_ffffl,
+				0x0000_0000_0000_0000l,
+				0x0000_0000_0000_0001l);
+	}
+
+	@Test
+	public void should_SUBUI() {
+		checkOpI(InstructionSet::SUBI,
+				0x0fff_ffff_ffff_ffffl,
+				0x1000_0000_0000_0000l,
+				1);
+		checkOpI(InstructionSet::SUBI,
+				0xffff_ffff_ffff_ffffl,
+				0x0000_0000_0000_0000l,
+				1);
+	}
+
+	@Test
 	public void should_SETL() {
 		proc.setRegister(1, 0xfedcfedcfedcfedcl);
 
