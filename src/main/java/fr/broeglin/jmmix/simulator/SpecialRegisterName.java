@@ -2,41 +2,49 @@ package fr.broeglin.jmmix.simulator;
 
 public enum SpecialRegisterName {
 
-	rA("Arithmetic status register"),
-	rB("Bootstrap register"),
-	rC("Continuation register"),
+	/* Order matters !!! */
+	
+	rB("Bootstrap register"), // 0
 	rD("Dividend register"),
 	rE("Epsilon register"),
-	rF("Failure location register"),
-	rG("Global threshold register"),
 	rH("Himult register"),
-	rI("Interval counter"),
 	rJ("Return-jump register"),
-	rK("Interrupt mask register"),
-	rL("Local threshold register"),
 	rM("Multiplex mask register"),
-	rN("Serial number"),
-	rO("Register stack offset"),
-	rP("Prediction register"),
-	rQ("Interrupt request register"),
 	rR("Remainder register"),
+	rBB("Bootstrap register"),
+	rC("Continuation register"), // cycle counter ?
+	rN("Serial number"),
+	
+	rO("Register stack offset"), // 10
 	rS("Register stack pointer"),
+	rI("Interval counter"),
 	rT("Trap address register"),
+	rTT("Dynamic trap address register"),
+	rK("Interrupt mask register"),
+	rQ("Interrupt request register"),
 	rU("Usage counter"),
 	rV("Virtual translation register"),
+	rG("Global threshold register"),
+
+	rL("Local threshold register"), // 20
+	rA("Arithmetic status register"),
+	rF("Failure location register"),
+	rP("Prediction register"),
 	rW("Where-interrupted register"),
 	rX("Execution register"),
 	rY("Y operand"),
 	rZ("Z operand"),
-	rBB("Bootstrap register"),
-	rTT("Dynamic trap address register"),
 	rWW("Where-interrupted register"),
 	rXX("Execution register"),
-	rYY("Y operand"),
+	
+	rYY("Y operand"), // 30
 	rZZ("Z operand");
+
 
 	String description;
 
+	
+	
 	private SpecialRegisterName(String description) {
 		this.description = description;
 	}

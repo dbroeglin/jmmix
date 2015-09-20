@@ -66,8 +66,15 @@ Main	SET	$1,40
 
 	SUBU	$31,$5,$2
 	SUBU	$32,$5,2
-	SUBU	$33,$5,-2
-	SUBU	$33,$3,-1
+	SUBU	$33,$5,#ff
+	SUBU	$33,$3,1
+
+	MUL	$40,$4,$2
+	MUL	$41,$4,2
+	MUL	$42,$3,$3
+	SET	$43,rR
+	MUL	$44,$202,$202
+	SET	$45,rR
 
 	SET	$255,0
 	TRAP 	0

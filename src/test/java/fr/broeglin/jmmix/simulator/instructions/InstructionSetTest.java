@@ -622,7 +622,18 @@ public class InstructionSetTest {
 		assertThat(proc.register(13), equalTo(0l));
 		assertThat(proc.register(14), equalTo(3l));
 	}
+	
+	@Test
+	public void should_MUL() {
+		checkOp(InstructionSet::MUL, 12, 2, 6);
+	}
 
+	@Test
+	public void should_MULI() {
+		checkOpI(InstructionSet::MULI, 12, 2, 6);
+	}
+
+	
 	private void checkOp(Instruction inst, long x, long y, long z) {
 		proc.setRegister(2, y);
 		proc.setRegister(3, z);

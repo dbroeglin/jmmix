@@ -39,6 +39,8 @@ import fr.broeglin.jmmix.simulator.trace.Trace;
 
 public abstract class AbstractMmoTest {
 
+	
+	
 	@Retention(value = RUNTIME)
 	@Target(value = ElementType.TYPE)
 	public @interface MmixSource {
@@ -51,6 +53,9 @@ public abstract class AbstractMmoTest {
 					Pattern.UNIX_LINES);
 	private static final Pattern REG_PAT = Pattern
 			.compile(".*mmix> l\\[([0-9]{1,3})\\]=#([0-9a-f]{1,16}).*",
+					Pattern.UNIX_LINES);
+	private static final Pattern SPEC_REG_PAT = Pattern
+			.compile(".*mmix> g\\[([0-9]{1,3})\\]=#([0-9a-f]{1,16}).*",
 					Pattern.UNIX_LINES);
 
 	// mmix> l[24]=#0
@@ -105,8 +110,12 @@ public abstract class AbstractMmoTest {
 		OutputStreamWriter out = new OutputStreamWriter(
 				process.getOutputStream());
 
-		for (int i = 0; i < 232; i++) {
+		for (int i = 0; i < 255; i++) {
 			out.write(String.format("l%d#\n", i));
+			out.flush();
+		}
+		for (SpecialRegisterName reg: SpecialRegisterName.values()) {
+			out.write(String.format("%s#\n", reg.name()));
 			out.flush();
 		}
 		out.close();
@@ -138,6 +147,11 @@ public abstract class AbstractMmoTest {
 			return new RegisterTrace(Integer.valueOf(m.group(1)),
 					new BigInteger(
 							m.group(2), 16).longValue());
+		} else if ((m = SPEC_REG_PAT.matcher(str)).matches()) {
+			return new RegisterTrace(Integer.valueOf(m.group(1)),
+					new BigInteger(
+							m.group(2), 16).longValue(),
+							true);
 		}
 		return null;
 	}
@@ -192,17 +206,27 @@ public abstract class AbstractMmoTest {
 					" instructions more in JMMIX\n");
 		}
 
-		for (int i = 0; i < 128; i++) {
+		for (int i = 0; i < 232; i++) {
 			long value = simulator.getProcessor().register(i);
 
 			if (mmixRegisters.get(i).value != value) {
 				diff = true;
-				sb.append("register difference: ").append(mmixRegisters.get(i))
+				sb.append("global register difference: ").append(mmixRegisters.get(i))
 						.append(" <> ").append(String.format("#%x", value))
 						.append("\n");
 			}
 		}
-
+//		for(SpecialRegisterName regName: SpecialRegisterName.values()) {
+//			long value = simulator.getProcessor().specialRegister(regName);
+//			RegisterTrace refReg = mmixRegisters.get(255 + regName.ordinal());
+//
+//			if (refReg.value != value) {
+//				diff = true;
+//				sb.append("special register difference: ").append(refReg)
+//						.append(" <> ").append(String.format("#%x", value))
+//						.append("\n");
+//			}
+//		}
 		if (diff) {
 			System.out.println(sb);
 			fail("There where execution differences:\n" + sb);
