@@ -24,8 +24,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.xml.transform.stream.StreamSource;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,9 +48,10 @@ public abstract class AbstractMmoTest {
 	private static final Pattern INST_PAT = Pattern
 			.compile(".*1. ([0-9a-f]{16}): ([0-9a-f]{8}) .*",
 					Pattern.UNIX_LINES);
-	// $255=g[255]=#5  or  $32=#0
-	private static final Pattern REG_PAT = Pattern
-			.compile(".*mmix> \\$([0-9]{1,3})=([lg]\\[[0-9]{1,3}\\]=)?#([0-9a-f]{1,16}).*",
+	// $255=g[255]=#5 or $32=#0
+	private static final Pattern GEN_REG_PAT = Pattern
+			.compile(
+					".*mmix> \\$([0-9]{1,3})=([lg]\\[[0-9]{1,3}\\]=)?#([0-9a-f]{1,16}).*",
 					Pattern.UNIX_LINES);
 	private static final Pattern SPEC_REG_PAT = Pattern
 			.compile(".*mmix> g\\[([0-9]{1,3})\\]=#([0-9a-f]{1,16}).*",
@@ -99,8 +98,8 @@ public abstract class AbstractMmoTest {
 	//
 	// Plumbing
 	//
-	
-	
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void executeObjectFile(File objectFile) throws IOException,
 			InterruptedException {
 		System.out.println("Running '" + objectFile + "'...");
@@ -112,43 +111,48 @@ public abstract class AbstractMmoTest {
 
 		Process process = pb.start();
 
-		OutputStreamWriter out = new OutputStreamWriter(
-				process.getOutputStream());
+		askForRegisterDump(new OutputStreamWriter(process.getOutputStream()));
+		Map<Class<?>, List<Object>> result = parseProcessOutput(process);
 
-		for (int i = 0; i < 256; i++) {
+		process.waitFor(5, SECONDS);
+
+		mmixInstructions = (List) result.getOrDefault(InstructionTrace.class,
+				Collections.EMPTY_LIST);
+		mmixRegisters = (List) result.getOrDefault(RegisterTrace.class,
+				Collections.EMPTY_LIST);
+
+		process.destroy();
+	}
+
+	private void askForRegisterDump(OutputStreamWriter out) throws IOException {
+		for (int i = 0; i < Processor.NB_REGISTERS; i++) {
 			out.write(String.format("$%d#\n", i));
 			out.flush();
 		}
-		for (SpecialRegisterName reg: SpecialRegisterName.values()) {
+		for (SpecialRegisterName reg : SpecialRegisterName.values()) {
 			out.write(String.format("%s#\n", reg.name()));
 			out.flush();
 		}
 		out.close();
-		mmixInstructions = null;
-		Map<Class<?>, List<Object>> result =
-				new BufferedReader(
-						new InputStreamReader(process.getInputStream()))
+	}
+
+	private Map<Class<?>, List<Object>> parseProcessOutput(Process process) {
+		return new BufferedReader(
+				new InputStreamReader(process.getInputStream()))
 						.lines()
 						.map(l -> parseInterpreterLine(l))
 						.filter(t -> t != null)
-						.collect(
-								Collectors.groupingBy(t -> t.getClass()));
-
-		process.waitFor(5, SECONDS);
-
-		mmixInstructions = (List) result.getOrDefault(InstructionTrace.class, Collections.EMPTY_LIST);
-		mmixRegisters = (List) result.getOrDefault(RegisterTrace.class, Collections.EMPTY_LIST);
-
-		process.destroy();
+						.collect(Collectors.groupingBy(t -> t.getClass()));
 	}
+
 	private Trace parseInterpreterLine(String str) {
 		Matcher m;
-		
+
 		if ((m = INST_PAT.matcher(str)).matches()) {
 			return new InstructionTrace(
 					Long.parseUnsignedLong(m.group(1), 16),
 					Integer.parseUnsignedInt(m.group(2), 16));
-		} else if ((m = REG_PAT.matcher(str)).matches()) {
+		} else if ((m = GEN_REG_PAT.matcher(str)).matches()) {
 			return new RegisterTrace(Integer.valueOf(m.group(1)),
 					new BigInteger(
 							m.group(3), 16).longValue());
@@ -156,7 +160,7 @@ public abstract class AbstractMmoTest {
 			return new RegisterTrace(Integer.valueOf(m.group(1)),
 					new BigInteger(
 							m.group(2), 16).longValue(),
-							true);
+					true);
 		}
 		return null;
 	}
@@ -178,8 +182,8 @@ public abstract class AbstractMmoTest {
 		assertThat(process.exitValue(), equalTo(0));
 		process.destroy();
 
-		return new File(MMIX_DIR, Files.getNameWithoutExtension(sourceFile)
-				+ ".mmo");
+		return new File(MMIX_DIR,
+				Files.getNameWithoutExtension(sourceFile) + ".mmo");
 	}
 
 	public void compareExecutions() {
@@ -204,40 +208,45 @@ public abstract class AbstractMmoTest {
 			}
 		}
 		if (mmixInstructions.size() > minSize) {
-			diff  = true;
+			diff = true;
 			sb.append(mmixInstructions.size() - minSize).append(
 					" extra instructions in MMIX:\n");
-			for(int i = minSize; i < maxSize; i++) {
-				sb.append("Extra MMIX: ").append(mmixInstructions.get(i)).append("\n");
+			for (int i = minSize; i < maxSize; i++) {
+				sb.append("Extra MMIX: ").append(mmixInstructions.get(i))
+						.append("\n");
 			}
 		}
 		if (sims.size() > minSize) {
 			diff = true;
 			sb.append(sims.size() - minSize).append(
 					" extra instructions in JMMIX\n");
-			for(int i = minSize; i < maxSize; i++) {
+			for (int i = minSize; i < maxSize; i++) {
 				sb.append("Extra JMMIX: ").append(sims.get(i)).append("\n");
 			}
 		}
 
-		for (int i = 0; i < 256; i++) {
+		for (int i = 0; i < Processor.NB_REGISTERS; i++) {
 			long value = simulator.getProcessor().register(i);
 
 			if (mmixRegisters.get(i).value != value) {
 				diff = true;
-				sb.append("Register difference: ").append(mmixRegisters.get(i))
-						.append(" <> ").append(String.format("#%x", value))
+				sb.append("Register difference: ")
+						.append(mmixRegisters.get(i))
+						.append(" <> ")
+						.append(String.format("#%x", value))
 						.append("\n");
 			}
 		}
-		for(SpecialRegisterName regName: SpecialRegisterName.values()) {
+		for (SpecialRegisterName regName : SpecialRegisterName.values()) {
 			long value = simulator.getProcessor().specialRegister(regName);
 			RegisterTrace refReg = mmixRegisters.get(256 + regName.ordinal());
 
 			if (refReg.value != value) {
 				diff = true;
-				sb.append("Special register difference: ").append(refReg)
-						.append(" <> ").append(String.format("#%x", value))
+				sb.append("Special register difference: ")
+						.append(refReg)
+						.append(" <> ")
+						.append(String.format("#%x", value))
 						.append("\n");
 			}
 		}
@@ -246,5 +255,4 @@ public abstract class AbstractMmoTest {
 			fail("There where execution differences:\n" + sb);
 		}
 	}
-
 }
