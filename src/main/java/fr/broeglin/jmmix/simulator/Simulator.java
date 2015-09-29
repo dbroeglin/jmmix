@@ -1,6 +1,7 @@
 package fr.broeglin.jmmix.simulator;
 
 import static fr.broeglin.jmmix.simulator.Memory.POOL_SEGMENT;
+import static fr.broeglin.jmmix.simulator.Memory.STACK_SEGMENT;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rA;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rB;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rD;
@@ -12,11 +13,15 @@ import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rJ;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rK;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rL;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rM;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rN;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rO;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rP;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rQ;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rR;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rS;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rT;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rTT;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rU;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rV;
 
 import java.nio.charset.Charset;
@@ -45,8 +50,9 @@ public class Simulator {
 		}
 		this.processor = processor;
 		this.memory = memory;
+
 		loadCommandLineArguments(args);
-		this.processor.setRegister(2, 2); // TODO: ???
+		// this.processor.setRegister(2, 2); // TODO: ???
 	}
 
 	private void loadCommandLineArguments(String[] args) {
@@ -74,22 +80,6 @@ public class Simulator {
 		// TODO: initialize arguments
 	}
 
-	public void execute(int instruction) {
-		traceInstruction(instruction);
-
-		int op = (instruction & 0xff000000) >>> 24;
-		int x = (instruction & 0x00ff0000) >>> 16;
-		int y = (instruction & 0x0000ff00) >>> 8;
-		int z = instruction & 0x000000ff;
-
-		Instruction inst = InstructionSet.instruction(op);
-		if (inst == null) {
-			throw new UnknownInstruction(op);
-		}
-
-		inst.op(processor, memory, x, y, z);
-	}
-
 	private void traceInstruction(int instruction) {
 		logger.finest(() -> String.format("         1. %016x: %08x",
 				processor.instPtr(), instruction));
@@ -104,17 +94,42 @@ public class Simulator {
 		initializeSpecialRegisters();
 
 		do {
-			execute(memory.load32(processor.instPtr()));
+			processor.loadInstruction(memory);
+			traceInstruction(processor.instruction());
 			processor.incInstPtr(1);
+
+			Instruction inst = InstructionSet.instruction(processor.op());
+			if (inst == null) {
+				throw new UnknownInstruction(processor.op());
+			}
+
+			inst.op(processor, memory, processor.x(), processor.y(),
+					processor.z());
+
+			// TODO: should be mod 2^27 ?
+			processor.incSpecialRegister(rU, 1);
+			
+			// TODO: should this be done here ?
 		} while (processor.isRunning());
 	}
 
 	void initializeSpecialRegisters() {
 		processor.setSpecialRegister(rK, 0xffffffffffffffffl);
 		processor.setSpecialRegister(rL, 0x2l);
+
+		// rN.h contains = (VERSION << 24) + (SUBVERSION << 16) + (SUBSUBVERSION
+		// << 8)
+		// rN.l contains the compilation date. Here we set it to the same value
+		// as MMIX ???
+		processor.setSpecialRegister(rN, 0x0100_0100_54FD_FFCCl);
 		processor.setSpecialRegister(rT, 0x8000000500000000l);
+
 		processor.setSpecialRegister(rV, 0x369c200400000000l);
 		processor.setSpecialRegister(rTT, 0x8000000600000000l);
+
+		processor.setSpecialRegister(rS, STACK_SEGMENT);
+		processor.setSpecialRegister(rO, STACK_SEGMENT);
+		processor.setSpecialRegister(rI, 0);
 
 		for (SpecialRegisterName name : new SpecialRegisterName[] { rA, rB, rD,
 				rE, rF, rH, rI, rJ, rM, rP, rQ, rR }) {

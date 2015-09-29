@@ -332,6 +332,7 @@ public final class InstructionSet {
 
 	public static void SETL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, y << 8 | z);
+		proc.cost(0, 1);
 	}
 
 	public static void SETML(Processor proc, Memory mem, int x, int y, int z) {

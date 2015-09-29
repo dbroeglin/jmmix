@@ -1,14 +1,21 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rWW;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rXX;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rYY;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rZZ;
 
 import java.io.IOException;
 
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
+import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 import fr.broeglin.jmmix.simulator.UnknownInstruction;
 
 public class TrapInstruction {
+
+	private static final int SIGN_BIT = 0x8000_0000;
 
 	public class Traps {
 		final static int Halt = 0;
@@ -25,6 +32,11 @@ public class TrapInstruction {
 	}
 
 	public static void TRAP(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setSpecialRegister(rWW, proc.instPtr());
+		proc.setSpecialRegisterHigh(rXX, SIGN_BIT);
+		proc.setSpecialRegisterLow(rXX, proc.instruction());
+		proc.setSpecialRegister(rYY, y); // ???
+		proc.setSpecialRegister(rZZ, z); // ???
 		try {
 			switch (y) {
 			case Traps.Halt:
@@ -54,5 +66,6 @@ public class TrapInstruction {
 			// TODO: handle some errors in the simulator
 			throw new RuntimeException("Error while handling trap", e);
 		}
+		proc.cost(0, 5);
 	}
 }
