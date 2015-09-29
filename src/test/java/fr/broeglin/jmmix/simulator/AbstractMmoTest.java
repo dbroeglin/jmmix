@@ -17,6 +17,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -39,8 +40,6 @@ import fr.broeglin.jmmix.simulator.trace.Trace;
 
 public abstract class AbstractMmoTest {
 
-	
-	
 	@Retention(value = RUNTIME)
 	@Target(value = ElementType.TYPE)
 	public @interface MmixSource {
@@ -51,8 +50,9 @@ public abstract class AbstractMmoTest {
 	private static final Pattern INST_PAT = Pattern
 			.compile(".*1. ([0-9a-f]{16}): ([0-9a-f]{8}) .*",
 					Pattern.UNIX_LINES);
+	// $255=g[255]=#5  or  $32=#0
 	private static final Pattern REG_PAT = Pattern
-			.compile(".*mmix> l\\[([0-9]{1,3})\\]=#([0-9a-f]{1,16}).*",
+			.compile(".*mmix> \\$([0-9]{1,3})=([lg]\\[[0-9]{1,3}\\]=)?#([0-9a-f]{1,16}).*",
 					Pattern.UNIX_LINES);
 	private static final Pattern SPEC_REG_PAT = Pattern
 			.compile(".*mmix> g\\[([0-9]{1,3})\\]=#([0-9a-f]{1,16}).*",
@@ -96,6 +96,11 @@ public abstract class AbstractMmoTest {
 		System.out.println(simulator.dump());
 	}
 
+	//
+	// Plumbing
+	//
+	
+	
 	void executeObjectFile(File objectFile) throws IOException,
 			InterruptedException {
 		System.out.println("Running '" + objectFile + "'...");
@@ -110,8 +115,8 @@ public abstract class AbstractMmoTest {
 		OutputStreamWriter out = new OutputStreamWriter(
 				process.getOutputStream());
 
-		for (int i = 0; i < 255; i++) {
-			out.write(String.format("l%d#\n", i));
+		for (int i = 0; i < 256; i++) {
+			out.write(String.format("$%d#\n", i));
 			out.flush();
 		}
 		for (SpecialRegisterName reg: SpecialRegisterName.values()) {
@@ -131,14 +136,14 @@ public abstract class AbstractMmoTest {
 
 		process.waitFor(5, SECONDS);
 
-		mmixInstructions = (List) result.get(InstructionTrace.class);
-		mmixRegisters = (List) result.get(RegisterTrace.class);
+		mmixInstructions = (List) result.getOrDefault(InstructionTrace.class, Collections.EMPTY_LIST);
+		mmixRegisters = (List) result.getOrDefault(RegisterTrace.class, Collections.EMPTY_LIST);
 
 		process.destroy();
 	}
-
 	private Trace parseInterpreterLine(String str) {
 		Matcher m;
+		
 		if ((m = INST_PAT.matcher(str)).matches()) {
 			return new InstructionTrace(
 					Long.parseUnsignedLong(m.group(1), 16),
@@ -146,7 +151,7 @@ public abstract class AbstractMmoTest {
 		} else if ((m = REG_PAT.matcher(str)).matches()) {
 			return new RegisterTrace(Integer.valueOf(m.group(1)),
 					new BigInteger(
-							m.group(2), 16).longValue());
+							m.group(3), 16).longValue());
 		} else if ((m = SPEC_REG_PAT.matcher(str)).matches()) {
 			return new RegisterTrace(Integer.valueOf(m.group(1)),
 					new BigInteger(
@@ -184,11 +189,12 @@ public abstract class AbstractMmoTest {
 
 		List<InstructionTrace> sims = ((InstructionTracer) simulator
 				.getTracer()).getInstructions();
-		int size = Math.min(mmixInstructions.size(), sims.size());
+		int minSize = Math.min(mmixInstructions.size(), sims.size());
+		int maxSize = Math.max(mmixInstructions.size(), sims.size());
 		StringBuilder sb = new StringBuilder();
 		boolean diff = false;
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < minSize; i++) {
 			InstructionTrace inst = mmixInstructions.get(i);
 			InstructionTrace simInst = sims.get(i);
 
@@ -197,36 +203,44 @@ public abstract class AbstractMmoTest {
 				diff = true;
 			}
 		}
-		if (mmixInstructions.size() > size) {
-			sb.append(mmixInstructions.size() - size).append(
-					" instructions more in MMIX:\n");
+		if (mmixInstructions.size() > minSize) {
+			diff  = true;
+			sb.append(mmixInstructions.size() - minSize).append(
+					" extra instructions in MMIX:\n");
+			for(int i = minSize; i < maxSize; i++) {
+				sb.append("Extra MMIX: ").append(mmixInstructions.get(i)).append("\n");
+			}
 		}
-		if (sims.size() > size) {
-			sb.append(sims.size() - size).append(
-					" instructions more in JMMIX\n");
+		if (sims.size() > minSize) {
+			diff = true;
+			sb.append(sims.size() - minSize).append(
+					" extra instructions in JMMIX\n");
+			for(int i = minSize; i < maxSize; i++) {
+				sb.append("Extra JMMIX: ").append(sims.get(i)).append("\n");
+			}
 		}
 
-		for (int i = 0; i < 232; i++) {
+		for (int i = 0; i < 256; i++) {
 			long value = simulator.getProcessor().register(i);
 
 			if (mmixRegisters.get(i).value != value) {
 				diff = true;
-				sb.append("global register difference: ").append(mmixRegisters.get(i))
+				sb.append("Register difference: ").append(mmixRegisters.get(i))
 						.append(" <> ").append(String.format("#%x", value))
 						.append("\n");
 			}
 		}
-//		for(SpecialRegisterName regName: SpecialRegisterName.values()) {
-//			long value = simulator.getProcessor().specialRegister(regName);
-//			RegisterTrace refReg = mmixRegisters.get(255 + regName.ordinal());
-//
-//			if (refReg.value != value) {
-//				diff = true;
-//				sb.append("special register difference: ").append(refReg)
-//						.append(" <> ").append(String.format("#%x", value))
-//						.append("\n");
-//			}
-//		}
+		for(SpecialRegisterName regName: SpecialRegisterName.values()) {
+			long value = simulator.getProcessor().specialRegister(regName);
+			RegisterTrace refReg = mmixRegisters.get(256 + regName.ordinal());
+
+			if (refReg.value != value) {
+				diff = true;
+				sb.append("Special register difference: ").append(refReg)
+						.append(" <> ").append(String.format("#%x", value))
+						.append("\n");
+			}
+		}
 		if (diff) {
 			System.out.println(sb);
 			fail("There where execution differences:\n" + sb);

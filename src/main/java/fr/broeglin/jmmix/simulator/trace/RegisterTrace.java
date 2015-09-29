@@ -27,7 +27,7 @@ public class RegisterTrace implements Trace {
 					SpecialRegisterName.values()[index],
 					value);
 		} else {
-			return String.format("l[%d]=#%x", index,
+			return String.format("$%d=#%x", index,
 					value);
 		}
 	}

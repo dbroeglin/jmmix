@@ -28,7 +28,7 @@ public class TrapInstruction {
 		try {
 			switch (y) {
 			case Traps.Halt:
-				proc.setSpecialRegister(rBB, 255);
+				proc.setSpecialRegister(rBB, proc.register(255));
 				// TODO: proc.setSpecialRegister(rWW, inst_ptr) ;
 				proc.setRunning(false);
 				break;
