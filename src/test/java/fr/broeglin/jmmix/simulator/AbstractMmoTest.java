@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -38,12 +39,6 @@ import fr.broeglin.jmmix.simulator.trace.Trace;
 
 public abstract class AbstractMmoTest {
 
-	@Retention(value = RUNTIME)
-	@Target(value = ElementType.TYPE)
-	public @interface MmixSource {
-		String value();
-	}
-
 	// 1. 0000000000000100: f0000004 (JMP) -> #110
 	private static final Pattern INST_PAT = Pattern
 			.compile(".*1. ([0-9a-f]{16}): ([0-9a-f]{8}) .*",
@@ -64,26 +59,14 @@ public abstract class AbstractMmoTest {
 	protected List<RegisterTrace> mmixRegisters;
 	protected Simulator simulator;
 
-	@Before
-	public void assemble() throws Exception {
-		MmixSource source = getClass().getAnnotation(MmixSource.class);
-
-		if (source == null || source.value().isEmpty()) {
-			throw new IllegalArgumentException(
-					"@MmixSource annotation is mandatory");
-		}
-
-		objectFile = assembleSourceFile(source.value());
+	public void runParallel(String sourceName) throws Exception {
+		objectFile = assembleSourceFile(
+				MMIX_DIR + File.separator + sourceName);
+		runParallel();
 	}
 
-	@After
-	public void after() throws Exception {
-		executeObjectFile(objectFile);
-		compareExecutions();
-	}
-
-	@Test
-	public void should_run_like_mmix() throws Exception {
+	public void runParallel()
+			throws IOException, FileNotFoundException, InterruptedException {
 		simulator = new Simulator();
 		InstructionTracer tracer = new InstructionTracer();
 
@@ -93,11 +76,10 @@ public abstract class AbstractMmoTest {
 
 		simulator.execute();
 		System.out.println(simulator.dump());
-	}
 
-	//
-	// Plumbing
-	//
+		executeObjectFile(objectFile);
+		compareExecutions();
+	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void executeObjectFile(File objectFile) throws IOException,
@@ -165,13 +147,16 @@ public abstract class AbstractMmoTest {
 		return null;
 	}
 
-	private File assembleSourceFile(String sourceFile) throws IOException,
+	File assembleSourceFile(String sourceFilename) throws IOException,
 			InterruptedException {
-		System.out.format("Assembling %s...\n", sourceFile);
-		ProcessBuilder pb = new ProcessBuilder("bash", "-lc", "mmixal "
-				+ sourceFile);
+		System.out.format("Assembling %s...\n", sourceFilename);
 
-		pb.directory(MMIX_DIR);
+		File sourceFile = new File(sourceFilename);
+		File directory = sourceFile.getParentFile();
+		ProcessBuilder pb = new ProcessBuilder("bash", "-lc", "mmixal "
+				+ sourceFile.getName());
+
+		pb.directory(directory);
 		pb.redirectErrorStream(true);
 
 		Process process = pb.start();
@@ -182,8 +167,8 @@ public abstract class AbstractMmoTest {
 		assertThat(process.exitValue(), equalTo(0));
 		process.destroy();
 
-		return new File(MMIX_DIR,
-				Files.getNameWithoutExtension(sourceFile) + ".mmo");
+		return new File(directory,
+				Files.getNameWithoutExtension(sourceFilename) + ".mmo");
 	}
 
 	public void compareExecutions() {
