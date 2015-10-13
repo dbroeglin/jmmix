@@ -11,10 +11,15 @@ import com.google.common.io.Files;
 public class ParallelRunTest extends AbstractMmoTest {
 	private static final String BEGIN = "	LOC 	#100";
 	private static final String TRAP = "	TRAP 0,Halt,0";
-	
+
 	@Test
 	public void do_nothing() throws Exception {
 		assemble("Main " + TRAP);
+	}
+
+	@Test
+	public void dummy() throws Exception {
+		assemble("Main	SYNCD	128,$1,$2\n" + TRAP);
 	}
 
 	// plumbing
@@ -29,7 +34,7 @@ public class ParallelRunTest extends AbstractMmoTest {
 
 	private void assemble(String code) throws Exception {
 		sourceFile = File.createTempFile("test", ".mms");
-		
+
 		code = BEGIN + "\n" + code;
 		System.out.println("Code:\n" + code + "\n\n");
 		Files.write(code, sourceFile, Charset.forName("ASCII"));

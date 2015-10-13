@@ -13,7 +13,7 @@ public final class InstructionSet {
 		if (op < 0 || op > instructions.length) {
 			throw new UnknownInstruction(op);
 		}
-		
+
 		return instructions[op];
 	}
 
@@ -206,7 +206,8 @@ public final class InstructionSet {
 		proc.setRegister(x, proc.register(y) * 2 + proc.register(z));
 	}
 
-	public static void _2ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+	public static void _2ADDUI(Processor proc, Memory mem, int x, int y,
+			int z) {
 		proc.setRegister(x, proc.register(y) * 2 + z);
 	}
 
@@ -214,7 +215,8 @@ public final class InstructionSet {
 		proc.setRegister(x, proc.register(y) * 4 + proc.register(z));
 	}
 
-	public static void _4ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+	public static void _4ADDUI(Processor proc, Memory mem, int x, int y,
+			int z) {
 		proc.setRegister(x, proc.register(y) * 4 + z);
 	}
 
@@ -222,15 +224,18 @@ public final class InstructionSet {
 		proc.setRegister(x, proc.register(y) * 8 + proc.register(z));
 	}
 
-	public static void _8ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+	public static void _8ADDUI(Processor proc, Memory mem, int x, int y,
+			int z) {
 		proc.setRegister(x, proc.register(y) * 8 + z);
 	}
 
-	public static void _16ADDU(Processor proc, Memory mem, int x, int y, int z) {
+	public static void _16ADDU(Processor proc, Memory mem, int x, int y,
+			int z) {
 		proc.setRegister(x, proc.register(y) * 16 + proc.register(z));
 	}
 
-	public static void _16ADDUI(Processor proc, Memory mem, int x, int y, int z) {
+	public static void _16ADDUI(Processor proc, Memory mem, int x, int y,
+			int z) {
 		proc.setRegister(x, proc.register(y) * 16 + z);
 	}
 
@@ -368,46 +373,47 @@ public final class InstructionSet {
 
 	public static void SYNCD(Processor proc, Memory mem, int x, int y, int z) {
 		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void SYNCDI(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void SYNCID(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
-	}
+		proc.cost(0, 1);	}
 
-	public static void SYNCIDI(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+	public static void SYNCIDI(Processor proc, Memory mem, int x, int y,
+			int z) {
+		proc.cost(0, 1);
 	}
 
 	public static void PREST(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void PRESTI(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void PREGO(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void PREGOI(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void PRELD(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void PRELDI(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void SWYM(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
+		proc.cost(0, 1);
 	}
 
 	public static void JMP(Processor proc, Memory mem, int x, int y, int z) {
@@ -478,13 +484,13 @@ public final class InstructionSet {
 	public static void LDOI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, mem.load64(proc.register(y) + z));
 	}
-	
+
 	public static void MUL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) * proc.register(z));
 	}
-	
+
 	public static void MULI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) * (byte)z);
+		proc.setRegister(x, proc.register(y) * (byte) z);
 	}
 
 }
