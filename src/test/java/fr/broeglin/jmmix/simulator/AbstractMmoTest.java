@@ -1,5 +1,7 @@
 package fr.broeglin.jmmix.simulator;
 
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rYY;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rZZ;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -226,7 +228,8 @@ public abstract class AbstractMmoTest {
 			long value = simulator.getProcessor().specialRegister(regName);
 			RegisterTrace refReg = mmixRegisters.get(256 + regName.ordinal());
 
-			if (refReg.value != value) {
+			// rYY & rZZ are ignore because they are not reliably implemented by mmix
+			if (regName != rYY && regName != rZZ && refReg.value != value) {
 				diff = true;
 				sb.append("Special register difference: ")
 						.append(refReg)
