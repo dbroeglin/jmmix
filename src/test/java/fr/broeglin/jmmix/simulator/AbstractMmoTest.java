@@ -1,9 +1,9 @@
 package fr.broeglin.jmmix.simulator;
 
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rA;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rL;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rYY;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rZZ;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -17,9 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
@@ -27,10 +24,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
@@ -233,8 +226,8 @@ public abstract class AbstractMmoTest {
 			// rYY & rZZ are ignore because they are not reliably implemented by
 			// mmix
 			regName != rYY && regName != rZZ
-			// TODO: rL is not yet implemented
-					&& regName != rL
+					&& regName != rL // TODO: rL is not yet implemented
+					&& regName != rA // TODO: rA is not yet implemented
 					&& refReg.value != value) {
 				diff = true;
 				sb.append("Special register difference: ")

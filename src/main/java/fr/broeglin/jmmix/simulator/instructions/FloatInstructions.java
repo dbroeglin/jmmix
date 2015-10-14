@@ -18,56 +18,64 @@ public class FloatInstructions {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				registerAsDouble(proc, y)
-						+ registerAsDouble(proc, z)));
+						registerAsDouble(proc, y)
+								+ registerAsDouble(proc, z)));
+		proc.cost(0, 4);
 	}
 
 	public static void FMUL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				registerAsDouble(proc, y)
-						* registerAsDouble(proc, z)));
+						registerAsDouble(proc, y)
+								* registerAsDouble(proc, z)));
+		proc.cost(0, 4);
 	}
 
 	public static void FDIV(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				registerAsDouble(proc, y) / registerAsDouble(proc, z)));
+						registerAsDouble(proc, y) / registerAsDouble(proc, z)));
+		proc.cost(0, 40);
 	}
 
 	public static void FSQRT(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				Math.sqrt(registerAsDouble(proc, z))));
+						Math.sqrt(registerAsDouble(proc, z))));
+		proc.cost(0, 40);
 	}
 
 	public static void FSUB(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				registerAsDouble(proc, y)
-						- registerAsDouble(proc, z)));
+						registerAsDouble(proc, y)
+								- registerAsDouble(proc, z)));
+		proc.cost(0, 4);
 	}
 
 	public static void FREM(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(
 				x,
 				doubleToRawLongBits(
-				Math.IEEEremainder(
-						registerAsDouble(proc, y),
-						registerAsDouble(proc, z))));
+						Math.IEEEremainder(
+								registerAsDouble(proc, y),
+								registerAsDouble(proc, z))));
+		proc.cost(0, 4);
 	}
 
 	public static void FLOT(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x,
 				Double.doubleToRawLongBits((double) proc.register(z)));
+		proc.cost(0, 4);
 	}
 
 	public static void FLOTI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, Double.doubleToRawLongBits((double) z));
+		proc.cost(0, 4);
 	}
 
 	public static void FIX(Processor proc, Memory mem, int x, int y, int z) {
@@ -95,6 +103,7 @@ public class FloatInstructions {
 			throw new InvalidInstruction(0x5, x, y, z);
 		}
 		proc.setRegister(x, result);
+		proc.cost(0, 4);
 	}
 
 	public static void FINT(Processor proc, Memory mem, int x, int y, int z) {
@@ -122,6 +131,7 @@ public class FloatInstructions {
 			throw new InvalidInstruction(0x17, x, y, z);
 		}
 		proc.setRegister(x, Double.doubleToRawLongBits(result));
+		proc.cost(0, 4);
 	}
 
 	public static void FIXU(Processor proc, Memory mem, int x, int y, int z) {
@@ -132,6 +142,7 @@ public class FloatInstructions {
 		proc.setRegister(x,
 				registerAsDouble(proc, y) == registerAsDouble(proc, z) ? 1l
 						: 0l);
+		proc.cost(0, 1);
 	}
 
 	public static void FCMP(Processor proc, Memory mem, int x, int y, int z) {
@@ -140,15 +151,18 @@ public class FloatInstructions {
 						Double.compare(
 								registerAsDouble(proc, y),
 								registerAsDouble(proc, z))));
-	}
-
-	private static double registerAsDouble(Processor proc, int y) {
-		return longBitsToDouble(proc.register(y));
+		proc.cost(0, 1);
 	}
 
 	public static void FUN(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x,
 				isNaN(registerAsDouble(proc, y))
 						|| isNaN(registerAsDouble(proc, z)) ? 1l : 0l);
+		proc.cost(0, 1);
 	}
+
+	private static double registerAsDouble(Processor proc, int y) {
+		return longBitsToDouble(proc.register(y));
+	}
+
 }

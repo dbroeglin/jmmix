@@ -51,3 +51,4 @@ To inspect the content of MMO files:
 ## Know issues
 
 * rL and the register stack are not implemented yet
+* rA is not implemented yet

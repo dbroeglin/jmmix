@@ -241,18 +241,22 @@ public final class InstructionSet {
 
 	public static void ADD(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void ADDI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + z);
+		proc.cost(0, 1);
 	}
 
 	public static void ADDU(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void ADDUI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) + z);
+		proc.cost(0, 1);
 	}
 
 	public static void SUB(Processor proc, Memory mem, int x, int y, int z) {
@@ -507,6 +511,7 @@ public final class InstructionSet {
 
 	public static void LDOI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, mem.load64(proc.register(y) + z));
+		proc.cost(1, 1);
 	}
 
 	public static void MUL(Processor proc, Memory mem, int x, int y, int z) {
