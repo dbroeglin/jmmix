@@ -18,21 +18,13 @@ import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.NEGUI;
 import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.SETH;
 import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.SETL;
 import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.SETMH;
-import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.*;
+import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.SETML;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import fr.broeglin.jmmix.simulator.Memory;
-import fr.broeglin.jmmix.simulator.Processor;
-
-public class InstructionSetTest {
-
-	Processor proc = new Processor();
-	Memory mem = new Memory();
-
-	// System.err.format("%016x", proc.register(1));
+public class InstructionSetTest extends AbstractInstructionsTest {
 
 	@Test
 	public void should_ADD() {
@@ -209,7 +201,8 @@ public class InstructionSetTest {
 
 		INCML(proc, mem, 0x01, 0x89, 0xab);
 
-		assertThat(proc.register(1), equalTo(0xfedcfedcfedcfedcl + 0x89ab0000l));
+		assertThat(proc.register(1),
+				equalTo(0xfedcfedcfedcfedcl + 0x89ab0000l));
 	}
 
 	@Test
@@ -363,46 +356,6 @@ public class InstructionSetTest {
 				0xff00_0000_0000_0004l,
 				0xff00_0000_0000_0007l,
 				0x03);
-	}
-
-	@Test
-	public void CSZ_should_set_if_0() {
-		proc.setRegister(1, 0x2al);
-
-		checkOp(InstructionSet::CSZ,
-				0x33l,
-				0x0l,
-				0x33l);
-	}
-
-	@Test
-	public void CSZ_should_not_set_if_not_0() {
-		proc.setRegister(1, 0x2al);
-
-		checkOp(InstructionSet::CSZ,
-				0x2al,
-				0x1l,
-				0x33l);
-	}
-
-	@Test
-	public void CSZI_should_set_if_0() {
-		proc.setRegister(1, 0x2al);
-
-		checkOpI(InstructionSet::CSZI,
-				0x33l,
-				0x0l,
-				0x33);
-	}
-
-	@Test
-	public void CSZI_should_not_set_if_not_0() {
-		proc.setRegister(1, 0x2al);
-
-		checkOpI(InstructionSet::CSZI,
-				0x2al,
-				0x1l,
-				0x33);
 	}
 
 	@Test
@@ -622,7 +575,7 @@ public class InstructionSetTest {
 		assertThat(proc.register(13), equalTo(0l));
 		assertThat(proc.register(14), equalTo(3l));
 	}
-	
+
 	@Test
 	public void should_MUL() {
 		checkOp(InstructionSet::MUL, 12, 2, 6);
@@ -631,24 +584,6 @@ public class InstructionSetTest {
 	@Test
 	public void should_MULI() {
 		checkOpI(InstructionSet::MULI, 12, 2, 6);
-	}
-
-	
-	private void checkOp(Instruction inst, long x, long y, long z) {
-		proc.setRegister(2, y);
-		proc.setRegister(3, z);
-
-		inst.op(proc, mem, 1, 2, 3);
-
-		assertThat(proc.register(1), equalTo(x));
-	}
-
-	private void checkOpI(Instruction inst, long x, long y, int z) {
-		proc.setRegister(2, y);
-
-		inst.op(proc, mem, 1, 2, z);
-
-		assertThat(proc.register(1), equalTo(x));
 	}
 
 }

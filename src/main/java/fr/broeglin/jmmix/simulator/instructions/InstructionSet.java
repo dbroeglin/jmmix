@@ -95,8 +95,8 @@ public final class InstructionSet {
 			null,
 			null,
 			// 0x6x
-			null, null,
-			InstructionSet::CSZ, InstructionSet::CSZI,
+			ConditionalInstructions::CSN, ConditionalInstructions::CSNI,
+			ConditionalInstructions::CSZ, ConditionalInstructions::CSZI,
 			null, null,
 			null, null,
 			null, null,
@@ -104,20 +104,14 @@ public final class InstructionSet {
 			null, null,
 			null, null,
 			// 0x7x
-			null, null, null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
-			null,
+			ConditionalInstructions::ZSN, ConditionalInstructions::ZSNI,
+			ConditionalInstructions::ZSZ, ConditionalInstructions::ZSZI,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
+			null, null,
 
 			// 0x8x
 			null, null,
@@ -419,7 +413,8 @@ public final class InstructionSet {
 	}
 
 	public static void SYNCID(Processor proc, Memory mem, int x, int y, int z) {
-		proc.cost(0, 1);	}
+		proc.cost(0, 1);
+	}
 
 	public static void SYNCIDI(Processor proc, Memory mem, int x, int y,
 			int z) {
@@ -513,20 +508,6 @@ public final class InstructionSet {
 	public static void NEGUI(Processor proc, Memory mem, int x, int y, int z) {
 		// TODO: double check this one
 		NEGI(proc, mem, x, y, z);
-	}
-
-	public static void CSZ(Processor proc, Memory mem, int x, int y, int z) {
-		if (proc.register(y) == 0) {
-			proc.setRegister(x, proc.register(z));
-		}
-		proc.cost(0, 1);
-	}
-
-	public static void CSZI(Processor proc, Memory mem, int x, int y, int z) {
-		if (proc.register(y) == 0) {
-			proc.setRegister(x, (byte) z);
-		}
-		proc.cost(0, 1);
 	}
 
 	public static void LDOI(Processor proc, Memory mem, int x, int y, int z) {
