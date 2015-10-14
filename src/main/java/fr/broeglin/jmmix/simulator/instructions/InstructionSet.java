@@ -273,66 +273,82 @@ public final class InstructionSet {
 
 	public static void OR(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) | proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void ORI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) | (byte) z);
+		proc.cost(0, 1);
 	}
 
 	public static void XOR(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) ^ proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void XORI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) ^ (byte) z);
+		proc.cost(0, 1);
 	}
 
 	public static void NXOR(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, ~(proc.register(y) ^ proc.register(z)));
+		proc.cost(0, 1);
 	}
 
 	public static void NXORI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, ~(proc.register(y) ^ (byte) z));
+		proc.cost(0, 1);
 	}
 
 	public static void ORN(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) | ~proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void ORNI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) | ~(byte) z);
+		proc.cost(0, 1);
 	}
 
 	public static void AND(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) & proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void ANDI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) & (byte) z);
+		proc.cost(0, 1);
 	}
 
 	public static void NAND(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, ~(proc.register(y) & proc.register(z)));
+		proc.cost(0, 1);
 	}
 
 	public static void NANDI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, ~(proc.register(y) & (byte) z));
+		proc.cost(0, 1);
 	}
 
 	public static void ANDN(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) & ~proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void ANDNI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) & ~(byte) z);
+		proc.cost(0, 1);
 	}
 
 	public static void NOR(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, ~(proc.register(y) | proc.register(z)));
+		proc.cost(0, 1);
 	}
 
 	public static void NORI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, ~(proc.register(y) | (byte) z));
+		proc.cost(0, 1);
 	}
 
 	public static void SETL(Processor proc, Memory mem, int x, int y, int z) {
@@ -342,37 +358,43 @@ public final class InstructionSet {
 
 	public static void SETML(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, (long) y << 24 | (long) z << 16);
+		proc.cost(0, 1);
 	}
 
 	public static void SETMH(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, (long) y << 40 | (long) z << 32);
+		proc.cost(0, 1);
 	}
 
 	public static void SETH(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, (long) y << 56 | (long) z << 48);
+		proc.cost(0, 1);
 	}
 
 	public static void INCL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(x) + (y << 8 | z));
+		proc.cost(0, 1);
 	}
 
 	public static void INCML(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(x)
 				+ ((long) y << 24 | (long) z << 16));
+		proc.cost(0, 1);
 	}
 
 	public static void INCMH(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(x)
 				+ ((long) y << 40 | (long) z << 32));
+		proc.cost(0, 1);
 	}
 
 	public static void INCH(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(x)
 				+ ((long) y << 56 | (long) z << 48));
+		proc.cost(0, 1);
 	}
 
 	public static void SYNCD(Processor proc, Memory mem, int x, int y, int z) {
-		// do nothing
 		proc.cost(0, 1);
 	}
 
@@ -473,12 +495,14 @@ public final class InstructionSet {
 		if (proc.register(y) == 0) {
 			proc.setRegister(x, proc.register(z));
 		}
+		proc.cost(0, 1);
 	}
 
 	public static void CSZI(Processor proc, Memory mem, int x, int y, int z) {
 		if (proc.register(y) == 0) {
 			proc.setRegister(x, (byte) z);
 		}
+		proc.cost(0, 1);
 	}
 
 	public static void LDOI(Processor proc, Memory mem, int x, int y, int z) {
