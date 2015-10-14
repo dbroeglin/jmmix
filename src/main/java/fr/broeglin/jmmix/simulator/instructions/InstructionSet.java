@@ -456,10 +456,12 @@ public final class InstructionSet {
 
 	public static void JMP(Processor proc, Memory mem, int x, int y, int z) {
 		proc.incInstPtr((x << 16 | y << 8 | z) - 1);
+		proc.cost(0, 1);
 	}
 
 	public static void JMPB(Processor proc, Memory mem, int x, int y, int z) {
 		proc.incInstPtr((0xff000000 | x << 16 | y << 8 | z) - 1);
+		proc.cost(0, 1);
 	}
 
 	public static void CMP(Processor proc, Memory mem, int x, int y, int z) {
@@ -467,12 +469,14 @@ public final class InstructionSet {
 		long b = proc.register(z);
 
 		proc.setRegister(x, (a < b) ? -1 : ((a == b) ? 0 : 1));
+		proc.cost(0, 1);
 	}
 
 	public static void CMPI(Processor proc, Memory mem, int x, int y, int z) {
 		long a = proc.register(y);
 
 		proc.setRegister(x, (a < z) ? -1 : ((a == z) ? 0 : 1));
+		proc.cost(0, 1);
 	}
 
 	public static void CMPU(Processor proc, Memory mem, int x, int y, int z) {
@@ -480,6 +484,7 @@ public final class InstructionSet {
 		long b = proc.register(z) + Long.MIN_VALUE;
 
 		proc.setRegister(x, (a < b) ? -1 : ((a == b) ? 0 : 1));
+		proc.cost(0, 1);
 	}
 
 	public static void CMPUI(Processor proc, Memory mem, int x, int y, int z) {
@@ -487,6 +492,7 @@ public final class InstructionSet {
 		long b = z + Long.MIN_VALUE;
 
 		proc.setRegister(x, (a < b) ? -1 : ((a == b) ? 0 : 1));
+		proc.cost(0, 1);
 	}
 
 	public static void NEG(Processor proc, Memory mem, int x, int y, int z) {
