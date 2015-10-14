@@ -47,3 +47,7 @@ the PATH.
 To inspect the content of MMO files:
 
     hexdump -e '1/1 "%03_ad |"' -e '4/1 " %02X" " | "' -e '4/1 "%_p" "\n"' <mmo file>
+
+## Know issues
+
+* rL and the register stack are not implemented yet
