@@ -204,39 +204,47 @@ public final class InstructionSet {
 
 	public static void _2ADDU(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) * 2 + proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void _2ADDUI(Processor proc, Memory mem, int x, int y,
 			int z) {
 		proc.setRegister(x, proc.register(y) * 2 + z);
+		proc.cost(0, 1);
 	}
 
 	public static void _4ADDU(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) * 4 + proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void _4ADDUI(Processor proc, Memory mem, int x, int y,
 			int z) {
 		proc.setRegister(x, proc.register(y) * 4 + z);
+		proc.cost(0, 1);
 	}
 
 	public static void _8ADDU(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) * 8 + proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void _8ADDUI(Processor proc, Memory mem, int x, int y,
 			int z) {
 		proc.setRegister(x, proc.register(y) * 8 + z);
+		proc.cost(0, 1);
 	}
 
 	public static void _16ADDU(Processor proc, Memory mem, int x, int y,
 			int z) {
 		proc.setRegister(x, proc.register(y) * 16 + proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void _16ADDUI(Processor proc, Memory mem, int x, int y,
 			int z) {
 		proc.setRegister(x, proc.register(y) * 16 + z);
+		proc.cost(0, 1);
 	}
 
 	public static void ADD(Processor proc, Memory mem, int x, int y, int z) {
@@ -261,18 +269,22 @@ public final class InstructionSet {
 
 	public static void SUB(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) - proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void SUBI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) - z);
+		proc.cost(0, 1);
 	}
 
 	public static void SUBU(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) - proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void SUBUI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) - z);
+		proc.cost(0, 1);
 	}
 
 	public static void OR(Processor proc, Memory mem, int x, int y, int z) {
@@ -479,10 +491,12 @@ public final class InstructionSet {
 
 	public static void NEG(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, (long) y - proc.register(z));
+		proc.cost(0, 1);
 	}
 
 	public static void NEGI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, (long) y - (long) z);
+		proc.cost(0, 1);
 	}
 
 	public static void NEGU(Processor proc, Memory mem, int x, int y, int z) {
@@ -516,10 +530,12 @@ public final class InstructionSet {
 
 	public static void MUL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) * proc.register(z));
+		proc.cost(0, 10);
 	}
 
 	public static void MULI(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, proc.register(y) * (byte) z);
+		proc.cost(0, 10);
 	}
 
 }

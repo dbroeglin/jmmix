@@ -36,7 +36,6 @@ Main	SET	$1,40
 	INCML	$202,#ffff
 	INCL	$202,#ffff
 	
-	
 # End of value setup
 
 	ADDU	$5,$1,$2
@@ -60,9 +59,6 @@ Main	SET	$1,40
 	4ADDU	$21,$1,$2
 	8ADDU	$22,$1,$2
 	16ADDU	$23,$1,$2
-
-	FADD	$25,$200,$201
-	FADD	$26,$202,$202
 
 	SUBU	$31,$5,$2
 	SUBU	$32,$5,2
