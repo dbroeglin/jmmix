@@ -1,8 +1,5 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
-import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
-import static java.lang.Double.doubleToRawLongBits;
-import static java.lang.Double.longBitsToDouble;
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
 import fr.broeglin.jmmix.simulator.UnknownInstruction;
@@ -94,24 +91,26 @@ public final class InstructionSet {
 			null,
 			null,
 			null,
+			
 			// 0x6x
 			ConditionalInstructions::CSN, ConditionalInstructions::CSNI,
 			ConditionalInstructions::CSZ, ConditionalInstructions::CSZI,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
+			ConditionalInstructions::CSP, ConditionalInstructions::CSPI,
+			ConditionalInstructions::CSOD, ConditionalInstructions::CSODI,
+			ConditionalInstructions::CSNN, ConditionalInstructions::CSNNI,
+			ConditionalInstructions::CSNZ, ConditionalInstructions::CSNZI,
+			ConditionalInstructions::CSNP, ConditionalInstructions::CSNPI,
+			ConditionalInstructions::CSEV, ConditionalInstructions::CSEVI,
+			
 			// 0x7x
 			ConditionalInstructions::ZSN, ConditionalInstructions::ZSNI,
 			ConditionalInstructions::ZSZ, ConditionalInstructions::ZSZI,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
+			ConditionalInstructions::ZSP, ConditionalInstructions::ZSPI,
+			ConditionalInstructions::ZSOD, ConditionalInstructions::ZSODI,
+			ConditionalInstructions::ZSNN, ConditionalInstructions::ZSNNI,
+			ConditionalInstructions::ZSNZ, ConditionalInstructions::ZSNZI,
+			ConditionalInstructions::ZSNP, ConditionalInstructions::ZSNPI,
+			ConditionalInstructions::ZSEV, ConditionalInstructions::ZSEVI,
 
 			// 0x8x
 			null, null,

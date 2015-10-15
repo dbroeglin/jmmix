@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
-import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 import fr.broeglin.jmmix.simulator.UnknownInstruction;
 
 public class TrapInstruction {
