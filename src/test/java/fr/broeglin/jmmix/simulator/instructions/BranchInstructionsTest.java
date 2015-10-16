@@ -63,13 +63,40 @@ public class BranchInstructionsTest extends AbstractInstructionsTest {
 		assertNotBranch(BranchInstructions::BNZB, 0x01, 0x123);
 	}
 
-	
-	
+	@Test
+	public void BN_should_branch_if_negative() {
+		proc.setRegister(1, -1);
+
+		assertBranch(BranchInstructions::BN, 0x01, 0x123);
+	}
+
+	@Test
+	public void BN_should_not_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BN, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNB_should_branch_if_negative() {
+		proc.setRegister(1, -1);
+
+		assertBranchBack(BranchInstructions::BNB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNB_should_not_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BNB, 0x01, 0x123);
+	}
+
 	private void assertBranch(Instruction inst, int x, int yz) {
 		proc.incInstPtr(0x1111);
 		proc.decodeInstruction(0xffffff & (x << 16 | yz));
 
 		inst.op(proc, mem, proc.x(), proc.y(), proc.z());
+		proc.incInstPtr(1); // like in the simulator
 
 		assertThat(proc.instPtr(), equalTo(0x4444l + yz * 4));
 	}
@@ -79,6 +106,7 @@ public class BranchInstructionsTest extends AbstractInstructionsTest {
 		proc.decodeInstruction(0xffffff & (x << 16 | yz));
 
 		inst.op(proc, mem, proc.x(), proc.y(), proc.z());
+		proc.incInstPtr(1); // like in the simulator
 
 		assertThat(proc.instPtr(),
 				equalTo(0x4444l + ((long) yz - 0x10000l) * 4));
