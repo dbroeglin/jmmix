@@ -91,10 +91,15 @@ public class Processor {
 		return z;
 	}
 
+	public int yz() {
+		return 0xffff & (y << 8 | z);
+	}
+	
 	public void loadInstruction(Memory memory) {
-		instruction = memory.load32(instPtr);
+		decodeInstruction(instruction = memory.load32(instPtr));
+	}
 
-		// decode instruction
+	public void decodeInstruction(int instruction) {
 		op = (instruction & 0xff000000) >>> 24;
 		x = (instruction & 0x00ff0000) >>> 16;
 		y = (instruction & 0x0000ff00) >>> 8;
@@ -109,4 +114,5 @@ public class Processor {
 		// TODO: really calculate cost
 		incSpecialRegister(rI, -nu);
 	}
+
 }

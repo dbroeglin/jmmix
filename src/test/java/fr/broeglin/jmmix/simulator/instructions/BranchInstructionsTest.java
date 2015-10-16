@@ -1,0 +1,95 @@
+package fr.broeglin.jmmix.simulator.instructions;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+
+public class BranchInstructionsTest extends AbstractInstructionsTest {
+
+	@Test
+	public void BZ_should_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertBranch(BranchInstructions::BZ, 0x01, 0x123);
+	}
+
+	@Test
+	public void BZ_should_not_branch_if_not_0() {
+		proc.setRegister(1, 1);
+
+		assertNotBranch(BranchInstructions::BZ, 0x01, 0x123);
+	}
+
+	@Test
+	public void BZB_should_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertBranchBack(BranchInstructions::BZB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BZB_should_not_branch_if_not_0() {
+		proc.setRegister(1, 1);
+
+		assertNotBranch(BranchInstructions::BZB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNZ_should_branch_if_not_0() {
+		proc.setRegister(1, 1);
+
+		assertBranch(BranchInstructions::BNZ, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNZ_should_not_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BNZ, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNZB_should_branch_if_not_0() {
+		proc.setRegister(1, 1);
+
+		assertBranchBack(BranchInstructions::BNZB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNZB_should_not_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BNZB, 0x01, 0x123);
+	}
+
+	
+	
+	private void assertBranch(Instruction inst, int x, int yz) {
+		proc.incInstPtr(0x1111);
+		proc.decodeInstruction(0xffffff & (x << 16 | yz));
+
+		inst.op(proc, mem, proc.x(), proc.y(), proc.z());
+
+		assertThat(proc.instPtr(), equalTo(0x4444l + yz * 4));
+	}
+
+	private void assertBranchBack(Instruction inst, int x, int yz) {
+		proc.incInstPtr(0x1111);
+		proc.decodeInstruction(0xffffff & (x << 16 | yz));
+
+		inst.op(proc, mem, proc.x(), proc.y(), proc.z());
+
+		assertThat(proc.instPtr(),
+				equalTo(0x4444l + ((long) yz - 0x10000l) * 4));
+	}
+
+	private void assertNotBranch(Instruction inst, int op, int yz) {
+		proc.incInstPtr(0x1111);
+		proc.decodeInstruction(op << 16 | yz);
+
+		inst.op(proc, mem, 1, 0x1, 0x23);
+
+		assertThat(proc.instPtr(), equalTo(0x4444l));
+	}
+}
