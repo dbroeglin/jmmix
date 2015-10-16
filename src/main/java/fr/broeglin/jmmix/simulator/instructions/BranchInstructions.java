@@ -22,6 +22,7 @@ public class BranchInstructions {
 			proc.cost(0, 1);
 		}
 	}
+
 	public static void BZ(Processor proc, Memory mem, int x, int y, int z) {
 		if (proc.register(x) == 0) {
 			proc.incInstPtr(proc.yz() - 1);
@@ -51,6 +52,24 @@ public class BranchInstructions {
 
 	public static void BNZB(Processor proc, Memory mem, int x, int y, int z) {
 		if (proc.register(x) != 0) {
+			proc.incInstPtr(proc.yz() - 0x10000 - 1);
+			proc.cost(0, 3);
+		} else {
+			proc.cost(0, 1);
+		}
+	}
+
+	public static void BP(Processor proc, Memory mem, int x, int y, int z) {
+		if (proc.register(x) > 0) {
+			proc.incInstPtr(proc.yz() - 1);
+			proc.cost(0, 3);
+		} else {
+			proc.cost(0, 1);
+		}
+	}
+
+	public static void BPB(Processor proc, Memory mem, int x, int y, int z) {
+		if (proc.register(x) > 0) {
 			proc.incInstPtr(proc.yz() - 0x10000 - 1);
 			proc.cost(0, 3);
 		} else {
