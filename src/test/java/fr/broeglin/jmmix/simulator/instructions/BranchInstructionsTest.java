@@ -231,6 +231,34 @@ public class BranchInstructionsTest extends AbstractInstructionsTest {
 		assertNotBranch(BranchInstructions::BNPB, 0x01, 0x123);
 	}	
 	
+	@Test
+	public void BEV_should_branch_if_even() {
+		proc.setRegister(1, 0);
+
+		assertBranch(BranchInstructions::BEV, 0x01, 0x123);
+	}
+
+	@Test
+	public void BOD_should_not_branch_if_odd() {
+		proc.setRegister(1, 1);
+
+		assertNotBranch(BranchInstructions::BEV, 0x01, 0x123);
+	}
+
+	@Test
+	public void BEVB_should_branch_if_even() {
+		proc.setRegister(1, 0);
+
+		assertBranchBack(BranchInstructions::BEVB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BODB_should_not_branch_if_odd() {
+		proc.setRegister(1, 1);
+
+		assertNotBranch(BranchInstructions::BEVB, 0x01, 0x123);
+	}
+	
 	// plumbing
 
 	private void assertBranch(Instruction inst, int x, int yz) {

@@ -62,7 +62,7 @@ public final class InstructionSet {
 			BranchInstructions::BNN, BranchInstructions::BNNB,
 			BranchInstructions::BNZ, BranchInstructions::BNZB,
 			BranchInstructions::BNP, BranchInstructions::BNPB,
-			null, null,
+			BranchInstructions::BEV, BranchInstructions::BEVB,
 
 			// 0x5x
 			null, null,

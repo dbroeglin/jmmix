@@ -21,7 +21,9 @@ C	BOD	$2,D
 	SET	$252,#ff dummy
 D	BNZ	$2,E
 	SET	$251,#ff dummy
-E	BNP	$2,Z
+E	BNP	$2,F
+	SET	$250,#ff dummy
+F	BEV	$2,Z
 	SET	$250,#ff dummy
 
 Z	SET	$253,#ff dummy

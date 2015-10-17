@@ -61,6 +61,14 @@ public class BranchInstructions {
 		branchBack(proc, proc.register(x) <= 0);
 	}	
 
+	public static void BEV(Processor proc, Memory mem, int x, int y, int z) {
+		branchForward(proc, proc.register(x) % 2 == 0);
+	}
+
+	public static void BEVB(Processor proc, Memory mem, int x, int y, int z) {
+		branchBack(proc, proc.register(x) % 2 == 0);
+	}
+	
 	private static void branchForward(Processor proc, boolean condition) {
 		if (condition) {
 			proc.incInstPtr(proc.yz() - 1);
