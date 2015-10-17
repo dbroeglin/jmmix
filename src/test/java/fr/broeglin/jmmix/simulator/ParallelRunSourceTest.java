@@ -20,6 +20,11 @@ public class ParallelRunSourceTest extends AbstractMmoTest {
 	}
 	
 	@Test
+	public void pbranches() throws Exception {
+		runParallel("pbranches.mms");
+	}	
+	
+	@Test
 	public void conditionals() throws Exception {
 		runParallel("conds.mms");
 	}

@@ -65,14 +65,14 @@ public final class InstructionSet {
 			BranchInstructions::BEV, BranchInstructions::BEVB,
 
 			// 0x5x
-			null, null,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
+			BranchInstructions::PBN, BranchInstructions::PBNB,
+			BranchInstructions::PBZ, BranchInstructions::PBZB,
+			BranchInstructions::PBP, BranchInstructions::PBPB,
+			BranchInstructions::PBOD, BranchInstructions::PBODB,
+			BranchInstructions::PBNN, BranchInstructions::PBNNB,
+			BranchInstructions::PBNZ, BranchInstructions::PBNZB,
+			BranchInstructions::PBNP, BranchInstructions::PBNPB,
+			BranchInstructions::PBEV, BranchInstructions::PBEVB,
 
 			// 0x6x
 			ConditionalInstructions::CSN, ConditionalInstructions::CSNI,
