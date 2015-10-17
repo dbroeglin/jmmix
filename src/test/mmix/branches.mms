@@ -14,9 +14,12 @@ Main	SETL	$1,#0
 	BZ	$1,A
 A	BZ	$2,Z
 	BN	$3,B	
-B	SET	$254,#ff dummy
-	BP	$2,Z
-C	SET	$253,#ff dummy
+	SET	$254,#ff dummy
+B	BP	$2,C
+	SET	$253,#ff dummy
+C	BOD	$2,Z
+	SET	$252,#ff dummy
 
-Z	SET	$255,0
+Z	SET	$253,#ff dummy
+	SET	$255,0
 	TRAP 	0

@@ -76,4 +76,22 @@ public class BranchInstructions {
 			proc.cost(0, 1);
 		}
 	}
+	
+	public static void BOD(Processor proc, Memory mem, int x, int y, int z) {
+		if (proc.register(x) % 2 != 0) {
+			proc.incInstPtr(proc.yz() - 1);
+			proc.cost(0, 3);
+		} else {
+			proc.cost(0, 1);
+		}
+	}
+
+	public static void BODB(Processor proc, Memory mem, int x, int y, int z) {
+		if (proc.register(x) % 2 != 0) {
+			proc.incInstPtr(proc.yz() - 0x10000 - 1);
+			proc.cost(0, 3);
+		} else {
+			proc.cost(0, 1);
+		}
+	}
 }

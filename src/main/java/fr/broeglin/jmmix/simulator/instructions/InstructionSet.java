@@ -58,7 +58,7 @@ public final class InstructionSet {
 			BranchInstructions::BN, BranchInstructions::BNB,
 			BranchInstructions::BZ, BranchInstructions::BZB,
 			BranchInstructions::BP, BranchInstructions::BPB,
-			null, null,
+			BranchInstructions::BOD, BranchInstructions::BODB,
 			null, null,
 			null, null,
 			null, null,
