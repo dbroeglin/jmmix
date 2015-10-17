@@ -36,6 +36,132 @@ public class BranchInstructionsTest extends AbstractInstructionsTest {
 	}
 
 	@Test
+	public void BN_should_branch_if_negative() {
+		proc.setRegister(1, -1);
+
+		assertBranch(BranchInstructions::BN, 0x01, 0x123);
+	}
+
+	@Test
+	public void BN_should_not_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BN, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNB_should_branch_if_negative() {
+		proc.setRegister(1, -1);
+
+		assertBranchBack(BranchInstructions::BNB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNB_should_not_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BNB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BP_should_branch_if_positive() {
+		proc.setRegister(1, 1);
+
+		assertBranch(BranchInstructions::BP, 0x01, 0x123);
+	}
+
+	@Test
+	public void BP_should_not_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BP, 0x01, 0x123);
+	}
+
+	@Test
+	public void BPB_should_branch_if_positive() {
+		proc.setRegister(1, 1);
+
+		assertBranchBack(BranchInstructions::BPB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BPB_should_not_branch_if_0() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BPB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BOD_should_branch_if_odd() {
+		proc.setRegister(1, 1);
+
+		assertBranch(BranchInstructions::BOD, 0x01, 0x123);
+	}
+
+	@Test
+	public void BOD_should_not_branch_if_even() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BOD, 0x01, 0x123);
+	}
+
+	@Test
+	public void BODB_should_branch_if_odd() {
+		proc.setRegister(1, 1);
+
+		assertBranchBack(BranchInstructions::BODB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BODB_should_not_branch_if_even() {
+		proc.setRegister(1, 0);
+
+		assertNotBranch(BranchInstructions::BODB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNN_should_branch_if_zero() {
+		proc.setRegister(1, 0);
+
+		assertBranch(BranchInstructions::BNN, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNN_should_branch_if_positive() {
+		proc.setRegister(1, 1);
+
+		assertBranch(BranchInstructions::BNN, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNN_should_not_branch_if_negative() {
+		proc.setRegister(1, -1);
+
+		assertNotBranch(BranchInstructions::BNN, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNNB_should_branch_if_zero() {
+		proc.setRegister(1, 0);
+
+		assertBranchBack(BranchInstructions::BNNB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNNB_should_branch_if_positive() {
+		proc.setRegister(1, 1);
+
+		assertBranchBack(BranchInstructions::BNNB, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNNB_should_not_branch_if_negative() {
+		proc.setRegister(1, -1);
+
+		assertNotBranch(BranchInstructions::BNNB, 0x01, 0x123);
+	}
+
+	@Test
 	public void BNZ_should_branch_if_not_0() {
 		proc.setRegister(1, 1);
 
@@ -64,90 +190,49 @@ public class BranchInstructionsTest extends AbstractInstructionsTest {
 	}
 
 	@Test
-	public void BN_should_branch_if_negative() {
+	public void BNP_should_branch_if_zero() {
+		proc.setRegister(1, 0);
+
+		assertBranch(BranchInstructions::BNP, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNP_should_branch_if_negative() {
 		proc.setRegister(1, -1);
 
-		assertBranch(BranchInstructions::BN, 0x01, 0x123);
+		assertBranch(BranchInstructions::BNP, 0x01, 0x123);
 	}
 
 	@Test
-	public void BN_should_not_branch_if_0() {
+	public void BNP_should_not_branch_if_positive() {
+		proc.setRegister(1, 1);
+
+		assertNotBranch(BranchInstructions::BNP, 0x01, 0x123);
+	}
+
+	@Test
+	public void BNPB_should_branch_if_zero() {
 		proc.setRegister(1, 0);
 
-		assertNotBranch(BranchInstructions::BN, 0x01, 0x123);
+		assertBranchBack(BranchInstructions::BNPB, 0x01, 0x123);
 	}
 
 	@Test
-	public void BNB_should_branch_if_negative() {
+	public void BNPB_should_branch_if_negative() {
 		proc.setRegister(1, -1);
 
-		assertBranchBack(BranchInstructions::BNB, 0x01, 0x123);
+		assertBranchBack(BranchInstructions::BNPB, 0x01, 0x123);
 	}
 
 	@Test
-	public void BNB_should_not_branch_if_0() {
-		proc.setRegister(1, 0);
-
-		assertNotBranch(BranchInstructions::BNB, 0x01, 0x123);
-	}
-
-	
-	@Test
-	public void BP_should_branch_if_positive() {
+	public void BNPB_should_not_branch_if_positive() {
 		proc.setRegister(1, 1);
 
-		assertBranch(BranchInstructions::BP, 0x01, 0x123);
-	}
-
-	@Test
-	public void BP_should_not_branch_if_0() {
-		proc.setRegister(1, 0);
-
-		assertNotBranch(BranchInstructions::BP, 0x01, 0x123);
-	}
-
-	@Test
-	public void BPB_should_branch_if_positive() {
-		proc.setRegister(1, 1);
-
-		assertBranchBack(BranchInstructions::BPB, 0x01, 0x123);
-	}
-
-	@Test
-	public void BPB_should_not_branch_if_0() {
-		proc.setRegister(1, 0);
-
-		assertNotBranch(BranchInstructions::BPB, 0x01, 0x123);
-	}
-	
-	@Test
-	public void BOD_should_branch_if_odd() {
-		proc.setRegister(1, 1);
-		
-		assertBranch(BranchInstructions::BOD, 0x01, 0x123);
-	}
-
-	@Test
-	public void BOD_should_not_branch_if_even() {
-		proc.setRegister(1, 0);
-		
-		assertNotBranch(BranchInstructions::BOD, 0x01, 0x123);
-	}
-	
-	@Test
-	public void BODB_should_branch_if_odd() {
-		proc.setRegister(1, 1);
-		
-		assertBranchBack(BranchInstructions::BODB, 0x01, 0x123);
-	}
-
-	@Test
-	public void BODB_should_not_branch_if_even() {
-		proc.setRegister(1, 0);
-		
-		assertNotBranch(BranchInstructions::BODB, 0x01, 0x123);
+		assertNotBranch(BranchInstructions::BNPB, 0x01, 0x123);
 	}	
 	
+	// plumbing
+
 	private void assertBranch(Instruction inst, int x, int yz) {
 		proc.incInstPtr(0x1111);
 		proc.decodeInstruction(0xffffff & (x << 16 | yz));

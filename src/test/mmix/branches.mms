@@ -17,8 +17,12 @@ A	BZ	$2,Z
 	SET	$254,#ff dummy
 B	BP	$2,C
 	SET	$253,#ff dummy
-C	BOD	$2,Z
+C	BOD	$2,D
 	SET	$252,#ff dummy
+D	BNZ	$2,E
+	SET	$251,#ff dummy
+E	BNP	$2,Z
+	SET	$250,#ff dummy
 
 Z	SET	$253,#ff dummy
 	SET	$255,0
