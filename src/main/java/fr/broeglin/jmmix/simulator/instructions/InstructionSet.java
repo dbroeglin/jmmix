@@ -35,14 +35,14 @@ public final class InstructionSet {
 			null, null,
 
 			// 0x2x
-			InstructionSet::ADD, InstructionSet::ADDI,
-			InstructionSet::ADDU, InstructionSet::ADDUI,
-			InstructionSet::SUB, InstructionSet::SUBI,
-			InstructionSet::SUBU, InstructionSet::SUBUI,
-			InstructionSet::_2ADDU, InstructionSet::_2ADDUI,
-			InstructionSet::_4ADDU, InstructionSet::_4ADDUI,
-			InstructionSet::_8ADDU, InstructionSet::_8ADDUI,
-			InstructionSet::_16ADDU, InstructionSet::_16ADDUI,
+			ArithmeticInstructions::ADD, ArithmeticInstructions::ADDI,
+			ArithmeticInstructions::ADDU, ArithmeticInstructions::ADDUI,
+			ArithmeticInstructions::SUB, ArithmeticInstructions::SUBI,
+			ArithmeticInstructions::SUBU, ArithmeticInstructions::SUBUI,
+			ArithmeticInstructions::_2ADDU, ArithmeticInstructions::_2ADDUI,
+			ArithmeticInstructions::_4ADDU, ArithmeticInstructions::_4ADDUI,
+			ArithmeticInstructions::_8ADDU, ArithmeticInstructions::_8ADDUI,
+			ArithmeticInstructions::_16ADDU, ArithmeticInstructions::_16ADDUI,
 
 			// 0x3x
 			null, null,
@@ -136,14 +136,14 @@ public final class InstructionSet {
 			null, null,
 
 			// 0xcx
-			InstructionSet::OR, InstructionSet::ORI,
-			InstructionSet::ORN, InstructionSet::ORNI,
-			InstructionSet::NOR, InstructionSet::NORI,
-			InstructionSet::XOR, InstructionSet::XORI,
-			InstructionSet::AND, InstructionSet::ANDI,
-			InstructionSet::ANDN, InstructionSet::ANDNI,
-			InstructionSet::NAND, InstructionSet::NANDI,
-			InstructionSet::NXOR, InstructionSet::NXORI,
+			ArithmeticInstructions::OR, ArithmeticInstructions::ORI,
+			ArithmeticInstructions::ORN, ArithmeticInstructions::ORNI,
+			ArithmeticInstructions::NOR, ArithmeticInstructions::NORI,
+			ArithmeticInstructions::XOR, ArithmeticInstructions::XORI,
+			ArithmeticInstructions::AND, ArithmeticInstructions::ANDI,
+			ArithmeticInstructions::ANDN, ArithmeticInstructions::ANDNI,
+			ArithmeticInstructions::NAND, ArithmeticInstructions::NANDI,
+			ArithmeticInstructions::NXOR, ArithmeticInstructions::NXORI,
 
 			// 0xdx
 			null, null,
@@ -176,170 +176,8 @@ public final class InstructionSet {
 			null, null
 	};
 
-	public static void _2ADDU(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) * 2 + proc.register(z));
-		proc.cost(0, 1);
-	}
 
-	public static void _2ADDUI(Processor proc, Memory mem, int x, int y,
-			int z) {
-		proc.setRegister(x, proc.register(y) * 2 + z);
-		proc.cost(0, 1);
-	}
 
-	public static void _4ADDU(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) * 4 + proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void _4ADDUI(Processor proc, Memory mem, int x, int y,
-			int z) {
-		proc.setRegister(x, proc.register(y) * 4 + z);
-		proc.cost(0, 1);
-	}
-
-	public static void _8ADDU(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) * 8 + proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void _8ADDUI(Processor proc, Memory mem, int x, int y,
-			int z) {
-		proc.setRegister(x, proc.register(y) * 8 + z);
-		proc.cost(0, 1);
-	}
-
-	public static void _16ADDU(Processor proc, Memory mem, int x, int y,
-			int z) {
-		proc.setRegister(x, proc.register(y) * 16 + proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void _16ADDUI(Processor proc, Memory mem, int x, int y,
-			int z) {
-		proc.setRegister(x, proc.register(y) * 16 + z);
-		proc.cost(0, 1);
-	}
-
-	public static void ADD(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) + proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void ADDI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) + z);
-		proc.cost(0, 1);
-	}
-
-	public static void ADDU(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) + proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void ADDUI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) + z);
-		proc.cost(0, 1);
-	}
-
-	public static void SUB(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) - proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void SUBI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) - z);
-		proc.cost(0, 1);
-	}
-
-	public static void SUBU(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) - proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void SUBUI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) - z);
-		proc.cost(0, 1);
-	}
-
-	public static void OR(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) | proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void ORI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) | (byte) z);
-		proc.cost(0, 1);
-	}
-
-	public static void XOR(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) ^ proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void XORI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) ^ (byte) z);
-		proc.cost(0, 1);
-	}
-
-	public static void NXOR(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, ~(proc.register(y) ^ proc.register(z)));
-		proc.cost(0, 1);
-	}
-
-	public static void NXORI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, ~(proc.register(y) ^ (byte) z));
-		proc.cost(0, 1);
-	}
-
-	public static void ORN(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) | ~proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void ORNI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) | ~(byte) z);
-		proc.cost(0, 1);
-	}
-
-	public static void AND(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) & proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void ANDI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) & (byte) z);
-		proc.cost(0, 1);
-	}
-
-	public static void NAND(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, ~(proc.register(y) & proc.register(z)));
-		proc.cost(0, 1);
-	}
-
-	public static void NANDI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, ~(proc.register(y) & (byte) z));
-		proc.cost(0, 1);
-	}
-
-	public static void ANDN(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) & ~proc.register(z));
-		proc.cost(0, 1);
-	}
-
-	public static void ANDNI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) & ~(byte) z);
-		proc.cost(0, 1);
-	}
-
-	public static void NOR(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, ~(proc.register(y) | proc.register(z)));
-		proc.cost(0, 1);
-	}
-
-	public static void NORI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, ~(proc.register(y) | (byte) z));
-		proc.cost(0, 1);
-	}
 
 	public static void SETL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, y << 8 | z);
