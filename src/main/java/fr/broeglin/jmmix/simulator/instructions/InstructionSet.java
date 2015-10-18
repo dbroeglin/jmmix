@@ -31,7 +31,7 @@ public final class InstructionSet {
 			FloatInstructions::FREM, FloatInstructions::FINT,
 			InstructionSet::MUL, InstructionSet::MULI,
 			null, null,
-			null, null,
+			ArithmeticInstructions::DIV, null,
 			null, null,
 
 			// 0x2x

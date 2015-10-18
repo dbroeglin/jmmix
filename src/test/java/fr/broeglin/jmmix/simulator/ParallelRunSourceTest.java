@@ -19,10 +19,6 @@ public class ParallelRunSourceTest extends AbstractMmoTest {
 		runParallel("branches.mms");
 	}
 	
-	@Test
-	public void pbranches() throws Exception {
-		runParallel("pbranches.mms");
-	}	
 	
 	@Test
 	public void conditionals() throws Exception {
@@ -38,7 +34,12 @@ public class ParallelRunSourceTest extends AbstractMmoTest {
 	public void dummy() throws Exception {
 		runParallel("dummy.mms");
 	}
-
+	
+	@Test
+	public void euclid() throws Exception {
+		runParallel("euclid.mms");
+	}	
+	
 	@Test
 	public void float_() throws Exception {
 		runParallel("float.mms");
@@ -49,6 +50,11 @@ public class ParallelRunSourceTest extends AbstractMmoTest {
 		runParallel("jumps.mms");
 	}
 
+	@Test
+	public void pbranches() throws Exception {
+		runParallel("pbranches.mms");
+	}	
+	
 	@Test
 	public void traps() throws Exception {
 		runParallel("traps.mms");

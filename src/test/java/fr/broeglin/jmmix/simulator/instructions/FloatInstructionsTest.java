@@ -32,7 +32,6 @@ public class FloatInstructionsTest {
 	public void FDIV_should_add_doubles() {
 		checkOp(FloatInstructions::FDIV, 4.25, 12.75, 3.0);
 	}
-	
 
 	@Test
 	public void FSQRT_should_sqrt_doubles() {
