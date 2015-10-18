@@ -2,6 +2,7 @@ package fr.broeglin.jmmix.simulator.instructions;
 
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
+import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 import fr.broeglin.jmmix.simulator.UnknownInstruction;
 
 public final class InstructionSet {
@@ -173,11 +174,15 @@ public final class InstructionSet {
 			null, null,
 			null, null,
 			null, InstructionSet::SWYM,
-			null, null
+			InstructionSet::GET, null
 	};
 
 
-
+	public static void GET(Processor proc, Memory mem, int x, int y, int z) {
+		// TODO: this does not uphold all GET rules
+		proc.setRegister(x, proc.specialRegister(SpecialRegisterName.values()[z]));
+		proc.cost(0, 1);
+	}
 
 	public static void SETL(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, y << 8 | z);

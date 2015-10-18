@@ -1,5 +1,6 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rR;
 import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.CMP;
 import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.CMPI;
 import static fr.broeglin.jmmix.simulator.instructions.InstructionSet.CMPU;
@@ -18,6 +19,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
+import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 
 public class InstructionSetTest extends AbstractInstructionsTest {
 
@@ -284,4 +287,16 @@ public class InstructionSetTest extends AbstractInstructionsTest {
 		checkOpI(InstructionSet::MULI, 12, 2, 6);
 	}
 
+	@Test
+	public void GET_should_copy_special_register_to_global() {
+		proc.setSpecialRegister(rR, 47l);
+		
+		assertThat(proc.specialRegister(rR), equalTo(47l));
+		assertThat(rR.ordinal(), equalTo(6));
+		assertThat(SpecialRegisterName.values()[6], equalTo(rR));
+		((Instruction) InstructionSet::GET).op(proc, mem, 1, 0, 6);
+		
+		assertThat(proc.register(1), equalTo(47l));
+
+	}
 }

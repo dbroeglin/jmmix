@@ -37,7 +37,7 @@ public abstract class AbstractMmoTest {
 
 	// 1. 0000000000000100: f0000004 (JMP) -> #110
 	private static final Pattern INST_PAT = Pattern
-			.compile(".*1. ([0-9a-f]{16}): ([0-9a-f]{8}) .*",
+			.compile(".*[0-9]+. ([0-9a-f]{16}): ([0-9a-f]{8}) .*",
 					Pattern.UNIX_LINES);
 	// $255=g[255]=#5 or $32=#0
 	private static final Pattern GEN_REG_PAT = Pattern
@@ -184,7 +184,7 @@ public abstract class AbstractMmoTest {
 			InstructionTrace simInst = sims.get(i);
 
 			if (!inst.equals(simInst)) {
-				sb.append(inst).append(" <> ").append(simInst).append("\n");
+				sb.append("Inst. diff: ").append(inst).append(" <> ").append(simInst).append("\n");
 				diff = true;
 			}
 		}
