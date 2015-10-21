@@ -50,7 +50,6 @@ public class BranchInstructions {
 	}
 
 	public static void BNZB(Processor proc, Memory mem, int x, int y, int z) {
-		System.err.println("BNZB: " + proc.register(x));
 		branchBack(proc, proc.register(x) != 0);
 	}
 	
