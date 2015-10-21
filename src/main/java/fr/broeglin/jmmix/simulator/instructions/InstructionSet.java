@@ -46,8 +46,8 @@ public final class InstructionSet {
 			ArithmeticInstructions::_16ADDU, ArithmeticInstructions::_16ADDUI,
 
 			// 0x3x
-			null, null,
-			null, null,
+			InstructionSet::CMP, InstructionSet::CMPI,
+			InstructionSet::CMPU, InstructionSet::CMPU,
 			InstructionSet::NEG, InstructionSet::NEGI,
 			InstructionSet::NEGU, InstructionSet::NEGUI,
 			null, null,
@@ -117,7 +117,7 @@ public final class InstructionSet {
 			null, null,
 
 			// 0xax
-			null, null,
+			InstructionSet::STB, InstructionSet::STBI,
 			null, null,
 			null, null,
 			null, null,
@@ -177,7 +177,16 @@ public final class InstructionSet {
 			InstructionSet::GET, null
 	};
 
-
+	public static void STB(Processor proc, Memory mem, int x, int y, int z) {
+		mem.store8(proc.register(y) + proc.register(z), (byte)proc.register(x));
+		proc.cost(1, 1);
+	}
+	
+	public static void STBI(Processor proc, Memory mem, int x, int y, int z) {
+		mem.store8(proc.register(y) + (0xff & z), (byte)proc.register(x));
+		proc.cost(1, 1);
+	}
+	
 	public static void GET(Processor proc, Memory mem, int x, int y, int z) {
 		// TODO: this does not uphold all GET rules
 		proc.setRegister(x, proc.specialRegister(SpecialRegisterName.values()[z]));
