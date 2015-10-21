@@ -44,6 +44,11 @@ public class ParallelRunSourceTest extends AbstractMmoTest {
 	public void float_() throws Exception {
 		runParallel("float.mms");
 	}
+	
+	@Test
+	public void hello() throws Exception {
+		runParallel("hello.mms");
+	}
 
 	@Test
 	public void jumps() throws Exception {

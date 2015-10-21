@@ -1,6 +1,7 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rJ;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rWW;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rXX;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rYY;
@@ -10,6 +11,7 @@ import java.io.IOException;
 
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
+import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 import fr.broeglin.jmmix.simulator.UnknownInstruction;
 
 public class TrapInstruction {
@@ -31,15 +33,11 @@ public class TrapInstruction {
 	}
 
 	public static void TRAP(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setSpecialRegister(rWW, proc.instPtr());
-		proc.setSpecialRegisterHigh(rXX, SIGN_BIT);
-		proc.setSpecialRegisterLow(rXX, proc.instruction());
-		proc.setSpecialRegister(rYY, y); // ???
-		proc.setSpecialRegister(rZZ, z); // ???
+		byte[] bytes;
+		
 		try {
 			switch (y) {
 			case Traps.Halt:
-				proc.setSpecialRegister(rBB, proc.register(255));
 				// TODO: proc.setSpecialRegister(rWW, inst_ptr) ;
 				proc.setRunning(false);
 				break;
@@ -48,10 +46,14 @@ public class TrapInstruction {
 				case 0: // ignore StdIn
 					break;
 				case 1:
-					System.out.write(mem.byteStringAt(proc.register(255)));
+					bytes = mem.byteStringAt(proc.register(255));
+					System.out.write(bytes);
+					proc.setRegister(255, bytes.length);
 					break;
 				case 2:
-					System.err.write(mem.byteStringAt(proc.register(255)));
+					bytes = mem.byteStringAt(proc.register(255));
+					System.err.write(bytes);
+					proc.setRegister(255, bytes.length);
 					break;
 				default:
 					throw new RuntimeException(
@@ -63,8 +65,15 @@ public class TrapInstruction {
 			}
 		} catch (IOException e) {
 			// TODO: handle some errors in the simulator
+			// return -1 in $255 ?
 			throw new RuntimeException("Error while handling trap", e);
 		}
+		proc.setSpecialRegister(rBB, proc.register(255));
+		proc.setSpecialRegister(rWW, proc.instPtr());
+		proc.setSpecialRegisterHigh(rXX, SIGN_BIT);
+		proc.setSpecialRegisterLow(rXX, proc.instruction());
+		proc.setSpecialRegister(rYY, y); // ???
+		proc.setSpecialRegister(rZZ, z); // ???
 		proc.cost(0, 5);
 	}
 }

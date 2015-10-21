@@ -29,16 +29,6 @@ public class Main {
 			System.exit(-1);
 		}
 
-		System.err.println("Memory state:");
-		System.err.println(simulator.getMemory());
-
 		simulator.execute();
-
-		System.err.println("Memory state:");
-		System.err.println(simulator.getMemory());
-
-		System.err.println("Processor state:");
-		System.err.println(simulator.dump());
-
 	}
 }
