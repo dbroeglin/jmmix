@@ -121,7 +121,7 @@ public class Simulator {
 		// << 8)
 		// rN.l contains the compilation date. Here we set it to the same value
 		// as MMIX ???
-		processor.setSpecialRegister(rN, 0x0100_0100_54FD_FFCCl);
+		processor.setSpecialRegister(rN, 0x0100_0100_581E_0000l);
 		processor.setSpecialRegister(rT, 0x8000000500000000l);
 
 		processor.setSpecialRegister(rV, 0x369c200400000000l);
