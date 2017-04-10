@@ -98,10 +98,10 @@ public final class InstructionSet {
 			// 0x8x
 			null, LoadStoreInstructions::LDBI,
 			null, null,
-			null, null,
+			null, LoadStoreInstructions::LDWI,
 			null, null,
 
-			null, null,
+			null, LoadStoreInstructions::LDTI,
 			null, null,
 			null, LoadStoreInstructions::LDOI,
 			null, null,

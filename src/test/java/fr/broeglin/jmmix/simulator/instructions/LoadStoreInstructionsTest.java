@@ -2,6 +2,8 @@ package fr.broeglin.jmmix.simulator.instructions;
 
 import static fr.broeglin.jmmix.simulator.instructions.LoadStoreInstructions.LDBI;
 import static fr.broeglin.jmmix.simulator.instructions.LoadStoreInstructions.LDOI;
+import static fr.broeglin.jmmix.simulator.instructions.LoadStoreInstructions.LDTI;
+import static fr.broeglin.jmmix.simulator.instructions.LoadStoreInstructions.LDWI;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -20,6 +22,31 @@ public class LoadStoreInstructionsTest extends AbstractInstructionsTest {
 		assertThat(proc.register(2), equalTo(0x0000_0000_0000_0005l));
 		assertThat(proc.register(3), equalTo(-0x0000_0000_0000_0008l));
 	}
+
+	@Test
+	public void should_LDWI() {
+		mem.store64(0x00, 0x0001_0002_0003_0004l);
+		mem.store64(0x08, 0x0005_0006_0007_00ffl & -0x08l);
+
+		LDWI(proc, mem, 0x02, 0x01, 0x09);
+		LDWI(proc, mem, 0x03, 0x01, 0x0e);
+
+		assertThat(proc.register(2), equalTo(0x0000_0000_0000_0005l));
+		assertThat(proc.register(3), equalTo(0x0000_0000_0000_00f8l));
+	}
+
+	@Test
+	public void should_LDTI() {
+		mem.store64(0x00, 0x0001_0002_0003_0004l);
+		mem.store64(0x08, 0x0005_0006_0007_0008l);
+
+		LDTI(proc, mem, 0x02, 0x01, 0x05);
+		LDTI(proc, mem, 0x03, 0x01, 0x0f);
+
+		assertThat(proc.register(2), equalTo(0x0000_0000_0003_0004l));
+		assertThat(proc.register(3), equalTo(0x0000_0000_0007_0008l));
+	}
+
 	
 	@Test
 	public void should_LDOI() {
