@@ -120,8 +120,11 @@ public class Loader {
 		int g = z(tetra);
 		simulator.getProcessor().setSpecialRegister(rG, g);
 		while (g < 256) {
-			simulator.getProcessor().setRegister(g,
-					(long) readTetra() << 32 | (long) readTetra());
+			long regValue = (long) readTetra() << 32 | (long) readTetra() & 0xffffffffl;
+			final int h = g;
+
+			logger.finest(() -> format("Loading #%016x into GREG %d", regValue, h));
+			simulator.getProcessor().setRegister(g, regValue);
 			g++;
 		}
 	}

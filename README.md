@@ -46,7 +46,11 @@ the PATH.
 
 To inspect the content of MMO files:
 
-    hexdump -e '1/1 "%03_ad |"' -e '4/1 " %02X" " | "' -e '4/1 "%_p" "\n"' <mmo file>
+    hexdump -e '1/1 "%03_ad |"' -e '4/1 " %02X" " | "' -e '4/1 "%_p" "\n"' -v <mmo file>
+
+Reading an MMO as a series of long to cut and past into `LoaderTest`:
+
+    hexdump -e '1/1 "0x"' -e '4/1 "%02X" "l,\n"' -v 
 
 ## Know issues
 
