@@ -34,7 +34,7 @@ public class TrapInstruction {
 
 	public static void TRAP(Processor proc, Memory mem, int x, int y, int z) {
 		byte[] bytes;
-		
+
 		try {
 			switch (y) {
 			case Traps.Halt:

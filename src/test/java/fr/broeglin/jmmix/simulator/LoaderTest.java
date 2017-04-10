@@ -71,6 +71,5 @@ public class LoaderTest {
 		dos.close();
 
 		return new ByteArrayInputStream(baos.toByteArray());
-
 	}	
 }

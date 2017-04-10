@@ -5,3 +5,4 @@
 target
 *.mmo
 *.swp
+.DS_Store

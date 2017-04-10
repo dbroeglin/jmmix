@@ -64,4 +64,10 @@ public class ParallelRunSourceTest extends AbstractMmoTest {
 	public void traps() throws Exception {
 		runParallel("traps.mms");
 	}
+	
+	@Test
+	public void loadStore() throws Exception {
+		runParallel("loadstore.mms");
+	}
+	
 }

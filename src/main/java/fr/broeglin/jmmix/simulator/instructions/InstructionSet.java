@@ -96,14 +96,14 @@ public final class InstructionSet {
 			ConditionalInstructions::ZSEV, ConditionalInstructions::ZSEVI,
 
 			// 0x8x
-			null, null,
+			null, LoadStoreInstructions::LDBI,
 			null, null,
 			null, null,
 			null, null,
 
 			null, null,
 			null, null,
-			null, InstructionSet::LDOI,
+			null, LoadStoreInstructions::LDOI,
 			null, null,
 
 			// 0x9x
@@ -340,11 +340,6 @@ public final class InstructionSet {
 	public static void NEGUI(Processor proc, Memory mem, int x, int y, int z) {
 		// TODO: double check this one
 		NEGI(proc, mem, x, y, z);
-	}
-
-	public static void LDOI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, mem.load64(proc.register(y) + z));
-		proc.cost(1, 1);
 	}
 
 	public static void MUL(Processor proc, Memory mem, int x, int y, int z) {
