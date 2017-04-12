@@ -96,14 +96,14 @@ public final class InstructionSet {
 			ConditionalInstructions::ZSEV, ConditionalInstructions::ZSEVI,
 
 			// 0x8x
-			null, LoadStoreInstructions::LDBI,
+			LoadStoreInstructions::LDB, LoadStoreInstructions::LDBI,
 			null, null,
-			null, LoadStoreInstructions::LDWI,
+			LoadStoreInstructions::LDW, LoadStoreInstructions::LDWI,
 			null, null,
 
-			null, LoadStoreInstructions::LDTI,
+			LoadStoreInstructions::LDT, LoadStoreInstructions::LDTI,
 			null, null,
-			null, LoadStoreInstructions::LDOI,
+			LoadStoreInstructions::LDO, LoadStoreInstructions::LDOI,
 			null, null,
 
 			// 0x9x
