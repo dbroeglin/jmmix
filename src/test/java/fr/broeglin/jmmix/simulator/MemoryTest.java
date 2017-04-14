@@ -14,15 +14,17 @@ public class MemoryTest {
 
 	@Test
 	public void node_location_multiple_of_8_times_256() {
+		long BLOCK_SIZE = 8 * 256;
+		
 		assertThat(memory.nodeLocationFor(0), equalTo(0l));
 		assertThat(memory.nodeLocationFor(1), equalTo(0l));
-		assertThat(memory.nodeLocationFor(4095), equalTo(0l));
-		assertThat(memory.nodeLocationFor(4096), equalTo(4096l));
+		assertThat(memory.nodeLocationFor(BLOCK_SIZE - 1), equalTo(0l));
+		assertThat(memory.nodeLocationFor(BLOCK_SIZE), equalTo(BLOCK_SIZE));
 		assertThat(memory.nodeLocationFor(DATA_SEGMENT), equalTo(DATA_SEGMENT));
 		assertThat(memory.nodeLocationFor(DATA_SEGMENT + 1),
 				equalTo(DATA_SEGMENT));
-		assertThat(memory.nodeLocationFor(DATA_SEGMENT + 4096),
-				equalTo(DATA_SEGMENT + 4096));
+		assertThat(memory.nodeLocationFor(DATA_SEGMENT + BLOCK_SIZE),
+				equalTo(DATA_SEGMENT + BLOCK_SIZE));
 		assertThat(memory.nodeLocationFor(STACK_SEGMENT + 1),
 				equalTo(STACK_SEGMENT));
 	}

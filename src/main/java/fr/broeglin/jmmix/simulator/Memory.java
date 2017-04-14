@@ -115,7 +115,7 @@ public class Memory {
 	}
 
 	public long nodeLocationFor(long addr) {
-		return addr & ~0xFFF; // ignore last 12 bits (8 * NODE_SIZE)
+		return addr & ~0x7FF; // ignore last 11 bits (8 * NODE_SIZE)
 	}
 
 	public long getAllocatedSize() {
