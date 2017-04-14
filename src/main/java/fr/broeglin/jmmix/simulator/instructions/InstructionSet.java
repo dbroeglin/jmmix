@@ -97,14 +97,14 @@ public final class InstructionSet {
 
 			// 0x8x
 			LoadStoreInstructions::LDB, LoadStoreInstructions::LDBI,
-			null, null,
+			LoadStoreInstructions::LDBU, LoadStoreInstructions::LDBUI,
 			LoadStoreInstructions::LDW, LoadStoreInstructions::LDWI,
-			null, null,
+			LoadStoreInstructions::LDWU, LoadStoreInstructions::LDWUI,
 
 			LoadStoreInstructions::LDT, LoadStoreInstructions::LDTI,
-			null, null,
+			LoadStoreInstructions::LDTU, LoadStoreInstructions::LDTUI,
 			LoadStoreInstructions::LDO, LoadStoreInstructions::LDOI,
-			null, null,
+			LoadStoreInstructions::LDOU, LoadStoreInstructions::LDOUI,
 
 			// 0x9x
 			null, null,
@@ -117,10 +117,10 @@ public final class InstructionSet {
 			null, null,
 
 			// 0xax
-			InstructionSet::STB, InstructionSet::STBI,
-			null, null,
-			null, null,
-			null, null,
+			LoadStoreInstructions::STB, LoadStoreInstructions::STBI,
+			LoadStoreInstructions::STBU, LoadStoreInstructions::STBUI,
+			LoadStoreInstructions::STW, LoadStoreInstructions::STWI,
+			LoadStoreInstructions::STWU, LoadStoreInstructions::STWUI,
 			null, null,
 			null, null,
 			null, null,
@@ -177,19 +177,10 @@ public final class InstructionSet {
 			InstructionSet::GET, null
 	};
 
-	public static void STB(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store8(proc.register(y) + proc.register(z), (byte)proc.register(x));
-		proc.cost(1, 1);
-	}
-	
-	public static void STBI(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store8(proc.register(y) + (0xff & z), (byte)proc.register(x));
-		proc.cost(1, 1);
-	}
-	
 	public static void GET(Processor proc, Memory mem, int x, int y, int z) {
 		// TODO: this does not uphold all GET rules
-		proc.setRegister(x, proc.specialRegister(SpecialRegisterName.values()[z]));
+		proc.setRegister(x,
+				proc.specialRegister(SpecialRegisterName.values()[z]));
 		proc.cost(0, 1);
 	}
 

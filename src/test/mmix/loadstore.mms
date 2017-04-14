@@ -2,15 +2,21 @@
 pos    	    GREG   @
 Load_Test   OCTA   #8081828384858687
             OCTA   #88898a8b8c8d8e8f
-
-a           GREG   #7f6001b4c67bc809
-b           GREG   #8081828384858687
-c           GREG   #88898a8b8c8d8e8f
-d           GREG
+sto1        GREG   @
+            OCTA   #0000000000000001
+            OCTA   #0000000000000001
+sto2        GREG   @
+            OCTA   #0000000000000001
+            OCTA   #0000000000000001
+sto3        GREG   @
+            OCTA   #0000000000000001
+            OCTA   #0000000000000001
+a           GREG
+b           GREG
 
 
             LOC  #100
-Main        SET  d,a # dummy
+Main        SET  b,a # dummy
 
             LDB  $1,pos,0
             LDB  $2,pos,1
@@ -61,5 +67,28 @@ Main        SET  d,a # dummy
             LDT  $44,pos,$28
 
             LDO  $45,pos,$29
+
+            SETH  $150,#ffff
+            SETMH $150,#ffff
+            SETML $150,#ffff
+            SETL  $150,#ff00
+
+            STB  $150,sto1,$21
+            STB  $150,sto1,3
+            STBU $150,sto1,5
+            STBU $150,sto1,$27
+
+            STW  $150,sto1,8
+            STW  $150,sto1,29
+            STWU $150,sto2,0
+            STWU $150,sto2,$24
+
+            # Load the values back in register for test validation
+            LDO $200,sto1
+            LDO $201,sto1,8
+            LDO $202,sto2
+            LDO $203,sto2,8
+            LDO $204,sto3
+            LDO $205,sto3,8
 
             TRAP 0,Halt,0

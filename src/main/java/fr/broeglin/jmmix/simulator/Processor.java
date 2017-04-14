@@ -1,10 +1,13 @@
 package fr.broeglin.jmmix.simulator;
 
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rA;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rI;
 
 public class Processor {
 
 	public static final int NB_REGISTERS = 256;
+	public static final long rA_V_MASK = 0x40l;
+	
 	private final long[] registers = new long[NB_REGISTERS];
 	private long instPtr;
 	private int instruction;
@@ -42,6 +45,16 @@ public class Processor {
 	public void setSpecialRegisterLow(SpecialRegisterName name, int value) {
 		specialRegisters[name.ordinal()] = specialRegisters[name.ordinal()]
 				& 0xffff_ffff_0000_0000l | 0xffff_ffffl & value;
+	}
+	
+	public void setRa(long mask, boolean v) {
+		long current = specialRegister(rA);
+		
+		setSpecialRegister(rA, v ? current | mask : current & ~mask);
+	}
+	
+	public boolean rA(long mask) {
+		return (specialRegister(rA) & mask) == mask; 
 	}
 
 	public void setRegister(int i, long value) {
