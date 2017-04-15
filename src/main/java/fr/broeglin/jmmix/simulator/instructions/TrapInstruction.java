@@ -1,7 +1,6 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rBB;
-import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rJ;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rWW;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rXX;
 import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rYY;
@@ -11,7 +10,6 @@ import java.io.IOException;
 
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
-import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 import fr.broeglin.jmmix.simulator.UnknownInstruction;
 
 public class TrapInstruction {

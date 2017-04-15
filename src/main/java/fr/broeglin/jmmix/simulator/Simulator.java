@@ -94,23 +94,27 @@ public class Simulator {
 		initializeSpecialRegisters();
 
 		do {
-			processor.loadInstruction(memory);
-			traceInstruction(processor.instruction());
-			processor.incInstPtr(1);
-
-			Instruction inst = InstructionSet.instruction(processor.op());
-			if (inst == null) {
-				throw new UnknownInstruction(processor.op());
-			}
-
-			inst.op(processor, memory, processor.x(), processor.y(),
-					processor.z());
-
-			// TODO: should be mod 2^27 ?
-			processor.incSpecialRegister(rU, 1);
-			
-			// TODO: should this be done here ?
+			executeInstruction();
 		} while (processor.isRunning());
+	}
+
+	void executeInstruction() {
+		processor.loadInstruction(memory);
+		traceInstruction(processor.instruction());
+		processor.incInstPtr(1);
+
+		Instruction inst = InstructionSet.instruction(processor.op());
+		if (inst == null) {
+			throw new UnknownInstruction(processor.op());
+		}
+
+		inst.op(processor, memory, processor.x(), processor.y(),
+				processor.z());
+
+		// TODO: should be mod 2^27 ?
+		processor.incSpecialRegister(rU, 1);
+				
+		// TODO: should this be done here ?
 	}
 
 	void initializeSpecialRegisters() {

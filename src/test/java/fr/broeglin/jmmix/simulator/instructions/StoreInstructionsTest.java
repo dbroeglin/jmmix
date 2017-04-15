@@ -1,7 +1,8 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
 import static fr.broeglin.jmmix.simulator.Memory.DATA_SEGMENT;
-import static fr.broeglin.jmmix.simulator.Processor.rA_V_MASK;
+import static fr.broeglin.jmmix.simulator.Processor.V_BIT;
+import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rA;
 import static fr.broeglin.jmmix.simulator.instructions.StoreInstructions.STB;
 import static fr.broeglin.jmmix.simulator.instructions.StoreInstructions.STBI;
 import static fr.broeglin.jmmix.simulator.instructions.StoreInstructions.STBU;
@@ -26,6 +27,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.broeglin.jmmix.simulator.SpecialRegisterName;
+
 public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 	@Before
@@ -48,9 +51,22 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_45f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
+	@Test
+	public void STB_should_work_and_not_reset_V_bit() {
+		proc.setRegister(0x01, 0xf7l);
+		proc.setRegister(0x03, 3);
+
+		proc.setSpecialRegister(rA, 0x40);
+		STB(proc, mem, 0x01, 0x02, 0x03);
+
+		assertThat(mem.load64(DATA_SEGMENT),
+				equalToHex(0x0123_45f7_89ab_cdefl));
+		assertTrue(proc.rA(V_BIT));
+	}
+	
 	@Test
 	public void STB_should_overflow() {
 		proc.setRegister(0x01, 0xffff_ffff_ffff_0000l);
@@ -60,7 +76,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_4500_89ab_cdefl));
-		assertTrue(proc.rA(rA_V_MASK));
+		assertTrue(proc.rA(V_BIT));
 
 	}
 
@@ -72,7 +88,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_45f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -83,7 +99,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_4500_89ab_cdefl));
-		assertTrue(proc.rA(rA_V_MASK));
+		assertTrue(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -95,7 +111,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_45f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -107,7 +123,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_4500_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -118,7 +134,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_45f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -129,7 +145,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_4500_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	//
@@ -145,7 +161,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_f5f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -157,7 +173,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_0000_89ab_cdefl));
-		assertTrue(proc.rA(rA_V_MASK));
+		assertTrue(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -168,7 +184,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_f5f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -179,7 +195,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_0000_89ab_cdefl));
-		assertTrue(proc.rA(rA_V_MASK));
+		assertTrue(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -191,7 +207,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_f5f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -203,7 +219,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_0000_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -214,7 +230,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_f5f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -225,7 +241,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0123_0000_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	//
@@ -241,7 +257,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf3f4_f5f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 
 	}
 
@@ -254,7 +270,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0000_0000_89ab_cdefl));
-		assertTrue(proc.rA(rA_V_MASK));
+		assertTrue(proc.rA(V_BIT));
 
 	}
 
@@ -266,7 +282,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf3f4_f5f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -277,7 +293,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0000_0000_89ab_cdefl));
-		assertTrue(proc.rA(rA_V_MASK));
+		assertTrue(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -289,7 +305,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf3f4_f5f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 
 	}
 
@@ -302,7 +318,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0000_0000_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 
 	}
 
@@ -314,7 +330,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf3f4_f5f7_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -325,7 +341,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0x0000_0000_89ab_cdefl));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	//
@@ -341,7 +357,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf1f2_f3f4_f5f6_f7f8l));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 
 	}
 
@@ -354,7 +370,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xff00_0000_0000_0000l));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 
 	}
 
@@ -366,7 +382,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf1f2_f3f4_f5f6_f7f8l));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -377,7 +393,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf1f2_f3f4_f5f6_f7f8l));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -389,7 +405,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf1f2_f3f4_f5f6_f7f8l));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 
 	}
 
@@ -402,7 +418,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf1f2_f3f4_f5f6_f7f8l));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 
 	}
 
@@ -414,7 +430,7 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf1f2_f3f4_f5f6_f7f8l));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 
 	@Test
@@ -425,6 +441,6 @@ public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 		assertThat(mem.load64(DATA_SEGMENT),
 				equalToHex(0xf1f2_f3f4_f5f6_f7f8l));
-		assertFalse(proc.rA(rA_V_MASK));
+		assertFalse(proc.rA(V_BIT));
 	}
 }

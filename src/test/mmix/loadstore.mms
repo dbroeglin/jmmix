@@ -75,13 +75,20 @@ Main        SET  b,a # dummy
 
             STB  $150,sto1,$21
             STB  $150,sto1,3
+
             STBU $150,sto1,5
+            GET  $220,rA
             STBU $150,sto1,$27
+            GET  $221,rA
 
             STW  $150,sto1,$28
             STW  $150,sto1,10
             STWU $150,sto1,$29
             STWU $150,sto1,14
+
+            STOU $150,sto3
+            GET  $222,rA
+            
 
             # Load the values back in register for test validation
             LDO $200,sto1

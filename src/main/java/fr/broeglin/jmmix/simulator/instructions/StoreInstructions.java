@@ -1,11 +1,9 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
-import static fr.broeglin.jmmix.simulator.Processor.rA_V_MASK;
-import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rA;
+import static fr.broeglin.jmmix.simulator.Processor.V_BIT;
 
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
-import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 
 public class StoreInstructions {
 
@@ -13,7 +11,9 @@ public class StoreInstructions {
 		long v = proc.register(x);
 
 		mem.store8(proc.register(y) + proc.register(z), (byte) v);
-		proc.setRa(rA_V_MASK, v != (v << 56 >>> 56));
+		if (v != (v << 56 >>> 56)) {
+			proc.setRa(V_BIT, true);
+		}
 		proc.cost(1, 1);
 	}
 
@@ -21,7 +21,9 @@ public class StoreInstructions {
 		long v = proc.register(x);
 
 		mem.store8(proc.register(y) + (0xff & z), (byte) v);
-		proc.setRa(rA_V_MASK, v != (v << 56 >>> 56));
+		if (v != (v << 56 >>> 56)) {
+			proc.setRa(V_BIT, true);
+		}
 		proc.cost(1, 1);
 	}
 
@@ -40,7 +42,9 @@ public class StoreInstructions {
 		long v = proc.register(x);
 
 		mem.store16(proc.register(y) + proc.register(z), (short) v);
-		proc.setRa(rA_V_MASK, v != (v << 48 >>> 48));
+		if (v != (v << 48 >>> 48)) {
+			proc.setRa(V_BIT, true);
+		}
 		proc.cost(1, 1);
 	}
 
@@ -48,7 +52,9 @@ public class StoreInstructions {
 		long v = proc.register(x);
 
 		mem.store16(proc.register(y) + (0xff & z), (short) v);
-		proc.setRa(rA_V_MASK, v != (v << 48 >>> 48));
+		if (v != (v << 48 >>> 48)) {
+			proc.setRa(V_BIT, true);
+		}
 		proc.cost(1, 1);
 	}
 
@@ -67,7 +73,9 @@ public class StoreInstructions {
 		long v = proc.register(x);
 
 		mem.store32(proc.register(y) + proc.register(z), (int) v);
-		proc.setRa(rA_V_MASK, v != (v << 32 >>> 32));
+		if (v != (v << 32 >>> 32)) {
+			proc.setRa(V_BIT, true);
+		}
 		proc.cost(1, 1);
 	}
 
@@ -75,7 +83,9 @@ public class StoreInstructions {
 		long v = proc.register(x);
 
 		mem.store32(proc.register(y) + (0xff & z), (int) v);
-		proc.setRa(rA_V_MASK, v != (v << 32 >>> 32));
+		if (v != (v << 32 >>> 32)) {
+			proc.setRa(V_BIT, true);
+		}
 		proc.cost(1, 1);
 	}
 
@@ -92,28 +102,28 @@ public class StoreInstructions {
 		mem.store32(proc.register(y) + (0xff & z), (int) v);
 		proc.cost(1, 1);
 	}
-	
+
 	//
 	// Store Octas
 	//
-	
+
 	public static void STO(Processor proc, Memory mem, int x, int y, int z) {
 		mem.store64(proc.register(y) + proc.register(z), proc.register(x));
 		proc.cost(1, 1);
 	}
 
 	public static void STOI(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store64(proc.register(y) + (0xff & z),  proc.register(x));
+		mem.store64(proc.register(y) + (0xff & z), proc.register(x));
 		proc.cost(1, 1);
 	}
 
 	public static void STOU(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store64(proc.register(y) + proc.register(z),  proc.register(x));
+		mem.store64(proc.register(y) + proc.register(z), proc.register(x));
 		proc.cost(1, 1);
 	}
 
 	public static void STOUI(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store64(proc.register(y) + (0xff & z),  proc.register(x));
+		mem.store64(proc.register(y) + (0xff & z), proc.register(x));
 		proc.cost(1, 1);
 	}
 }

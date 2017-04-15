@@ -8,7 +8,7 @@ public class Processor {
 	public static final int NB_REGISTERS = 256;
 	
 	// Mask for special register rA, if set integer overflow occured
-	public static final long rA_V_MASK = 0x40l;
+	public static final long V_BIT = (1 << 6); // 0x40
 	
 	private final long[] registers = new long[NB_REGISTERS];
 	private long instPtr;

@@ -1,11 +1,7 @@
 package fr.broeglin.jmmix.simulator.instructions;
 
-import static fr.broeglin.jmmix.simulator.Processor.rA_V_MASK;
-import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rA;
-
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
-import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 
 public class LoadInstructions {
 
