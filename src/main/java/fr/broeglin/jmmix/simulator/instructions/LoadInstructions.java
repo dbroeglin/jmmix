@@ -7,7 +7,7 @@ import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;
 import fr.broeglin.jmmix.simulator.SpecialRegisterName;
 
-public class LoadStoreInstructions {
+public class LoadInstructions {
 
 	public static void LDB(Processor proc, Memory mem, int x, int y, int z) {
 		proc.setRegister(x, mem.load8(proc.register(y) + proc.register(z)));
@@ -89,59 +89,4 @@ public class LoadStoreInstructions {
 		proc.setRegister(x, mem.load64(proc.register(y) + z));
 		proc.cost(1, 1);
 	}
-
-	public static void STB(Processor proc, Memory mem, int x, int y, int z) {
-		long v = proc.register(x);
-
-		mem.store8(proc.register(y) + proc.register(z), (byte) v);
-		proc.setRa(rA_V_MASK, v != (v << 56 >>> 56));
-		proc.cost(1, 1);
-	}
-
-	public static void STBI(Processor proc, Memory mem, int x, int y, int z) {
-		long v = proc.register(x);
-
-		mem.store8(proc.register(y) + (0xff & z), (byte) v);
-		proc.setRa(rA_V_MASK, v != (v << 56 >>> 56));
-		proc.cost(1, 1);
-	}
-
-	public static void STBU(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store8(proc.register(y) + proc.register(z),
-				(byte) proc.register(x));
-		proc.cost(1, 1);
-	}
-
-	public static void STBUI(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store8(proc.register(y) + (0xff & z), (short) proc.register(x));
-		proc.cost(1, 1);
-	}
-
-	public static void STW(Processor proc, Memory mem, int x, int y, int z) {
-		long v = proc.register(x);
-
-		mem.store16(proc.register(y) + proc.register(z), (short) v);
-		proc.setRa(rA_V_MASK, v != (v << 48 >>> 48));
-		proc.cost(1, 1);
-	}
-
-	public static void STWI(Processor proc, Memory mem, int x, int y, int z) {
-		long v = proc.register(x);
-
-		mem.store16(proc.register(y) + (0xff & z), (short) v);
-		proc.setRa(rA_V_MASK, v != (v << 48 >>> 48));
-		proc.cost(1, 1);
-	}
-
-	public static void STWU(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store16(proc.register(y) + proc.register(z),
-				(short) proc.register(x));
-		proc.cost(1, 1);
-	}
-
-	public static void STWUI(Processor proc, Memory mem, int x, int y, int z) {
-		mem.store16(proc.register(y) + (0xff & z), (short) proc.register(x));
-		proc.cost(1, 1);
-	}
-
 }

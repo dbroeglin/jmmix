@@ -78,10 +78,10 @@ Main        SET  b,a # dummy
             STBU $150,sto1,5
             STBU $150,sto1,$27
 
-            STW  $150,sto1,8
-            STW  $150,sto1,29
-            STWU $150,sto2,0
-            STWU $150,sto2,$24
+            STW  $150,sto1,$28
+            STW  $150,sto1,10
+            STWU $150,sto1,$29
+            STWU $150,sto1,14
 
             # Load the values back in register for test validation
             LDO $200,sto1

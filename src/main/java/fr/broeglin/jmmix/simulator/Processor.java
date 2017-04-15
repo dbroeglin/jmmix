@@ -6,6 +6,8 @@ import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rI;
 public class Processor {
 
 	public static final int NB_REGISTERS = 256;
+	
+	// Mask for special register rA, if set integer overflow occured
 	public static final long rA_V_MASK = 0x40l;
 	
 	private final long[] registers = new long[NB_REGISTERS];

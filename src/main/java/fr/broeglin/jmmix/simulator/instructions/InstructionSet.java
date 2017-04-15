@@ -96,15 +96,15 @@ public final class InstructionSet {
 			ConditionalInstructions::ZSEV, ConditionalInstructions::ZSEVI,
 
 			// 0x8x
-			LoadStoreInstructions::LDB, LoadStoreInstructions::LDBI,
-			LoadStoreInstructions::LDBU, LoadStoreInstructions::LDBUI,
-			LoadStoreInstructions::LDW, LoadStoreInstructions::LDWI,
-			LoadStoreInstructions::LDWU, LoadStoreInstructions::LDWUI,
+			LoadInstructions::LDB, LoadInstructions::LDBI,
+			LoadInstructions::LDBU, LoadInstructions::LDBUI,
+			LoadInstructions::LDW, LoadInstructions::LDWI,
+			LoadInstructions::LDWU, LoadInstructions::LDWUI,
 
-			LoadStoreInstructions::LDT, LoadStoreInstructions::LDTI,
-			LoadStoreInstructions::LDTU, LoadStoreInstructions::LDTUI,
-			LoadStoreInstructions::LDO, LoadStoreInstructions::LDOI,
-			LoadStoreInstructions::LDOU, LoadStoreInstructions::LDOUI,
+			LoadInstructions::LDT, LoadInstructions::LDTI,
+			LoadInstructions::LDTU, LoadInstructions::LDTUI,
+			LoadInstructions::LDO, LoadInstructions::LDOI,
+			LoadInstructions::LDOU, LoadInstructions::LDOUI,
 
 			// 0x9x
 			null, null,
@@ -117,14 +117,15 @@ public final class InstructionSet {
 			null, null,
 
 			// 0xax
-			LoadStoreInstructions::STB, LoadStoreInstructions::STBI,
-			LoadStoreInstructions::STBU, LoadStoreInstructions::STBUI,
-			LoadStoreInstructions::STW, LoadStoreInstructions::STWI,
-			LoadStoreInstructions::STWU, LoadStoreInstructions::STWUI,
-			null, null,
-			null, null,
-			null, null,
-			null, null,
+			StoreInstructions::STB, StoreInstructions::STBI,
+			StoreInstructions::STBU, StoreInstructions::STBUI,
+			StoreInstructions::STW, StoreInstructions::STWI,
+			StoreInstructions::STWU, StoreInstructions::STWUI,
+
+			StoreInstructions::STT, StoreInstructions::STTI,
+			StoreInstructions::STTU, StoreInstructions::STTUI,
+			StoreInstructions::STO, StoreInstructions::STOI,
+			StoreInstructions::STOU, StoreInstructions::STOUI,
 
 			// 0xbx
 			null, null,
