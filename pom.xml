@@ -9,6 +9,10 @@
 	<name>Java MMIX Simulator</name>
 	<description>A simulator for the MMIX processor</description>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+  
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
