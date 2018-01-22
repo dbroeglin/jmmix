@@ -30,7 +30,7 @@ public final class InstructionSet {
 			null, null,
 			FloatInstructions::FDIV, FloatInstructions::FSQRT,
 			FloatInstructions::FREM, FloatInstructions::FINT,
-			InstructionSet::MUL, InstructionSet::MULI,
+			ArithmeticInstructions::MUL, ArithmeticInstructions::MULI,
 			null, null,
 			ArithmeticInstructions::DIV, null,
 			null, null,
@@ -333,15 +333,4 @@ public final class InstructionSet {
 		// TODO: double check this one
 		NEGI(proc, mem, x, y, z);
 	}
-
-	public static void MUL(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) * proc.register(z));
-		proc.cost(0, 10);
-	}
-
-	public static void MULI(Processor proc, Memory mem, int x, int y, int z) {
-		proc.setRegister(x, proc.register(y) * (byte) z);
-		proc.cost(0, 10);
-	}
-
 }

@@ -278,16 +278,6 @@ public class InstructionSetTest extends AbstractInstructionsTest {
 	}
 
 	@Test
-	public void should_MUL() {
-		checkOp(InstructionSet::MUL, 12, 2, 6);
-	}
-
-	@Test
-	public void should_MULI() {
-		checkOpI(InstructionSet::MULI, 12, 2, 6);
-	}
-
-	@Test
 	public void GET_should_copy_special_register_to_global() {
 		proc.setSpecialRegister(rR, 47l);
 		

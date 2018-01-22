@@ -136,18 +136,19 @@ public class ArithmeticInstructionsTest extends AbstractInstructionsTest {
 				0x0000_0000_0000_0000l,
 				1);
 	}
-	
+
 	@Test
 	public void DIV_should_set_zero_if_z_is_zero() {
 		checkOp(ArithmeticInstructions::DIV, 0x0l, 0x2l, 0x0l);
-		checkOp(ArithmeticInstructions::DIV, 0x0l, 0xffff_ffff_ffff_ffffl, 0x0l);
+		checkOp(ArithmeticInstructions::DIV, 0x0l, 0xffff_ffff_ffff_ffffl,
+				0x0l);
 	}
 
 	@Test
 	public void DIV_should_divide() {
 		checkOp(ArithmeticInstructions::DIV, 0x2l, 0x4l, 0x2l);
 		assertThat(proc.specialRegister(rR), equalTo(0l));
-		
+
 		checkOp(ArithmeticInstructions::DIV, 0x2l, -0x4l, -0x2l);
 		assertThat(proc.specialRegister(rR), equalTo(0l));
 
@@ -156,17 +157,17 @@ public class ArithmeticInstructionsTest extends AbstractInstructionsTest {
 
 		checkOp(ArithmeticInstructions::DIV, 0x0, 0xffff_ffff_ffff_ffffl, 0x2l);
 		assertThat(proc.specialRegister(rR), equalTo(-1l));
-		
+
 		checkOp(ArithmeticInstructions::DIV, 0x0, 0xffff_ffff_ffff_ffffl, 0x2l);
 		assertThat(proc.specialRegister(rR), equalTo(-1l));
 
-		checkOp(ArithmeticInstructions::DIV, 0x07ff_ffff_ffff_ffffl, 0x0fff_ffff_ffff_ffffl, 0x2l);
+		checkOp(ArithmeticInstructions::DIV, 0x07ff_ffff_ffff_ffffl,
+				0x0fff_ffff_ffff_ffffl, 0x2l);
 		assertThat(proc.specialRegister(rR), equalTo(1l));
-	
+
 		checkOp(ArithmeticInstructions::DIV, 12l, 1228l, 96l);
 		assertThat(proc.specialRegister(rR), equalTo(76l));
 	}
-
 
 	@Test
 	public void should_INCL() {
@@ -340,4 +341,13 @@ public class ArithmeticInstructionsTest extends AbstractInstructionsTest {
 				0x03);
 	}
 
+	@Test
+	public void should_MUL() {
+		checkOp(ArithmeticInstructions::MUL, 12, 2, 6);
+	}
+
+	@Test
+	public void should_MULI() {
+		checkOpI(ArithmeticInstructions::MULI, 12, 2, 6);
+	}
 }

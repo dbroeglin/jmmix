@@ -172,6 +172,17 @@ public class ArithmeticInstructions {
 	}
 
 
+
+	public static void MUL(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * proc.register(z));
+		proc.cost(0, 10);
+	}
+
+	public static void MULI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) * (byte) z);
+		proc.cost(0, 10);
+	}
+	
 	public static void DIV(Processor proc, Memory mem, int x, int y, int z) {
 		if (proc.register(z) == 0) {
 			proc.setRegister(x, 0);

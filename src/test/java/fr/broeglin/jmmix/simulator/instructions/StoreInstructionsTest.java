@@ -27,8 +27,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.broeglin.jmmix.simulator.SpecialRegisterName;
-
 public class StoreInstructionsTest extends AbstractInstructionsTest {
 
 	@Before
