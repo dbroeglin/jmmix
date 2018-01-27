@@ -1,6 +1,5 @@
 package fr.broeglin.jmmix.simulator.instructions;
 import static fr.broeglin.jmmix.simulator.Processor.V_BIT;
-import static fr.broeglin.jmmix.simulator.SpecialRegisterName.rR;
 
 import fr.broeglin.jmmix.simulator.Memory;
 import fr.broeglin.jmmix.simulator.Processor;

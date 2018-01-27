@@ -55,4 +55,4 @@ Reading an MMO as a series of long to cut and past into `LoaderTest`:
 ## Know issues
 
 * rL and the register stack are not implemented yet
-* rA is not implemented yet
+* rA is not _fully_ implemented yet

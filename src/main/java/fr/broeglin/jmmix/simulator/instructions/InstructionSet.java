@@ -50,8 +50,8 @@ public final class InstructionSet {
 			InstructionSet::CMPU, InstructionSet::CMPU,
 			InstructionSet::NEG, InstructionSet::NEGI,
 			InstructionSet::NEGU, InstructionSet::NEGUI,
-			null, null,
-			null, null,
+			ShiftInstructions::SL, ShiftInstructions::SLI,
+			ShiftInstructions::SLU, ShiftInstructions::SLUI,
 			null, null,
 			null, null,
 
@@ -171,7 +171,7 @@ public final class InstructionSet {
 			InstructionSet::JMP, InstructionSet::JMPB,
 			null, null,
 			null, null,
-			null, null,
+			InstructionSet::PUT, InstructionSet::PUTI,
 			null, null,
 			null, null,
 			null, InstructionSet::SWYM,
@@ -182,6 +182,18 @@ public final class InstructionSet {
 		// TODO: this does not uphold all GET rules
 		proc.setRegister(x,
 				proc.specialRegister(SpecialRegisterName.values()[z]));
+		proc.cost(0, 1);
+	}
+
+	public static void PUT(Processor proc, Memory mem, int x, int y, int z) {
+		// TODO: this does not uphold all GET rules
+		proc.setSpecialRegister(SpecialRegisterName.values()[x], proc.register(z));
+		proc.cost(0, 1);
+	}
+
+	public static void PUTI(Processor proc, Memory mem, int x, int y, int z) {
+		// TODO: this does not uphold all GET rules
+		proc.setSpecialRegister(SpecialRegisterName.values()[x], z);
 		proc.cost(0, 1);
 	}
 

@@ -10,6 +10,11 @@ public class ParallelRunSourceTest extends AbstractMmoTest {
 	}
 
 	@Test
+	public void shift() throws Exception {
+		runParallel("shift.mms");
+	}
+
+	@Test
 	public void bitwise() throws Exception {
 		runParallel("bitwise.mms");
 	}
@@ -17,8 +22,7 @@ public class ParallelRunSourceTest extends AbstractMmoTest {
 	@Test
 	public void branches() throws Exception {
 		runParallel("branches.mms");
-	}
-	
+	}	
 	
 	@Test
 	public void conditionals() throws Exception {
