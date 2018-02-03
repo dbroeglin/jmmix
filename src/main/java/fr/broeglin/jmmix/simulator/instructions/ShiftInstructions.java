@@ -35,4 +35,23 @@ public class ShiftInstructions {
 		proc.cost(0, 1);
 	}
 
+	public static void SR(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) >> proc.register(z));
+		proc.cost(0, 1);
+	}
+
+	public static void SRI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) >> z);
+		proc.cost(0, 1);
+	}
+
+	public static void SRU(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) >>> proc.register(z));
+		proc.cost(0, 1);
+	}
+
+	public static void SRUI(Processor proc, Memory mem, int x, int y, int z) {
+		proc.setRegister(x, proc.register(y) >>> z);
+		proc.cost(0, 1);
+	}
 }

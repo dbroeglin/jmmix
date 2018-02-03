@@ -52,8 +52,8 @@ public final class InstructionSet {
 			InstructionSet::NEGU, InstructionSet::NEGUI,
 			ShiftInstructions::SL, ShiftInstructions::SLI,
 			ShiftInstructions::SLU, ShiftInstructions::SLUI,
-			null, null,
-			null, null,
+			ShiftInstructions::SR, ShiftInstructions::SRI,
+			ShiftInstructions::SRU, ShiftInstructions::SRUI,
 
 			// 0x4x
 			BranchInstructions::BN, BranchInstructions::BNB,
