@@ -58,6 +58,32 @@ public class LoaderTest {
 		assertThat(simulator.getProcessor().register(255), equalTo(0x7F6001B4C67BC809l));
 	}
 	
+	@Test(expected = LoaderException.class)
+	public void should_reject_non_LOP_preamble_even_with_PRE_code() throws Exception {
+		new Loader(new DataInputStream(prepareData(0x00090100l)), simulator).load();
+	}
+
+	@Test(expected = LoaderException.class)
+	public void should_reject_LOP_that_is_not_preamble() throws Exception {
+		new Loader(new DataInputStream(prepareData(0x98010100l)), simulator).load();
+	}
+
+	@Test(expected = IOException.class)
+	public void should_reject_truncated_register_postamble() throws Exception {
+		new Loader(new DataInputStream(prepareData(
+				0x98090100l, 0x980a00ffl, 0x12345678l)), simulator).load();
+	}
+
+	@Test
+	public void should_load_location_with_unsigned_low_tetra() throws Exception {
+		Loader loader = new Loader(new DataInputStream(prepareData(
+				0x98090100l, 0x98012002l, 0l, 0x80000000l, 0x12345678l)), simulator);
+		loader.load();
+
+		assertThat(simulator.getMemory().load32(0x2000000080000000l),
+				equalTo(0x12345678));
+	}
+
 	// plumbing
 	
 	InputStream prepareData(long... longs) throws IOException {
