@@ -8,7 +8,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
-public class MemoryConformanceTest {
+public class MemoryConsistencyTest {
 
 	@Test
 	public void should_match_byte_model_across_widths_alignment_and_node_boundaries() {

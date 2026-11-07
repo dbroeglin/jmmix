@@ -66,9 +66,11 @@ public class InstructionConformanceTest extends AbstractMmoTest {
 				"CSNN", "CSNZ", "CSNP", "CSEV", "ZSN", "ZSZ", "ZSP", "ZSOD",
 				"ZSNN", "ZSNZ", "ZSNP", "ZSEV" }) {
 			for (boolean immediate : new boolean[] { false, true }) {
-				cases.add(new Object[] { op + "_control_" + immediate,
-						register(1, 0x1234) + register(2, -1) + register(3, 255)
-								+ "\t" + op + " $1,$2," + (immediate ? "255" : "$3") + "\n", true });
+				for (long predicate : new long[] { -1, 0, 2 }) {
+					cases.add(new Object[] { op + "_control_" + immediate + "_" + predicate,
+							register(1, 0x1234) + register(2, predicate) + register(3, 255)
+									+ "\t" + op + " $1,$2," + (immediate ? "255" : "$3") + "\n", true });
+				}
 			}
 		}
 		for (int width : new int[] { 8, 16, 32 }) {
@@ -139,6 +141,7 @@ public class InstructionConformanceTest extends AbstractMmoTest {
 	@Test(timeout = 15000)
 	public void should_match_reference_simulator() throws Exception {
 		File source = File.createTempFile("jmmix-conformance-", ".mms");
+		File assembled = new File(source.getAbsolutePath().replace(".mms", ".mmo"));
 		try {
 			Files.write(source.toPath(), ("\tLOC #100\nMain SWYM 0\n" + code
 					+ "\tTRAP 0,Halt,0\n").getBytes(StandardCharsets.US_ASCII));
@@ -150,9 +153,7 @@ public class InstructionConformanceTest extends AbstractMmoTest {
 			}
 		} finally {
 			Files.deleteIfExists(source.toPath());
-			if (objectFile != null) {
-				Files.deleteIfExists(objectFile.toPath());
-			}
+			Files.deleteIfExists(assembled.toPath());
 		}
 	}
 }
